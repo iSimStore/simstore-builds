@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
-from typing import Any
 import unittest
+from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -75,9 +75,9 @@ class SharedFieldTests(unittest.TestCase):
     def test_catalog_validation_does_not_require_yaml(self) -> None:
         result = subprocess.run(
             [sys.executable, '-S', '-c',
-             'import json, sys; sys.path.insert(0, "scripts"); '
-             'from catalog import validate_index; validate_index(json.load(sys.stdin))'],
-            input=json.dumps(self.index), cwd=ROOT, capture_output=True, text=True)
+             ('import json, sys; sys.path.insert(0, "scripts"); '
+              'from catalog import validate_index; validate_index(json.load(sys.stdin))')],
+            input=json.dumps(self.index), cwd=ROOT, check=False, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
 
 

@@ -3,20 +3,20 @@ from __future__ import annotations
 
 import hashlib
 import json
-from pathlib import Path
 import plistlib
 import shutil
 import subprocess
 import sys
 import tarfile
 import tempfile
-from typing import Any
 import unittest
+from pathlib import Path
+from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from package import package
-from validate import InvalidBundle, run, validate
 from test_icons import write_png
+from validate import InvalidBundle, run, validate
 
 
 class PackageTests(unittest.TestCase):
@@ -59,11 +59,11 @@ class PackageTests(unittest.TestCase):
         (self.app / 'data-link').symlink_to('assets/data')
         write_png(self.app / 'AppIcon.png', 24)
         with (self.app / 'Info.plist').open('wb') as stream:
-            plistlib.dump(dict(CFBundleIdentifier='org.simstore.example', CFBundleExecutable='Fixture',
-                              CFBundlePackageType='APPL', CFBundleName='Example',
-                              CFBundleShortVersionString='1.2.3', CFBundleVersion='7', MinimumOSVersion='17.0',
-                              CFBundleSupportedPlatforms=['iPhoneSimulator'],
-                              CFBundleIcons={'CFBundlePrimaryIcon': {'CFBundleIconFiles': ['AppIcon']}}), stream)
+            plistlib.dump({'CFBundleIdentifier': 'org.simstore.example', 'CFBundleExecutable': 'Fixture',
+                              'CFBundlePackageType': 'APPL', 'CFBundleName': 'Example',
+                              'CFBundleShortVersionString': '1.2.3', 'CFBundleVersion': '7', 'MinimumOSVersion': '17.0',
+                              'CFBundleSupportedPlatforms': ['iPhoneSimulator'],
+                              'CFBundleIcons': {'CFBundlePrimaryIcon': {'CFBundleIconFiles': ['AppIcon']}}}, stream)
         subprocess.run(['codesign', '--force', '--sign', '-', '--timestamp=none', str(self.app)],
                        check=True, capture_output=True)
         self.output = self.directory / 'artifacts'

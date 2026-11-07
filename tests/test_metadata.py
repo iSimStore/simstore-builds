@@ -3,19 +3,19 @@ from __future__ import annotations
 
 import copy
 import json
-from pathlib import Path
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import update_index as updater
 from catalog import CatalogError, validate_index
 from schema import Metadata
-from update_index import load_metadata
 from test_catalog import fragment
 from test_update_index import COMMIT_TIME, release
+from update_index import load_metadata
 
 
 class MetadataTests(unittest.TestCase):
@@ -131,9 +131,9 @@ class MetadataTests(unittest.TestCase):
         output.write_text('Previous catalog')
         with patch.object(updater, 'api_json', return_value=fragment()), \
              patch.object(updater, 'list_releases', return_value=[release()]), \
-             patch.object(updater, 'load_metadata', side_effect=self.read_metadata):
-            with self.assertRaises(FileNotFoundError):
-                updater.generate_index(output)
+             patch.object(updater, 'load_metadata', side_effect=self.read_metadata), \
+             self.assertRaises(FileNotFoundError):
+            updater.generate_index(output)
         self.assertEqual(output.read_text(), 'Previous catalog')
 
 

@@ -3,14 +3,14 @@ from __future__ import annotations
 
 import json
 import os
-from pathlib import Path
 import plistlib
 import shutil
 import subprocess
 import sys
 import tempfile
-from typing import Any
 import unittest
+from pathlib import Path
+from typing import Any
 from unittest.mock import patch
 
 SCRIPTS = Path(__file__).resolve().parents[1] / 'scripts'
@@ -53,9 +53,9 @@ class BundleTests(unittest.TestCase):
         self.app = Path(self.work.name) / 'Fixture.app'
         self.app.mkdir()
         shutil.copy2(self.base / 'simulator', self.app / 'Fixture')
-        self.info: dict[str, Any] = dict(CFBundleIdentifier='org.simstore.fixture', CFBundleExecutable='Fixture',
-                         CFBundleShortVersionString='1.0', CFBundleVersion='1',
-                         MinimumOSVersion='17.0', CFBundleSupportedPlatforms=['iPhoneSimulator'])
+        self.info: dict[str, Any] = {'CFBundleIdentifier': 'org.simstore.fixture', 'CFBundleExecutable': 'Fixture',
+                         'CFBundleShortVersionString': '1.0', 'CFBundleVersion': '1',
+                         'MinimumOSVersion': '17.0', 'CFBundleSupportedPlatforms': ['iPhoneSimulator']}
         self.write_info()
 
     def tearDown(self) -> None:
@@ -108,7 +108,7 @@ class BundleTests(unittest.TestCase):
         original = binary.read_bytes()
         output = Path(self.work.name) / 'Prepared.app'
         result = subprocess.run([sys.executable, str(SCRIPTS / 'prepare_app.py'), str(self.app),
-                                 '--output', str(output)], capture_output=True, text=True)
+                                 '--output', str(output)], check=False, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(binary.read_bytes(), original)
         validator.validate(output)
@@ -149,7 +149,7 @@ class BundleTests(unittest.TestCase):
 
     def test_validation_without_manifest_needs_only_stdlib(self) -> None:
         result = subprocess.run([sys.executable, '-S', str(SCRIPTS / 'validate.py'), str(self.app)],
-                                capture_output=True, text=True)
+                                check=False, capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_simulator_cli_forwards_booted_and_udid_to_simctl(self) -> None:
@@ -242,12 +242,12 @@ fi
         directory.mkdir()
         (directory / 'build.sh').write_text('#!/bin/bash\n')
         path = directory / 'manifest.yaml'
-        data: dict[str, Any] = dict(
-            id='example', name='Example',
-            source=dict(repository='https://example.com/apps/example', version='v1.0.0', revision='a' * 40, license='MIT'),
-            build=dict(script='build.sh', deploymentTarget=deployment))
+        data: dict[str, Any] = {
+            'id': 'example', 'name': 'Example',
+            'source': {'repository': 'https://example.com/apps/example', 'version': 'v1.0.0', 'revision': 'a' * 40, 'license': 'MIT'},
+            'build': {'script': 'build.sh', 'deploymentTarget': deployment}}
         if minimum is not None:
-            data['compatibility'] = dict(minSimulatorOS=minimum)
+            data['compatibility'] = {'minSimulatorOS': minimum}
         path.write_text(json.dumps(data))
         return path
 

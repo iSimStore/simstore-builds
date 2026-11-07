@@ -1,13 +1,12 @@
 """Export an app's primary icon as PNG without modifying its bundle."""
 from __future__ import annotations
 
-from pathlib import Path
 import plistlib
 import re
 import tempfile
+from pathlib import Path
 
 from validate import run
-
 
 ICON_EXTENSIONS = ('.png', '.tiff', '.tif', '.icns', '.jpg', '.jpeg', '.heic', '.webp', '.gif', '.bmp', '.ico')
 
@@ -45,7 +44,7 @@ def primary_icon(app: Path) -> Path:
     app = app.resolve(strict=True)
     info = plistlib.loads((app / 'Info.plist').read_bytes())
     if not isinstance(info, dict):
-        raise ValueError('Expected an Info.plist dictionary')
+        raise ValueError('Expected an Info.plist dictionary')  # noqa: TRY004 - Invalid file contents.
     candidates: set[Path] = set()
     for name in icon_names(info):
         relative = Path(name)

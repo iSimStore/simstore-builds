@@ -2,12 +2,12 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
-from typing import Any
 import unittest
+from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 READER = ROOT / 'scripts/manifest.py'
@@ -20,10 +20,10 @@ class ManifestTests(unittest.TestCase):
         self.directory.mkdir()
         (self.directory / 'build.sh').write_text('#!/bin/bash\n')
         self.path = self.directory / 'manifest.yaml'
-        self.data: dict[str, Any] = dict(
-            id='example', name='Example',
-            source=dict(repository='https://example.com/apps/example', version='v1.2.3', revision='a' * 40, license='MIT'),
-            build=dict(script='build.sh', deploymentTarget='16.0'))
+        self.data: dict[str, Any] = {
+            'id': 'example', 'name': 'Example',
+            'source': {'repository': 'https://example.com/apps/example', 'version': 'v1.2.3', 'revision': 'a' * 40, 'license': 'MIT'},
+            'build': {'script': 'build.sh', 'deploymentTarget': '16.0'}}
 
     def tearDown(self) -> None:
         self.temp.cleanup()
@@ -33,7 +33,7 @@ class ManifestTests(unittest.TestCase):
         args = [sys.executable, str(READER), str(self.path)]
         if field:
             args += ['--field', field]
-        return subprocess.run(args, capture_output=True, text=True)
+        return subprocess.run(args, check=False, capture_output=True, text=True)
 
     def assert_rejected(self, text: str, raw: str | None = None) -> None:
         result = self.read(raw=raw)
@@ -89,13 +89,13 @@ class ManifestTests(unittest.TestCase):
         self.assert_rejected('minSimulatorOS is required')
 
     def test_version_must_be_quoted_string(self) -> None:
-        self.data['compatibility'] = dict(minSimulatorOS=27.0)
+        self.data['compatibility'] = {'minSimulatorOS': 27.0}
         self.assert_rejected('must be a nonempty string')
 
     def test_invalid_versions(self) -> None:
         for value in ('', '0.0', '27.beta', '27.0.1.2', ' 27.0'):
             with self.subTest(value=value):
-                self.data['compatibility'] = dict(minSimulatorOS=value)
+                self.data['compatibility'] = {'minSimulatorOS': value}
                 self.assert_rejected('Manifest FAILED')
 
     def test_commit_must_be_immutable(self) -> None:
@@ -154,18 +154,18 @@ class ManifestTests(unittest.TestCase):
         self.assert_rejected('unknown fields architecture')
 
     def test_minimum_below_deployment_rejected(self) -> None:
-        self.data['compatibility'] = dict(minSimulatorOS='15.0')
+        self.data['compatibility'] = {'minSimulatorOS': '15.0'}
         self.assert_rejected('below build.deploymentTarget')
 
     def test_minimum_accepts_deployment_or_higher_without_test_record(self) -> None:
         for value in ('16.0', '27.0'):
             with self.subTest(value=value):
-                self.data['compatibility'] = dict(minSimulatorOS=value)
+                self.data['compatibility'] = {'minSimulatorOS': value}
                 result = self.read()
                 self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_removed_tested_field_rejected(self) -> None:
-        self.data['compatibility'] = dict(minSimulatorOS='16.0', testedSimulatorOS=['27.0'])
+        self.data['compatibility'] = {'minSimulatorOS': '16.0', 'testedSimulatorOS': ['27.0']}
         self.assert_rejected('unknown fields testedSimulatorOS')
 
     def test_compatibility_must_be_mapping_if_present(self) -> None:

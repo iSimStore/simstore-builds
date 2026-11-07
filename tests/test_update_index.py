@@ -4,11 +4,11 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 from uuid import UUID
 
@@ -63,9 +63,9 @@ class TagCommitTimeTests(unittest.TestCase):
                 updater.tag_commit_time('example/1.2.3')
 
     def test_unresolvable_tag_stops_collection(self) -> None:
-        with patch.object(updater, 'api_json', side_effect=subprocess.CalledProcessError(1, 'gh')):
-            with self.assertRaises(subprocess.CalledProcessError):
-                updater.tag_commit_time('example/1.2.3')
+        with patch.object(updater, 'api_json', side_effect=subprocess.CalledProcessError(1, 'gh')), \
+             self.assertRaises(subprocess.CalledProcessError):
+            updater.tag_commit_time('example/1.2.3')
 
 
 class CollectionTests(unittest.TestCase):
@@ -81,9 +81,9 @@ class CollectionTests(unittest.TestCase):
     def test_empty_license_is_rejected(self) -> None:
         invalid = fragment()
         invalid['apps'][0]['license'] = ''
-        with patch.object(updater, 'api_json', return_value=invalid):
-            with self.assertRaisesRegex(CatalogError, 'license'):
-                updater.collect_index([release()])
+        with patch.object(updater, 'api_json', return_value=invalid), \
+             self.assertRaisesRegex(CatalogError, 'license'):
+            updater.collect_index([release()])
 
     def test_pagination_keeps_releases_beyond_first_page(self) -> None:
         releases = [release(f'example/1.0.{patch_number}') for patch_number in range(101)]
@@ -120,24 +120,24 @@ class CollectionTests(unittest.TestCase):
                 updater.collect_index([data])
 
     def test_tag_and_fragment_must_match(self) -> None:
-        with patch.object(updater, 'api_json', return_value=fragment(version='2.0.0')):
-            with self.assertRaisesRegex(CatalogError, 'does not match'):
-                updater.collect_index([release()])
+        with patch.object(updater, 'api_json', return_value=fragment(version='2.0.0')), \
+             self.assertRaisesRegex(CatalogError, 'does not match'):
+            updater.collect_index([release()])
 
     def test_release_fragments_must_have_one_app_and_one_version(self) -> None:
         data = fragment()
         data['apps'].append(copy.deepcopy(data['apps'][0]))
-        with patch.object(updater, 'api_json', return_value=data):
-            with self.assertRaisesRegex(CatalogError, 'exactly one'):
-                updater.collect_index([release()])
+        with patch.object(updater, 'api_json', return_value=data), \
+             self.assertRaisesRegex(CatalogError, 'exactly one'):
+            updater.collect_index([release()])
 
     def test_archive_metadata_must_match_index(self) -> None:
         for field, value in (('size', 999), ('digest', 'sha256:' + 'd' * 64), ('state', 'starter')):
             data = json.loads(json.dumps(release()))
             data['assets'][1][field] = value
-            with self.subTest(field=field), patch.object(updater, 'api_json', return_value=fragment()):
-                with self.assertRaises(CatalogError):
-                    updater.collect_index([data])
+            with self.subTest(field=field), patch.object(updater, 'api_json', return_value=fragment()), \
+                 self.assertRaises(CatalogError):
+                updater.collect_index([data])
 
     def test_asset_without_api_digest_is_supported(self) -> None:
         data = release()
@@ -149,9 +149,9 @@ class CollectionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / 'index.json'
             path.write_text('previous catalog')
-            with patch.object(updater, 'list_releases', side_effect=subprocess.CalledProcessError(1, 'gh')):
-                with self.assertRaises(subprocess.CalledProcessError):
-                    updater.generate_index(path)
+            with patch.object(updater, 'list_releases', side_effect=subprocess.CalledProcessError(1, 'gh')), \
+                 self.assertRaises(subprocess.CalledProcessError):
+                updater.generate_index(path)
             self.assertEqual(path.read_text(), 'previous catalog')
 
     def test_failed_commit_lookup_preserves_previous_local_file(self) -> None:
@@ -160,9 +160,9 @@ class CollectionTests(unittest.TestCase):
             path.write_text('previous catalog')
             self.commit_time.side_effect = subprocess.CalledProcessError(1, 'gh')
             with patch.object(updater, 'list_releases', return_value=[release()]), \
-                 patch.object(updater, 'api_json', return_value=fragment()):
-                with self.assertRaises(subprocess.CalledProcessError):
-                    updater.generate_index(path)
+                 patch.object(updater, 'api_json', return_value=fragment()), \
+                 self.assertRaises(subprocess.CalledProcessError):
+                updater.generate_index(path)
             self.assertEqual(path.read_text(), 'previous catalog')
 
 
@@ -183,7 +183,7 @@ class PublishingTests(unittest.TestCase):
         self.temporary.cleanup()
 
     def test_catalog_contains_literal_utf8_translations(self) -> None:
-        self.assertIn('示例应用。'.encode('utf-8'), self.payload)
+        self.assertIn('示例应用。'.encode(), self.payload)
         self.assertEqual(json.loads(self.payload.decode('utf-8')), catalog())
 
     def test_initial_release_uploads_asset_named_index_json(self) -> None:
@@ -214,9 +214,9 @@ class PublishingTests(unittest.TestCase):
 
     def test_upload_failure_does_not_touch_old_asset(self) -> None:
         with patch.object(updater, 'list_releases', return_value=[self.latest]), \
-             patch.object(updater, 'gh', side_effect=subprocess.CalledProcessError(1, 'gh')) as gh:
-            with self.assertRaises(subprocess.CalledProcessError):
-                updater.publish_index(self.path)
+             patch.object(updater, 'gh', side_effect=subprocess.CalledProcessError(1, 'gh')) as gh, \
+             self.assertRaises(subprocess.CalledProcessError):
+            updater.publish_index(self.path)
         gh.assert_called_once()
         self.assertEqual(gh.call_args.args[:3], ('release', 'upload', 'latest'))
 
@@ -229,9 +229,9 @@ class PublishingTests(unittest.TestCase):
         with patch.object(updater, 'list_releases', return_value=[self.latest]), \
              patch.object(updater, 'uuid4', return_value=UUID(int=1)), \
              patch.object(updater, 'api_pages', return_value=[self.staged]), \
-             patch.object(updater, 'gh', side_effect=fail_promotion) as gh:
-            with self.assertRaises(subprocess.CalledProcessError):
-                updater.publish_index(self.path)
+             patch.object(updater, 'gh', side_effect=fail_promotion) as gh, \
+             self.assertRaises(subprocess.CalledProcessError):
+            updater.publish_index(self.path)
         calls = [call.args for call in gh.call_args_list]
         self.assertTrue(calls[3][1].endswith('/10'))
         self.assertEqual(calls[3][-1], 'name=index.json')
@@ -244,9 +244,9 @@ class PublishingTests(unittest.TestCase):
         with patch.object(updater, 'list_releases', return_value=[self.latest]), \
              patch.object(updater, 'uuid4', return_value=UUID(int=1)), \
              patch.object(updater, 'api_pages', return_value=[self.staged]), \
-             patch.object(updater, 'gh', return_value='') as gh:
-            with self.assertRaisesRegex(CatalogError, 'SHA-256 mismatch'):
-                updater.publish_index(self.path)
+             patch.object(updater, 'gh', return_value='') as gh, \
+             self.assertRaisesRegex(CatalogError, 'SHA-256 mismatch'):
+            updater.publish_index(self.path)
         gh.assert_called_once()
 
     def test_failed_rollback_keeps_both_assets_for_recovery(self) -> None:
@@ -258,9 +258,9 @@ class PublishingTests(unittest.TestCase):
         with patch.object(updater, 'list_releases', return_value=[self.latest]), \
              patch.object(updater, 'uuid4', return_value=UUID(int=1)), \
              patch.object(updater, 'api_pages', return_value=[self.staged]), \
-             patch.object(updater, 'gh', side_effect=fail_swap_and_restore) as gh:
-            with self.assertRaises(subprocess.CalledProcessError):
-                updater.publish_index(self.path)
+             patch.object(updater, 'gh', side_effect=fail_swap_and_restore) as gh, \
+             self.assertRaises(subprocess.CalledProcessError):
+            updater.publish_index(self.path)
         self.assertFalse(any(call.args[-1] == 'DELETE' for call in gh.call_args_list))
 
     def test_existing_release_without_index_can_be_populated(self) -> None:
@@ -284,32 +284,29 @@ class PublishingTests(unittest.TestCase):
 
     def test_immutable_catalog_is_not_modified(self) -> None:
         self.latest['immutable'] = True
-        with patch.object(updater, 'list_releases', return_value=[self.latest]), patch.object(updater, 'gh') as gh:
-            with self.assertRaisesRegex(CatalogError, 'must allow asset updates'):
-                updater.publish_index(self.path)
+        with patch.object(updater, 'list_releases', return_value=[self.latest]), \
+             patch.object(updater, 'gh') as gh, self.assertRaisesRegex(CatalogError, 'must allow asset updates'):
+            updater.publish_index(self.path)
         gh.assert_not_called()
 
     def test_invalid_catalog_is_rejected_before_api_requests(self) -> None:
         self.path.write_text('{"schemaVersion":2,"apps":[]}')
-        with patch.object(updater, 'list_releases') as releases:
-            with self.assertRaises(CatalogError):
-                updater.publish_index(self.path)
+        with patch.object(updater, 'list_releases') as releases, self.assertRaises(CatalogError):
+            updater.publish_index(self.path)
         releases.assert_not_called()
 
     def test_catalog_without_descriptions_is_rejected_before_api_requests(self) -> None:
         self.path.write_bytes(updater.index_bytes(fragment()))
-        with patch.object(updater, 'list_releases') as releases:
-            with self.assertRaisesRegex(CatalogError, 'description'):
-                updater.publish_index(self.path)
+        with patch.object(updater, 'list_releases') as releases, self.assertRaisesRegex(CatalogError, 'description'):
+            updater.publish_index(self.path)
         releases.assert_not_called()
 
     def test_catalog_without_time_is_rejected_before_api_requests(self) -> None:
         data = catalog()
         del data['apps'][0]['versions'][0]['time']
         self.path.write_bytes(updater.index_bytes(data))
-        with patch.object(updater, 'list_releases') as releases:
-            with self.assertRaisesRegex(CatalogError, 'time'):
-                updater.publish_index(self.path)
+        with patch.object(updater, 'list_releases') as releases, self.assertRaisesRegex(CatalogError, 'time'):
+            updater.publish_index(self.path)
         releases.assert_not_called()
 
 

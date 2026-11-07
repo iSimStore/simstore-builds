@@ -4,12 +4,21 @@ from __future__ import annotations
 
 import argparse
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 from typing import TypedDict, cast
 
-from schema import (SOURCE_FIELDS, Source as SourceMetadata, ValidationError,
-                    app_id, mapping, os_version, release_version, string, validate_source)
+from schema import (
+    SOURCE_FIELDS,
+    ValidationError,
+    app_id,
+    mapping,
+    os_version,
+    release_version,
+    string,
+    validate_source,
+)
+from schema import Source as SourceMetadata
 from yaml_reader import load_yaml
 
 ManifestError = ValidationError
