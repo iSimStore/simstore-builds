@@ -1,5 +1,5 @@
 diff --git a/IRCCloud.xcodeproj/project.pbxproj b/IRCCloud.xcodeproj/project.pbxproj
-index 513a102..86981e9 100644
+index 513a102..81957d0 100644
 --- a/IRCCloud.xcodeproj/project.pbxproj
 +++ b/IRCCloud.xcodeproj/project.pbxproj
 @@ -39,7 +39,6 @@
@@ -79,7 +79,15 @@ index 513a102..86981e9 100644
  		};
  		22DE05B518D8CA2C00590FC3 /* ShellScript */ = {
  			isa = PBXShellScriptBuildPhase;
-@@ -4498,7 +4492,7 @@
+@@ -3364,6 +3358,7 @@
+ 			inputPaths = (
+ 			);
+ 			outputPaths = (
++				"$(SRCROOT)/IRCCloud/InfoPlist.h",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/bash;
+@@ -4498,7 +4493,7 @@
  				OTHER_CFLAGS = "-DEXTENSION";
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -88,7 +96,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud.ShareExtension;
  				PRODUCT_NAME = "$(TARGET_NAME)";
-@@ -4545,7 +4539,7 @@
+@@ -4545,7 +4540,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -97,7 +105,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud.ShareExtension;
  				PRODUCT_NAME = "$(TARGET_NAME)";
-@@ -4594,7 +4588,7 @@
+@@ -4594,7 +4589,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -106,7 +114,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud.ShareExtension;
  				PRODUCT_NAME = "$(TARGET_NAME)";
-@@ -4967,7 +4961,7 @@
+@@ -4967,7 +4962,7 @@
  				OTHER_CFLAGS = "-DENTERPRISE";
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -115,7 +123,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise;
  				PRODUCT_NAME = IRCEnterprise;
-@@ -5000,7 +4994,7 @@
+@@ -5000,7 +4995,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -124,7 +132,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise;
  				PRODUCT_NAME = IRCEnterprise;
-@@ -5141,7 +5135,7 @@
+@@ -5141,7 +5136,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -133,7 +141,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = "com.irccloud.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_SUFFIX}";
  				PRODUCT_NAME = "$(TARGET_NAME)";
-@@ -5175,7 +5169,7 @@
+@@ -5175,7 +5170,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -142,7 +150,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = "com.irccloud.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_SUFFIX}";
  				PRODUCT_NAME = "$(TARGET_NAME)";
-@@ -5322,7 +5316,7 @@
+@@ -5322,7 +5317,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -151,7 +159,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud;
  				PRODUCT_NAME = "$(TARGET_NAME)";
-@@ -5352,7 +5346,7 @@
+@@ -5352,7 +5347,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -160,7 +168,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud;
  				PRODUCT_NAME = "$(TARGET_NAME)";
-@@ -5382,7 +5376,7 @@
+@@ -5382,7 +5377,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -169,7 +177,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud;
  				PRODUCT_NAME = "$(TARGET_NAME)";
-@@ -5431,7 +5425,7 @@
+@@ -5431,7 +5426,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -178,7 +186,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise.ShareExtension;
  				PRODUCT_NAME = "ShareExtension Enterprise";
-@@ -5477,7 +5471,7 @@
+@@ -5477,7 +5472,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -187,7 +195,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise.ShareExtension;
  				PRODUCT_NAME = "ShareExtension Enterprise";
-@@ -5525,7 +5519,7 @@
+@@ -5525,7 +5520,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -196,7 +204,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise.ShareExtension;
  				PRODUCT_NAME = "ShareExtension Enterprise";
-@@ -5625,7 +5619,7 @@
+@@ -5625,7 +5620,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
@@ -205,7 +213,7 @@ index 513a102..86981e9 100644
  				);
  				PRODUCT_BUNDLE_IDENTIFIER = "com.irccloud.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_SUFFIX}";
  				PRODUCT_NAME = "$(TARGET_NAME)";
-@@ -5665,7 +5659,7 @@
+@@ -5665,7 +5660,7 @@
  				);
  				OTHER_LDFLAGS = (
  					"$(inherited)",
