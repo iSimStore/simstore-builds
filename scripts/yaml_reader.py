@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import cast
 
 import yaml
-
 from schema import ValidationError
 
 

@@ -1,11 +1,11 @@
 """Check that only changes within app directories select automatic builds."""
 from __future__ import annotations
 
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from changed_apps import changed_paths, select_projects

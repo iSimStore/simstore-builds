@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from pathlib import Path
 import plistlib
 import shutil
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
@@ -65,7 +65,7 @@ class StaticFrameworkResourcesTests(unittest.TestCase):
     def test_keeps_real_code_and_frameworks_referenced_by_other_binaries(self) -> None:
         for symbols, dependencies in (('_sentry_real_code', ''), ('', '@rpath/Sentry.framework/Sentry')):
             with self.subTest(symbols=symbols, dependencies=dependencies):
-                def command(*args: str) -> str:
+                def command(*args: str, symbols: str = symbols, dependencies: str = dependencies) -> str:
                     if args[1] == 'nm':
                         return symbols
                     return self.command(*args) if args[2] == '-l' else dependencies

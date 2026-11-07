@@ -4,8 +4,22 @@ from __future__ import annotations
 import re
 from typing import TypedDict
 
-from schema import (METADATA_FIELDS, Metadata, ValidationError, app_id, git_revision, mapping, nonempty_string,
-                    os_version, release_version, repository, string, unix_timestamp, validate_metadata, version_key)
+from schema import (
+    METADATA_FIELDS,
+    Metadata,
+    ValidationError,
+    app_id,
+    git_revision,
+    mapping,
+    nonempty_string,
+    os_version,
+    release_version,
+    repository,
+    string,
+    unix_timestamp,
+    validate_metadata,
+    version_key,
+)
 
 CatalogError = ValidationError
 

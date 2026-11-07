@@ -3,11 +3,11 @@ from __future__ import annotations
 
 import io
 import json
-from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
@@ -108,7 +108,8 @@ class SimulatorTests(unittest.TestCase):
                 for duration, expected in ((240, 0), (301, 1)):
                     with self.subTest(duration=duration):
                         def run_simctl(command: list[str], *, check: bool, timeout: int,
-                                       stdout: int | None = None, text: bool = False) -> subprocess.CompletedProcess[str]:
+                                       stdout: int | None = None, text: bool = False,
+                                       duration: int = duration) -> subprocess.CompletedProcess[str]:
                             if command[2] == 'launch' and duration > timeout:
                                 raise subprocess.TimeoutExpired(command, timeout)
                             return subprocess.CompletedProcess(command, 0, stdout=f'org.simstore.example: {process.pid}\n')

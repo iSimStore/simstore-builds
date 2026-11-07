@@ -4,13 +4,12 @@ from __future__ import annotations
 
 import argparse
 import os
-from pathlib import Path
 import plistlib
 import re
 import subprocess
 import sys
+from pathlib import Path
 from typing import Any, TypedDict, cast
-
 
 OSVersion = tuple[int, int, int]
 
@@ -96,10 +95,10 @@ def validate(app: str | Path) -> tuple[BundleInfo, list[Path], OSVersion]:
         if archs != ['arm64']:
             raise InvalidBundle(f'{path.relative_to(app)}: expected only arm64, got {archs}')
         output = run('xcrun', 'vtool', '-show-build', str(path))
-        platforms = re.findall(r'^\s*platform\s+(\S+)\s*$', output, re.M)
+        platforms = re.findall(r'^\s*platform\s+(\S+)\s*$', output, re.MULTILINE)
         if platforms != ['IOSSIMULATOR']:
             raise InvalidBundle(f'{path.relative_to(app)}: expected IOSSIMULATOR, got {platforms}')
-        minos = re.findall(r'^\s*minos\s+(\S+)\s*$', output, re.M)
+        minos = re.findall(r'^\s*minos\s+(\S+)\s*$', output, re.MULTILINE)
         if len(minos) != 1:
             raise InvalidBundle(f'{path.relative_to(app)}: missing/ambiguous Mach-O minos')
         minimums.append(version(minos[0]))

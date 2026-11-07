@@ -4,12 +4,12 @@ from __future__ import annotations
 
 import argparse
 import os
-from pathlib import Path
 import plistlib
 import re
 import shutil
 import stat
 import tempfile
+from pathlib import Path
 
 from validate import MACH_MAGICS, run, validate
 
@@ -27,7 +27,7 @@ def preserve_static_framework_resources(app: Path, binaries: list[Path]) -> None
         stub = framework / name
         symbols = run('xcrun', 'nm', '-arch', 'arm64', '-Uj', str(stub))
         sections = re.findall(r'\bsectname \S+.*?^\s+size (0x[0-9a-fA-F]+)',
-                              run('xcrun', 'otool', '-l', str(stub)), re.M | re.S)
+                              run('xcrun', 'otool', '-l', str(stub)), re.MULTILINE | re.DOTALL)
         if (set(symbols.splitlines()) - {'__mh_dylib_header'}
                 or not sections or any(int(size, 16) for size in sections)):
             raise ValueError(f'Expected a codeless framework placeholder: {framework.name}')

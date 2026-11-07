@@ -5,11 +5,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-from pathlib import Path
 import re
 import subprocess
 import sys
 import tarfile
+from pathlib import Path
 
 from catalog import AppVersion, Index
 from icons import export_icon

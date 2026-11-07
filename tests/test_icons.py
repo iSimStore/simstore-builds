@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import hashlib
-from pathlib import Path
 import plistlib
 import struct
 import subprocess
@@ -10,6 +9,7 @@ import sys
 import tempfile
 import unittest
 import zlib
+from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from icons import export_icon, image_size, primary_icon
