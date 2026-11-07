@@ -1,0 +1,12 @@
+id: zulip
+name: Zulip
+
+source:
+  license: Apache-2.0
+  repository: https://github.com/zulip/zulip-flutter
+  version: v30.0.275
+  revision: 92ebd6d86b27aaea8e7d1227c3c1f3a2082941c1
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"
