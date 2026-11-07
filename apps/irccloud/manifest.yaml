@@ -1,0 +1,12 @@
+id: irccloud
+name: IRCCloud
+
+source:
+  license: Apache-2.0
+  repository: https://github.com/irccloud/ios
+  version: v4.34.0
+  revision: 5f32eb33834a8b3ecb361a944fb0559035362216
+
+build:
+  script: build.sh
+  deploymentTarget: "15.6"

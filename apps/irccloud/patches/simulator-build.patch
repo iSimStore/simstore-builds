@@ -1,0 +1,308 @@
+diff --git a/IRCCloud.xcodeproj/project.pbxproj b/IRCCloud.xcodeproj/project.pbxproj
+index 513a102..81957d0 100644
+--- a/IRCCloud.xcodeproj/project.pbxproj
++++ b/IRCCloud.xcodeproj/project.pbxproj
+@@ -39,7 +39,6 @@
+ 		2200DB4718B7EDF100343583 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2200DB4618B7EDF100343583 /* QuartzCore.framework */; };
+ 		2200DB5118BCFA0E00343583 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2200DB4618B7EDF100343583 /* QuartzCore.framework */; };
+ 		22032A6F1884529700BE4A10 /* NickCompletionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22032A6E1884529700BE4A10 /* NickCompletionView.m */; };
+-		2209B82D28C27A3B00D59B75 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 226E642223F1C6AA001CE069 /* GoogleService-Info.plist */; };
+ 		221034ED197EFBAF00AB414F /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 221034EC197EFBAF00AB414F /* ShareViewController.m */; };
+ 		221034F2197EFBAF00AB414F /* ShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 221034E7197EFBAF00AB414F /* ShareExtension.appex */; };
+ 		221034FA197EFC0500AB414F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2200DB4618B7EDF100343583 /* QuartzCore.framework */; };
+@@ -384,7 +383,6 @@
+ 		2265DC891C722E6B00382C7C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2265DC881C722E6B00382C7C /* MessageUI.framework */; };
+ 		2265DC8A1C722E7A00382C7C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2265DC881C722E6B00382C7C /* MessageUI.framework */; };
+ 		22695F5516E8FC9900E01DF8 /* CollapsedEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 22695F5416E8FC9800E01DF8 /* CollapsedEvents.m */; };
+-		226E642323F1C6AA001CE069 /* GoogleService-Info.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 226E642223F1C6AA001CE069 /* GoogleService-Info.plist */; };
+ 		226EB6011B4C2E8600C432C7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 226EB6001B4C2E8600C432C7 /* AVFoundation.framework */; };
+ 		226EB6021B4C2E8C00C432C7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 226EB6001B4C2E8600C432C7 /* AVFoundation.framework */; };
+ 		226F080A1E5DFEC1003EED23 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 222C80B51E48ABB200A243E7 /* ImageCache.m */; };
+@@ -1055,7 +1053,6 @@
+ 			dstPath = "";
+ 			dstSubfolderSpec = 7;
+ 			files = (
+-				226E642323F1C6AA001CE069 /* GoogleService-Info.plist in CopyFiles */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+@@ -1215,8 +1212,8 @@
+ 		223876181F70035300943160 /* YYImageCoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYImageCoder.m; sourceTree = "<group>"; };
+ 		223876191F70035300943160 /* YYSpriteSheetImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YYSpriteSheetImage.h; sourceTree = "<group>"; };
+ 		2238761A1F70035300943160 /* YYSpriteSheetImage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YYSpriteSheetImage.m; sourceTree = "<group>"; };
+-		2238761B1F70036900943160 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = SOURCE_ROOT; };
+-		2238761C1F70038A00943160 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
++		2238761B1F70036900943160 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "../webp-framework/WebP.framework"; sourceTree = SOURCE_ROOT; };
++		2238761C1F70038A00943160 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = "../webp-framework/WebP.framework"; sourceTree = "<group>"; };
+ 		223C407A1C60FE880081B02B /* IRCCloudSafariViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRCCloudSafariViewController.h; sourceTree = "<group>"; };
+ 		223C407B1C60FE880081B02B /* IRCCloudSafariViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRCCloudSafariViewController.m; sourceTree = "<group>"; };
+ 		223DA90A16DFC626006FF808 /* EventsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsTableView.h; sourceTree = "<group>"; };
+@@ -1264,7 +1261,6 @@
+ 		2265DC881C722E6B00382C7C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+ 		22695F5316E8FC9800E01DF8 /* CollapsedEvents.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollapsedEvents.h; sourceTree = "<group>"; };
+ 		22695F5416E8FC9800E01DF8 /* CollapsedEvents.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollapsedEvents.m; sourceTree = "<group>"; };
+-		226E642223F1C6AA001CE069 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+ 		226EB6001B4C2E8600C432C7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+ 		226F080C1E6495C8003EED23 /* WhoWasTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WhoWasTableViewController.h; sourceTree = "<group>"; };
+ 		226F080D1E6495C8003EED23 /* WhoWasTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WhoWasTableViewController.m; sourceTree = "<group>"; };
+@@ -2078,7 +2074,6 @@
+ 				228B909229E5980F001CBACB /* ace-modes.js */,
+ 				228B908F29E597D9001CBACB /* emocode-data.js */,
+ 				2263D39F290A979500692EEC /* StringScore */,
+-				226E642223F1C6AA001CE069 /* GoogleService-Info.plist */,
+ 				22D9789D215BC979005C2713 /* FLEX */,
+ 				2238761B1F70036900943160 /* WebP.framework */,
+ 				223876101F70035300943160 /* YYImage */,
+@@ -3129,7 +3124,6 @@
+ 			files = (
+ 				22103529197EFCF100AB414F /* Icons.xcassets in Resources */,
+ 				22103527197EFCEB00AB414F /* Logo.xcassets in Resources */,
+-				2209B82D28C27A3B00D59B75 /* GoogleService-Info.plist in Resources */,
+ 				2236BD651BAA5E0900015753 /* FontAwesome.otf in Resources */,
+ 				22103528197EFCEE00AB414F /* Images.xcassets in Resources */,
+ 			);
+@@ -3338,7 +3332,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "echo touch $SRCROOT/IRCCloud/GoogleService-Info.plist\ntouch $SRCROOT/IRCCloud/GoogleService-Info.plist\n";
++			shellScript = "true";
+ 		};
+ 		22D97893215BC910005C2713 /* ShellScript */ = {
+ 			isa = PBXShellScriptBuildPhase;
+@@ -3351,7 +3345,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "$SRCROOT/build-scripts/crashlytics.sh";
++			shellScript = "true";
+ 		};
+ 		22DE05B518D8CA2C00590FC3 /* ShellScript */ = {
+ 			isa = PBXShellScriptBuildPhase;
+@@ -3364,6 +3358,7 @@
+ 			inputPaths = (
+ 			);
+ 			outputPaths = (
++				"$(SRCROOT)/IRCCloud/InfoPlist.h",
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/bash;
+@@ -4498,7 +4493,7 @@
+ 				OTHER_CFLAGS = "-DEXTENSION";
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud.ShareExtension;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+@@ -4545,7 +4540,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud.ShareExtension;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+@@ -4594,7 +4589,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud.ShareExtension;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+@@ -4967,7 +4962,7 @@
+ 				OTHER_CFLAGS = "-DENTERPRISE";
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise;
+ 				PRODUCT_NAME = IRCEnterprise;
+@@ -5000,7 +4995,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise;
+ 				PRODUCT_NAME = IRCEnterprise;
+@@ -5141,7 +5136,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = "com.irccloud.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_SUFFIX}";
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+@@ -5175,7 +5170,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = "com.irccloud.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_SUFFIX}";
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+@@ -5322,7 +5317,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+@@ -5352,7 +5347,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+@@ -5382,7 +5377,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.IRCCloud;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+@@ -5431,7 +5426,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise.ShareExtension;
+ 				PRODUCT_NAME = "ShareExtension Enterprise";
+@@ -5477,7 +5472,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise.ShareExtension;
+ 				PRODUCT_NAME = "ShareExtension Enterprise";
+@@ -5525,7 +5520,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise.ShareExtension;
+ 				PRODUCT_NAME = "ShareExtension Enterprise";
+@@ -5625,7 +5620,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = "com.irccloud.${PRODUCT_NAME:rfc1034identifier}${BUNDLE_SUFFIX}";
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+@@ -5665,7 +5660,7 @@
+ 				);
+ 				OTHER_LDFLAGS = (
+ 					"$(inherited)",
+-					"-lstdc++",
++					"-lc++",
+ 				);
+ 				PRODUCT_BUNDLE_IDENTIFIER = com.irccloud.enterprise;
+ 				PRODUCT_NAME = IRCEnterprise;
+diff --git a/IRCCloud/Classes/AppDelegate.m b/IRCCloud/Classes/AppDelegate.m
+index d6bfaaf..d2ff8d8 100644
+--- a/IRCCloud/Classes/AppDelegate.m
++++ b/IRCCloud/Classes/AppDelegate.m
+@@ -342,6 +342,7 @@ -(void)messaging:(FIRMessaging *)messaging didReceiveRegistrationToken:(NSString
+ }
+ 
+ - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
++    if(![FIRApp defaultApp]) return;
+     NSData *oldToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"APNs"];
+     NSString *oldFcmToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"FCM"];
+ 
+diff --git a/IRCCloud/Classes/MainViewController.m b/IRCCloud/Classes/MainViewController.m
+index b77ab62..48812b2 100644
+--- a/IRCCloud/Classes/MainViewController.m
++++ b/IRCCloud/Classes/MainViewController.m
+@@ -37,6 +37,7 @@
+ #import "NamesListTableViewController.h"
+ #import <objc/message.h>
+ #import "config.h"
++@import Firebase;
+ #import "UIDevice+UIDevice_iPhone6Hax.h"
+ #import "FileMetadataViewController.h"
+ #import "FilesTableViewController.h"
+@@ -1892,7 +1893,7 @@ - (void)viewWillAppear:(BOOL)animated {
+ #ifdef DEBUG
+     if(![[NSProcessInfo processInfo].arguments containsObject:@"-ui_testing"]) {
+ #endif
+-    if(session.length) {
++    if(session.length && [FIRApp defaultApp]) {
+         UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+         
+         [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert + UNAuthorizationOptionSound + UNAuthorizationOptionBadge + UNAuthorizationOptionProvidesAppNotificationSettings) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+diff --git a/IRCCloud/Classes/NetworkConnection.m b/IRCCloud/Classes/NetworkConnection.m
+index 83b319f..a72dcc1 100644
+--- a/IRCCloud/Classes/NetworkConnection.m
++++ b/IRCCloud/Classes/NetworkConnection.m
+@@ -682,7 +682,8 @@ -(id)init {
+ #endif
+                        [self->_events reformat];
+ #endif
+-                       [[FIRCrashlytics crashlytics] setUserID:[NSString stringWithFormat:@"uid%@",[self.userInfo objectForKey:@"id"]]];
++                       if([FIRApp defaultApp])
++                           [[FIRCrashlytics crashlytics] setUserID:[NSString stringWithFormat:@"uid%@",[self.userInfo objectForKey:@"id"]]];
+                        CLS_LOG(@"Prefs: %@", [self prefs]);
+                        [self _serializeUserInfo];
+                        [self postObject:object forEvent:kIRCEventUserInfo];
+@@ -2709,10 +2710,12 @@ -(void)_logout:(NSString *)session {
+     }
+     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"APNs"];
+     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"FCM"];
+-    [[FIRMessaging messaging] deleteDataWithCompletion:^(NSError *error) {
+-        if(error)
+-            CLS_LOG(@"Unable to delete Firebase ID: %@", error);
+-    }];
++    if([FIRApp defaultApp]) {
++        [[FIRMessaging messaging] deleteDataWithCompletion:^(NSError *error) {
++            if(error)
++                CLS_LOG(@"Unable to delete Firebase ID: %@", error);
++        }];
++    }
+     IRCCLOUD_HOST = @"api.irccloud.com";
+     [self _postRequest:@"/chat/logout" args:@{@"session":session} handler:nil];
+ #endif
+diff --git a/Podfile b/Podfile
+index 476e377..48ea99d 100644
+--- a/Podfile
++++ b/Podfile
+@@ -1,5 +1,5 @@
+ # Uncomment the next line to define a global platform for your project
+-platform :ios, '12.0'
++platform :ios, '15.6'
+ use_modular_headers!
+ 
+ pod 'GoogleUtilities/AppDelegateSwizzler'
+@@ -84,7 +84,7 @@ end
+ post_install do |installer|
+   installer.pods_project.targets.each do |t|
+       t.build_configurations.each do |config|
+-          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
++          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.6'
+       end
+   end
+   installer.aggregate_targets.each do |target|
