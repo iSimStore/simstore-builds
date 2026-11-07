@@ -16,6 +16,20 @@ index ee52975..0c17604 100644
  endif
  
  ifndef HAVE_IOS
+diff --git a/contrib/src/main.mak b/contrib/src/main.mak
+index dc9e12f..7e9de8c 100644
+--- a/contrib/src/main.mak
++++ b/contrib/src/main.mak
+@@ -268,6 +268,9 @@ FLOCK_PREFIX := $(and $(FLOCK),$(FLOCK) "$@.lock")
+ 
+ ifeq ($(DISABLE_CONTRIB_DOWNLOADS),TRUE)
+ download = $(error Attempting to download $(1) but DISABLE_CONTRIB_DOWNLOADS is TRUE, aborting.)
++else ifdef HAVE_DARWIN_OS
++# Keep macOS downloads independent of Homebrew's wget/OpenSSL.
++download = $(FLOCK_PREFIX) /usr/bin/curl $(if ${BATCH_MODE},-sS) -f -L --retry-delay 10 --retry 4 -- "$(1)" > "$@"
+ else ifeq ($(shell wget --version >/dev/null 2>&1 || echo FAIL),)
+ download = $(FLOCK_PREFIX) wget $(if ${BATCH_MODE},-nv) -t 4 --waitretry 10 -O "$@" "$(1)"
+ else ifeq ($(shell curl --version >/dev/null 2>&1 || echo FAIL),)
 diff --git a/contrib/src/vpx/rules.mak b/contrib/src/vpx/rules.mak
 index 0d15acc..eaf93d3 100644
 --- a/contrib/src/vpx/rules.mak
