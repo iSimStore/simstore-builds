@@ -1,0 +1,75 @@
+diff --git a/Ring/Ring.xcodeproj/project.pbxproj b/Ring/Ring.xcodeproj/project.pbxproj
+index db591e7..f062221 100644
+--- a/Ring/Ring.xcodeproj/project.pbxproj
++++ b/Ring/Ring.xcodeproj/project.pbxproj
+@@ -4168,7 +4168,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\n${PROJECT_DIR}/swiftgen/swiftgen.sh\n";
++			shellScript = "# Use the generated SwiftGen sources committed with this release.\ntrue\n";
+ 		};
+ 		6236602D200914C9002598C1 /* ShellScript */ = {
+ 			isa = PBXShellScriptBuildPhase;
+diff --git a/compile-ios.sh b/compile-ios.sh
+index 9b334a2..55d84cf 100755
+--- a/compile-ios.sh
++++ b/compile-ios.sh
+@@ -380,11 +380,8 @@ create_framework() {
+     echo "Architectures in $FRAMEWORK_NAME for $SDK:" >&2
+     lipo -info "$PLATFORM_DIR/lib/$LIB_FILE" >&2
+   else
+-    # Create a dummy library
+-    echo "Creating dummy $SDK library for $FRAMEWORK_NAME" >&2
+-    echo "void dummy_function() {}" > "$TEMP_DIR/dummy.c"
+-    xcrun -sdk $SDK clang -c "$TEMP_DIR/dummy.c" -o "$TEMP_DIR/dummy.o"
+-    ar -rc "$PLATFORM_DIR/lib/$LIB_FILE" "$TEMP_DIR/dummy.o"
++    echo "Missing required $SDK library: $LIB_FILE" >&2
++    exit 1
+   fi
+ 
+   # Create framework structure
+@@ -409,8 +406,14 @@ do
+   mkdir -p "$TEMP_DIR"
+ 
+   # Create frameworks for each platform
+-  DEVICE_FRAMEWORK=$(create_framework "$TEMP_DIR/device" "$FRAMEWORK_NAME" "$libFile" "iphoneos" "${DEVICE_BUILDS[@]}")
+-  SIM_FRAMEWORK=$(create_framework "$TEMP_DIR/simulator" "$FRAMEWORK_NAME" "$libFile" "iphonesimulator" "${SIMULATOR_BUILDS[@]}")
++  DEVICE_FRAMEWORK=""
++  SIM_FRAMEWORK=""
++  if [ ${#DEVICE_BUILDS[@]} -gt 0 ]; then
++    DEVICE_FRAMEWORK=$(create_framework "$TEMP_DIR/device" "$FRAMEWORK_NAME" "$libFile" "iphoneos" "${DEVICE_BUILDS[@]}") || exit 1
++  fi
++  if [ ${#SIMULATOR_BUILDS[@]} -gt 0 ]; then
++    SIM_FRAMEWORK=$(create_framework "$TEMP_DIR/simulator" "$FRAMEWORK_NAME" "$libFile" "iphonesimulator" "${SIMULATOR_BUILDS[@]}") || exit 1
++  fi
+ 
+   # Create XCFramework
+   xcrun xcodebuild -create-xcframework $DEVICE_FRAMEWORK $SIM_FRAMEWORK -output "$XCFRAMEWORK_DIR/$FRAMEWORK_NAME.xcframework"
+@@ -420,24 +423,9 @@ do
+   rm -rf "$TEMP_DIR"
+ done
+ 
+-# Special check for libvpx.xcframework, because vpx disabled for arm64 simulator
+ if [ ! -d "$XCFRAMEWORK_DIR/libvpx.xcframework" ]; then
+-  echo "libvpx.xcframework not found, creating it manually..."
+-
+-  # Create temporary directory
+-  TEMP_DIR="$IOS_TOP_DIR/temp_vpx"
+-  mkdir -p "$TEMP_DIR"
+-
+-  # Create frameworks for each platform
+-  DEVICE_FRAMEWORK=$(create_framework "$TEMP_DIR/device" "libvpx" "libvpx.a" "iphoneos" "${DEVICE_BUILDS[@]}")
+-  SIM_FRAMEWORK=$(create_framework "$TEMP_DIR/simulator" "libvpx" "libvpx.a" "iphonesimulator" "${SIMULATOR_BUILDS[@]}")
+-
+-  # Create XCFramework
+-  xcrun xcodebuild -create-xcframework $DEVICE_FRAMEWORK $SIM_FRAMEWORK -output "$XCFRAMEWORK_DIR/libvpx.xcframework"
+-  echo "Created libvpx.xcframework"
+-
+-  # Clean up temporary directories
+-  rm -rf "$TEMP_DIR"
++  echo "Missing required libvpx.xcframework" >&2
++  exit 1
+ fi
+ 
+ echo "XCFrameworks created in $XCFRAMEWORK_DIR"
