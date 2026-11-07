@@ -1,0 +1,21 @@
+--- a/ios/RNFBMessaging/RNFBMessaging+NSNotificationCenter.m
++++ b/ios/RNFBMessaging/RNFBMessaging+NSNotificationCenter.m
+@@ -79,6 +79,7 @@
+ #pragma mark Application Notifications
+ 
+ - (void)application_onDidFinishLaunchingNotification:(nonnull NSNotification *)notification {
++  if (![FIRApp defaultApp]) return;
+   // setup our delegates & swizzling after app finishes launching
+   // these methods are idempotent so can safely be called multiple times
+   [[RNFBMessagingAppDelegate sharedInstance] observe];
+--- a/ios/RNFBMessaging/RNFBMessagingModule.mm
++++ b/ios/RNFBMessaging/RNFBMessagingModule.mm
+@@ -71,7 +71,7 @@
+ - (NSDictionary *)messagingConstantsDictionary {
+   NSMutableDictionary *constants = [NSMutableDictionary new];
+   constants[@"isAutoInitEnabled"] =
+-      @([RCTConvert BOOL:@([FIRMessaging messaging].autoInitEnabled)]);
++      @([RCTConvert BOOL:@([FIRApp defaultApp] && [FIRMessaging messaging].autoInitEnabled)]);
+ #if TARGET_IPHONE_SIMULATOR
+   constants[@"isRegisteredForRemoteNotifications"] = @NO;
+ #else

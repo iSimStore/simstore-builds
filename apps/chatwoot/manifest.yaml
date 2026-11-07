@@ -1,0 +1,12 @@
+id: chatwoot
+name: Chatwoot
+
+source:
+  license: MIT
+  repository: https://github.com/chatwoot/chatwoot-mobile-app
+  version: v4.10.6
+  revision: a7b5deb2db6a3cb13a6c72205d53079ee89e4611
+
+build:
+  script: build.sh
+  deploymentTarget: "16.4"

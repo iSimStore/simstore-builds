@@ -1,0 +1,296 @@
+diff --git a/app.config.ts b/app.config.ts
+index b9f7c09..b473302 100644
+--- a/app.config.ts
++++ b/app.config.ts
+@@ -23,9 +23,21 @@ export default ({ config }: ConfigContext): ExpoConfig => {
+           'This app does not use Apple Music, but a system API may require this permission.',
+         UIBackgroundModes: ['fetch', 'remote-notification', 'audio', 'voip'],
+         ITSAppUsesNonExemptEncryption: false,
++        UIApplicationSceneManifest: {
++          UIApplicationSupportsMultipleScenes: false,
++          UISceneConfigurations: {
++            UIWindowSceneSessionRoleApplication: [
++              {
++                UISceneConfigurationName: 'Default Configuration',
++                UISceneClassName: 'UIWindowScene',
++                UISceneDelegateClassName: 'ChatwootSceneDelegate',
++              },
++            ],
++          },
++        },
+       },
+       // Please use the relative path to the google-services.json file
+-      googleServicesFile: process.env.EXPO_PUBLIC_IOS_GOOGLE_SERVICES_FILE,
++      googleServicesFile: process.env.EXPO_PUBLIC_IOS_GOOGLE_SERVICES_FILE || undefined,
+       entitlements: { 'aps-environment': 'production' },
+       associatedDomains: ['applinks:app.chatwoot.com'],
+     },
+@@ -42,7 +54,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
+         'android.permission.MANAGE_OWN_CALLS',
+       ],
+       // Please use the relative path to the google-services.json file
+-      googleServicesFile: process.env.EXPO_PUBLIC_ANDROID_GOOGLE_SERVICES_FILE,
++      googleServicesFile: process.env.EXPO_PUBLIC_ANDROID_GOOGLE_SERVICES_FILE || undefined,
+       intentFilters: [
+         {
+           action: 'VIEW',
+@@ -105,11 +117,13 @@ export default ({ config }: ConfigContext): ExpoConfig => {
+       'expo-web-browser',
+       '@config-plugins/react-native-webrtc',
+       '@react-native-community/datetimepicker',
+-      '@react-native-firebase/app',
+-      '@react-native-firebase/messaging',
++      ...(process.env.EXPO_PUBLIC_IOS_GOOGLE_SERVICES_FILE
++        ? ['@react-native-firebase/app', '@react-native-firebase/messaging']
++        : []),
+       [
+         'expo-build-properties',
+         {
++          ios: { deploymentTarget: '16.4' },
+           // compileSdk/targetSdk 36 = Expo SDK 54 / RN 0.81 default (Android 16).
+           // notifee (issue #808) needs compileSdk >= 35, satisfied by 36.
+           android: {
+diff --git a/src/navigation/index.tsx b/src/navigation/index.tsx
+index dacbab1..0290ccd 100644
+--- a/src/navigation/index.tsx
++++ b/src/navigation/index.tsx
+@@ -1,7 +1,6 @@
+ import React, { useCallback, useRef } from 'react';
+ import { ActivityIndicator, Linking, StyleSheet, View } from 'react-native';
+ import {
+-  getMessaging,
+   getInitialNotification,
+   onNotificationOpenedApp,
+   setBackgroundMessageHandler,
+@@ -17,7 +16,11 @@ import { OngoingCallBar } from '@/screens/call';
+ import { isCallPush } from '@/utils/callNotifications';
+ import i18n from 'i18n';
+ import { navigationRef } from '@/utils/navigationUtils';
+-import { findConversationLinkFromPush, findNotificationFromFCM } from '@/utils/pushUtils';
++import {
++  findConversationLinkFromPush,
++  findNotificationFromFCM,
++  getConfiguredMessaging,
++} from '@/utils/pushUtils';
+ import { extractConversationIdFromUrl } from '@/utils/conversationUtils';
+ import { useAppSelector } from '@/hooks';
+ import { selectInstallationUrl, selectLocale } from '@/store/settings/settingsSelectors';
+@@ -32,11 +35,14 @@ import { SsoUtils } from '@/utils/ssoUtils';
+ import { useAppDispatch } from '@/hooks';
+ import { APP_FONTS } from '@/theme/fonts';
+ 
+-setBackgroundMessageHandler(getMessaging(), async remoteMessage => {
+-  // Native code already handles call pushes.
+-  if (isCallPush(remoteMessage.data)) return;
+-  console.log('Message handled in the background!', remoteMessage);
+-});
++const messaging = getConfiguredMessaging();
++if (messaging) {
++  setBackgroundMessageHandler(messaging, async remoteMessage => {
++    // Native code already handles call pushes.
++    if (isCallPush(remoteMessage.data)) return;
++    console.log('Message handled in the background!', remoteMessage);
++  });
++}
+ 
+ export const AppNavigationContainer = () => {
+   const [fontsLoaded] = useFonts(APP_FONTS);
+@@ -128,7 +134,7 @@ export const AppNavigationContainer = () => {
+       }
+ 
+       // getInitialNotification: When the application is opened from a quit state.
+-      const message = await getInitialNotification(getMessaging());
++      const message = messaging ? await getInitialNotification(messaging) : null;
+       if (message) {
+         const notification = findNotificationFromFCM({ message });
+         if (notification) {
+@@ -162,23 +168,25 @@ export const AppNavigationContainer = () => {
+       const subscription = Linking.addEventListener('url', onReceiveURL);
+ 
+       //onNotificationOpenedApp: When the application is running, but in the background.
+-      const unsubscribeNotification = onNotificationOpenedApp(getMessaging(), message => {
+-        if (message) {
+-          const notification = findNotificationFromFCM({ message });
+-          if (notification) {
+-            const camelCaseNotification = transformNotification(notification);
+-
+-            const conversationLink = findConversationLinkFromPush({
+-              notification: camelCaseNotification,
+-              installationUrl,
+-              currentAccountId,
+-            });
+-            if (conversationLink) {
+-              listener(conversationLink);
++      const unsubscribeNotification = messaging
++        ? onNotificationOpenedApp(messaging, message => {
++            if (message) {
++              const notification = findNotificationFromFCM({ message });
++              if (notification) {
++                const camelCaseNotification = transformNotification(notification);
++
++                const conversationLink = findConversationLinkFromPush({
++                  notification: camelCaseNotification,
++                  installationUrl,
++                  currentAccountId,
++                });
++                if (conversationLink) {
++                  listener(conversationLink);
++                }
++              }
+             }
+-          }
+-        }
+-      });
++          })
++        : () => {};
+ 
+       return () => {
+         subscription.remove();
+diff --git a/src/screens/call/hooks/useRingingSync.ts b/src/screens/call/hooks/useRingingSync.ts
+index 734f5f6..fe1eff8 100644
+--- a/src/screens/call/hooks/useRingingSync.ts
++++ b/src/screens/call/hooks/useRingingSync.ts
+@@ -1,6 +1,7 @@
+ import { useCallback, useEffect } from 'react';
+ import { AppState } from 'react-native';
+-import { getMessaging, onMessage } from '@react-native-firebase/messaging';
++import { onMessage } from '@react-native-firebase/messaging';
++import { getConfiguredMessaging } from '@/utils/pushUtils';
+ 
+ import { useAppDispatch, useAppSelector } from '@/hooks';
+ import { store } from '@/store';
+@@ -70,39 +71,39 @@ export const useRingingSync = () => {
+   }, [accountId, hasCallingInbox, syncRinging]);
+ 
+   // Cross-account rings bypass the account-scoped fetch.
+-  useEffect(
+-    () =>
+-      onMessage(getMessaging(), async message => {
+-        const data = message.data as CallPushPayload | undefined;
+-        if (isCallCancelPush(data) && data?.call_id) {
+-          const state = store.getState();
+-          const call = selectCalls(state).find(entry => entry.callSid === data.call_id);
+-          // Cancel pushes can precede their rings.
+-          if (!call) {
+-            dispatch(markCallDismissed(data.call_id));
+-            return;
+-          }
+-          if (call.isActive || selectLocalCallSid(state) === call.callSid) return;
+-          systemCall.endedBySid(
+-            store,
+-            call.callSid,
+-            systemEndReason(store, call.callSid, data.reason),
+-          );
+-          dispatch(dismissCall(call.callSid));
+-          return;
+-        }
+-        if (!isCallPush(data) || !data) return;
+-        actionCableConnector.ensureConnected();
+-        const pushed = callFromPush(data);
+-        const currentAccountId = selectCurrentUserAccountId(store.getState());
+-        if (pushed?.accountId && pushed.accountId !== currentAccountId) {
+-          dispatch(addCall(pushed));
++  useEffect(() => {
++    const messaging = getConfiguredMessaging();
++    if (!messaging) return;
++    return onMessage(messaging, async message => {
++      const data = message.data as CallPushPayload | undefined;
++      if (isCallCancelPush(data) && data?.call_id) {
++        const state = store.getState();
++        const call = selectCalls(state).find(entry => entry.callSid === data.call_id);
++        // Cancel pushes can precede their rings.
++        if (!call) {
++          dispatch(markCallDismissed(data.call_id));
+           return;
+         }
+-        syncRinging();
+-      }),
+-    [dispatch, syncRinging],
+-  );
++        if (call.isActive || selectLocalCallSid(state) === call.callSid) return;
++        systemCall.endedBySid(
++          store,
++          call.callSid,
++          systemEndReason(store, call.callSid, data.reason),
++        );
++        dispatch(dismissCall(call.callSid));
++        return;
++      }
++      if (!isCallPush(data) || !data) return;
++      actionCableConnector.ensureConnected();
++      const pushed = callFromPush(data);
++      const currentAccountId = selectCurrentUserAccountId(store.getState());
++      if (pushed?.accountId && pushed.accountId !== currentAccountId) {
++        dispatch(addCall(pushed));
++        return;
++      }
++      syncRinging();
++    });
++  }, [dispatch, syncRinging]);
+ 
+   return syncRinging;
+ };
+diff --git a/src/store/settings/settingsActions.ts b/src/store/settings/settingsActions.ts
+index 3f8f8ae..33ad5e5 100644
+--- a/src/store/settings/settingsActions.ts
++++ b/src/store/settings/settingsActions.ts
+@@ -1,7 +1,8 @@
+ import { createAsyncThunk } from '@reduxjs/toolkit';
+ import * as Sentry from '@sentry/react-native';
+ 
+-import { getMessaging, getToken } from '@react-native-firebase/messaging';
++import { getToken } from '@react-native-firebase/messaging';
++import { getConfiguredMessaging } from '@/utils/pushUtils';
+ import {
+   getSystemName,
+   getManufacturer,
+@@ -91,6 +92,8 @@ export const settingsActions = {
+   saveDeviceDetails: createAsyncThunk<{ fcmToken: string }, void>(
+     'settings/saveDeviceDetails',
+     async (_, { rejectWithValue }) => {
++      const messaging = getConfiguredMessaging();
++      if (!messaging) return rejectWithValue('Push notifications are not configured');
+       try {
+         const deviceId = await getUniqueId();
+         const devicePlatform = getSystemName();
+@@ -106,7 +109,7 @@ export const settingsActions = {
+         // https://github.com/invertase/react-native-firebase/issues/6893#issuecomment-1427998691
+         // await messaging().registerDeviceForRemoteMessages();
+         await sleep(1000);
+-        const fcmToken = await getToken(getMessaging());
++        const fcmToken = await getToken(messaging);
+ 
+         const pushData: PushPayload = {
+           subscription_type: 'fcm',
+diff --git a/src/utils/pushUtils.ts b/src/utils/pushUtils.ts
+index d658b02..68940ec 100644
+--- a/src/utils/pushUtils.ts
++++ b/src/utils/pushUtils.ts
+@@ -1,7 +1,14 @@
+ import { Platform } from 'react-native';
++import { getApps } from '@react-native-firebase/app';
++import { getMessaging } from '@react-native-firebase/messaging';
+ import { NOTIFICATION_TYPES } from '@/constants';
+ import { Notification } from '@/types/Notification';
+ 
++export const getConfiguredMessaging = (): ReturnType<typeof getMessaging> | null => {
++  const app = getApps().find(app => app.name === '[DEFAULT]');
++  return app ? getMessaging(app) : null;
++};
++
+ let notifee: typeof import('@notifee/react-native').default | undefined;
+ 
+ if (Platform.OS === 'ios') {
+diff --git a/with-ffmpeg-pod.js b/with-ffmpeg-pod.js
+index 4689651..b31c68a 100644
+--- a/with-ffmpeg-pod.js
++++ b/with-ffmpeg-pod.js
+@@ -3,7 +3,7 @@ const fs = require('fs');
+ const path = require('path');
+ 
+ function addPodDependency(podfilePath) {
+-  const podInstallLine = `pod 'chatwoot-ffmpeg-kit-ios-https', :podspec => 'https://raw.githubusercontent.com/chatwoot/ffmpeg/master/chatwoot-ffmpeg-kit-ios-https.podspec'`;
++  const podInstallLine = `pod 'chatwoot-ffmpeg-kit-ios-https', :podspec => 'chatwoot-ffmpeg-kit-ios-https.podspec'`;
+   const podInstallLine2 = `pod 'ffmpeg-kit-react-native', :path => '../node_modules/ffmpeg-kit-react-native'`;
+ 
+   let contents = fs.readFileSync(podfilePath, 'utf8');
