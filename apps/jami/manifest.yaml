@@ -1,0 +1,12 @@
+id: jami
+name: Jami
+
+source:
+  license: GPL-3.0-or-later
+  repository: https://github.com/savoirfairelinux/jami-client-ios
+  version: v4.20.0
+  revision: 98f11ed3fd9b8c6beee0e962d9f9373395b802ff
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"

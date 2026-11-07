@@ -1,0 +1,36 @@
+diff --git a/contrib/src/ffmpeg/rules.mak b/contrib/src/ffmpeg/rules.mak
+index ee52975..0c17604 100644
+--- a/contrib/src/ffmpeg/rules.mak
++++ b/contrib/src/ffmpeg/rules.mak
+@@ -361,13 +361,6 @@ FFMPEGCONF += \
+ 	--target-os=darwin \
+ 	--enable-cross-compile \
+ 	--enable-pic
+-# vpx not supported on iPhoneSimulator on arm64
+-ifeq ($(IOS_TARGET_PLATFORM),iPhoneSimulator)
+-ifeq ($(ARCH),arm64)
+-    DEPS_ffmpeg := $(filter-out vpx, $(DEPS_ffmpeg))
+-    FFMPEGCONF += --disable-libvpx
+-endif
+-endif
+ endif
+ 
+ ifndef HAVE_IOS
+diff --git a/contrib/src/vpx/rules.mak b/contrib/src/vpx/rules.mak
+index 0d15acc..eaf93d3 100644
+--- a/contrib/src/vpx/rules.mak
++++ b/contrib/src/vpx/rules.mak
+@@ -110,6 +110,13 @@ ifeq ($(ARCH),i386)
+ VPX_CONF += --extra-cflags="-mstackrealign"
+ endif
+ endif
++ifeq ($(IOS_TARGET_PLATFORM),iPhoneSimulator)
++ifeq ($(ARCH),arm64)
++VPX_TARGET := generic-gnu
++LOCAL_HOSTVARS=$(HOSTVARS) LD="$(CC)"
++endif
++endif
++
+ .vpx: libvpx
+ 	cd $< && CROSS=$(VPX_CROSS) $(LOCAL_HOSTVARS) ./configure --target=$(VPX_TARGET) \
+ 		$(VPX_CONF) --prefix=$(PREFIX)
