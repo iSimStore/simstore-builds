@@ -20,7 +20,7 @@ xcodebuild -project "$source_dir/pkg/apple/RetroArch_iOS13.xcodeproj" \
   GCC_GENERATE_DEBUGGING_SYMBOLS=NO DEBUG_INFORMATION_FORMAT=dwarf LLVM_LTO=NO \
   build 2>&1 | tee "$work/logs/xcode-release.log"
 git -C "$source_dir" diff > "$work/source.patch"
-cmp "$app_dir/patches/simulator-build.patch" "$work/source.patch"
+python3 "$repo_dir/scripts/check_patch.py" "$source_dir" "$app_dir/patches/simulator-build.patch"
 built_app="$work/derived-data/Build/Products/Release-iphonesimulator/RetroArch.app"
 for core in nestopia snes9x mgba; do
   [[ -f "$built_app/Frameworks/$core.libretro.framework/$core.libretro" ]]

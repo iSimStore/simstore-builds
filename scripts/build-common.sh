@@ -78,7 +78,7 @@ checkout_patched() {
     git -C "$dest" apply "$patch"
   else
     git -C "$dest" diff > "$work/source.patch"
-    cmp "$patch" "$work/source.patch" || {
+    python3 "$repo_dir/scripts/check_patch.py" "$dest" "$patch" || {
       echo "Source checkout at $dest has unexpected changes; refusing to overwrite them." >&2
       exit 1
     }
