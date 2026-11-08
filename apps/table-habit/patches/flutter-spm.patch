@@ -1,0 +1,15 @@
+diff --git a/packages/flutter_tools/lib/src/ios/xcodeproj.dart b/packages/flutter_tools/lib/src/ios/xcodeproj.dart
+index 9b03cffc..e003ebe2 100644
+--- a/packages/flutter_tools/lib/src/ios/xcodeproj.dart
++++ b/packages/flutter_tools/lib/src/ios/xcodeproj.dart
+@@ -218,6 +218,10 @@ class XcodeProjectInterpreter {
+       'xcodebuild',
+       '-clonedSourcePackagesDirPath',
+       cachePath,
++      '-packageAuthorizationProvider',
++      'netrc',
++      '-packageCachePath',
++      buildDirectory.childDirectory('SwiftPackageCache').absolute.path,
+       if (skipPackageUpdatesAndValidation) ...<String>[
+         '-skipPackageUpdates',
+         '-skipPackagePluginValidation',
