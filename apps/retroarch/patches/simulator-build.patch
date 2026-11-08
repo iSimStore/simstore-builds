@@ -59,6 +59,36 @@ index c11f131..c54403a 100644
  				LIBRARY_SEARCH_PATHS = "";
  				LLVM_LTO = YES_THIN;
  				MARKETING_VERSION = 1.22.2;
+diff --git a/pkg/apple/iOS/Info.plist b/pkg/apple/iOS/Info.plist
+index fa9d709..7ae6175 100644
+--- a/pkg/apple/iOS/Info.plist
++++ b/pkg/apple/iOS/Info.plist
+@@ -2,6 +2,25 @@
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0">
+ <dict>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>RetroArch</string>
++					<key>UISceneClassName</key>
++					<string>UIWindowScene</string>
++					<key>UISceneDelegateClassName</key>
++					<string>RetroArchSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
+ 	<key>ALTBundleIdentifier</key>
+ 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+ 	<key>ALTDeviceID</key>
 diff --git a/pkg/apple/make-frameworks.sh b/pkg/apple/make-frameworks.sh
 index e3d4a4c..e76109d 100755
 --- a/pkg/apple/make-frameworks.sh
@@ -90,10 +120,116 @@ index e3d4a4c..e76109d 100755
      echo copying moltenvk from "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework"
      cp -R "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework" "${OUTDIR}"
 diff --git a/ui/drivers/ui_cocoatouch.m b/ui/drivers/ui_cocoatouch.m
-index 77d1ea6..fa3e6ab 100644
+index 77d1ea6..64b34f6 100644
 --- a/ui/drivers/ui_cocoatouch.m
 +++ b/ui/drivers/ui_cocoatouch.m
-@@ -1338,7 +1338,7 @@ void ios_keyboard_end(void)
+@@ -520,8 +520,72 @@ @interface RetroArch_iOS () <UITextFieldDelegate>
+ @property (nonatomic, assign) char **keyboardBufferPtr;
+ @property (nonatomic, assign) size_t *keyboardSizePtr;
+ @property (nonatomic, assign) char *keyboardAllocatedBuffer;
++- (void)startWithWindow:(UIWindow *)window;
+ @end
+ 
++#if TARGET_OS_IOS
++API_AVAILABLE(ios(13.0))
++@interface RetroArchSceneDelegate : NSObject <UIWindowSceneDelegate>
++@property (nonatomic, strong) UIWindow *window;
++@end
++
++@implementation RetroArchSceneDelegate
++
++- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session
++      options:(UISceneConnectionOptions *)connectionOptions
++{
++   if (![scene isKindOfClass:[UIWindowScene class]])
++      return;
++
++   RetroArch_iOS *app = [RetroArch_iOS get];
++   if (app.window)
++   {
++      /* Reconnect the existing frontend rather than initializing it twice. */
++      self.window = app.window;
++      self.window.windowScene = (UIWindowScene *)scene;
++      [self.window makeKeyAndVisible];
++   }
++   else
++   {
++      self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
++      [app startWithWindow:self.window];
++   }
++   [self scene:scene openURLContexts:connectionOptions.URLContexts];
++}
++
++- (void)sceneDidBecomeActive:(UIScene *)scene
++{
++   [[RetroArch_iOS get] applicationDidBecomeActive:[UIApplication sharedApplication]];
++}
++
++- (void)sceneWillResignActive:(UIScene *)scene
++{
++   [[RetroArch_iOS get] applicationWillResignActive:[UIApplication sharedApplication]];
++}
++
++- (void)sceneDidEnterBackground:(UIScene *)scene
++{
++   [[RetroArch_iOS get] applicationDidEnterBackground:[UIApplication sharedApplication]];
++}
++
++- (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts
++{
++   for (UIOpenURLContext *context in URLContexts)
++   {
++      NSMutableDictionary *options = [NSMutableDictionary dictionary];
++      if (context.options.sourceApplication)
++         options[UIApplicationOpenURLOptionsSourceApplicationKey] = context.options.sourceApplication;
++      if (context.options.annotation)
++         options[UIApplicationOpenURLOptionsAnnotationKey] = context.options.annotation;
++      options[UIApplicationOpenURLOptionsOpenInPlaceKey] = @(context.options.openInPlace);
++      [[RetroArch_iOS get] application:[UIApplication sharedApplication]
++                              openURL:context.URL options:options];
++   }
++}
++
++@end
++#endif
++
+ @implementation RetroArch_iOS
+ 
+ #pragma mark - ApplePlatform
+@@ -774,6 +838,17 @@ - (void)processKSCrashReports
+ 
+ - (void)applicationDidFinishLaunching:(UIApplication *)application
+ {
++#if TARGET_OS_IOS
++   /* Scene connection owns window creation for the scene-enabled iOS recipe. */
++   if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIApplicationSceneManifest"])
++      return;
++#endif
++   [self startWithWindow:[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
++}
++
++- (void)startWithWindow:(UIWindow *)window
++{
++   UIApplication *application = [UIApplication sharedApplication];
+ #ifdef HAVE_KSCRASH
+    [self initKSCrash];
+ #endif
+@@ -818,12 +893,12 @@ - (void)applicationDidFinishLaunching:(UIApplication *)application
+    [self setDelegate:self];
+ 
+    /* Setup window */
+-   self.window        = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+-   [self.window makeKeyAndVisible];
++   self.window = window;
+ 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAudioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
+ 
+    [self showGameView];
++   [self.window makeKeyAndVisible];
+ 
+    rarch_main(argc, argv, NULL);
+ 
+@@ -1338,7 +1413,7 @@ void ios_keyboard_end(void)
  
  int main(int argc, char *argv[])
  {
