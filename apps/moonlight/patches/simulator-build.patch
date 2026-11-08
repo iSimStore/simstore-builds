@@ -1,0 +1,140 @@
+diff --git a/Limelight/AppDelegate.h b/Limelight/AppDelegate.h
+index 90deb40..75a261a 100644
+--- a/Limelight/AppDelegate.h
++++ b/Limelight/AppDelegate.h
+@@ -23,3 +23,11 @@
+ - (NSURL*) getStoreURL;
+ 
+ @end
++
++#if !TARGET_OS_TV
++@interface MoonlightSceneDelegate : UIResponder <UIWindowSceneDelegate>
++
++@property (strong, nonatomic) UIWindow *window;
++
++@end
++#endif
+diff --git a/Limelight/AppDelegate.m b/Limelight/AppDelegate.m
+index 5db73f5..807f905 100644
+--- a/Limelight/AppDelegate.m
++++ b/Limelight/AppDelegate.m
+@@ -212,3 +212,37 @@ - (NSURL*) getStoreURL {
+ }
+ 
+ @end
++
++#if !TARGET_OS_TV
++@implementation MoonlightSceneDelegate
++
++- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
++    if (![scene isKindOfClass:[UIWindowScene class]]) {
++        return;
++    }
++
++    AppDelegate *delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
++    delegate.pcUuidToLoad = connectionOptions.shortcutItem.userInfo[@"UUID"];
++
++    self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
++    delegate.window = self.window;
++    NSString *storyboardName = UIDevice.currentDevice.userInterfaceIdiom == UIUserInterfaceIdiomPad ? @"iPad" : @"iPhone";
++    self.window.rootViewController = [[UIStoryboard storyboardWithName:storyboardName bundle:nil] instantiateInitialViewController];
++    [self.window makeKeyAndVisible];
++}
++
++- (void)windowScene:(UIWindowScene *)windowScene performActionForShortcutItem:(UIApplicationShortcutItem *)shortcutItem completionHandler:(void (^)(BOOL succeeded))completionHandler {
++    AppDelegate *delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
++    [delegate application:UIApplication.sharedApplication performActionForShortcutItem:shortcutItem completionHandler:completionHandler];
++}
++
++- (void)sceneDidDisconnect:(UIScene *)scene {
++    AppDelegate *delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
++    if (delegate.window == self.window) {
++        delegate.window = nil;
++    }
++    self.window = nil;
++}
++
++@end
++#endif
+diff --git a/Limelight/Limelight-Info.plist b/Limelight/Limelight-Info.plist
+index 7d95d89..fd2e106 100644
+--- a/Limelight/Limelight-Info.plist
++++ b/Limelight/Limelight-Info.plist
+@@ -58,12 +58,25 @@
+ 	<string>Moonlight uses the local network to connect to your gaming PC for streaming.</string>
+ 	<key>UIApplicationSupportsIndirectInputEvents</key>
+ 	<true/>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default</string>
++					<key>UISceneDelegateClassName</key>
++					<string>MoonlightSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
+ 	<key>UILaunchStoryboardName</key>
+ 	<string>Launch Screen</string>
+-	<key>UIMainStoryboardFile</key>
+-	<string>iPhone</string>
+-	<key>UIMainStoryboardFile~ipad</key>
+-	<string>iPad</string>
+ 	<key>UIRequiredDeviceCapabilities</key>
+ 	<array>
+ 		<string>armv7</string>
+diff --git a/Moonlight.xcodeproj/project.pbxproj b/Moonlight.xcodeproj/project.pbxproj
+index 517055a..8b5f6e1 100644
+--- a/Moonlight.xcodeproj/project.pbxproj
++++ b/Moonlight.xcodeproj/project.pbxproj
+@@ -1171,7 +1171,9 @@
+ 				HEADER_SEARCH_PATHS = (
+ 					"$(PROJECT_DIR)/moonlight-common/moonlight-common-c/src",
+ 					"$(SDKROOT)/usr/include/libxml2/**",
+-					"$(PROJECT_DIR)/libs/**",
++					"$(PROJECT_DIR)/libs/opus/include",
++					"$(PROJECT_DIR)/libs/SDL2/include",
++					"$(PROJECT_DIR)/libs/FFmpeg/include",
+ 				);
+ 				INFOPLIST_FILE = "Moonlight TV/Info.plist";
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+@@ -1227,7 +1229,9 @@
+ 				HEADER_SEARCH_PATHS = (
+ 					"$(PROJECT_DIR)/moonlight-common/moonlight-common-c/src",
+ 					"$(SDKROOT)/usr/include/libxml2/**",
+-					"$(PROJECT_DIR)/libs/**",
++					"$(PROJECT_DIR)/libs/opus/include",
++					"$(PROJECT_DIR)/libs/SDL2/include",
++					"$(PROJECT_DIR)/libs/FFmpeg/include",
+ 				);
+ 				INFOPLIST_FILE = "Moonlight TV/Info.plist";
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+@@ -1385,7 +1389,9 @@
+ 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+ 					"$(PROJECT_DIR)/moonlight-common/moonlight-common-c/src",
+ 					"$(SDKROOT)/usr/include/libxml2/**",
+-					"$(PROJECT_DIR)/libs/**",
++					"$(PROJECT_DIR)/libs/opus/include",
++					"$(PROJECT_DIR)/libs/SDL2/include",
++					"$(PROJECT_DIR)/libs/FFmpeg/include",
+ 				);
+ 				INFOPLIST_FILE = "Limelight/Limelight-Info.plist";
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
+@@ -1435,7 +1441,9 @@
+ 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+ 					"$(PROJECT_DIR)/moonlight-common/moonlight-common-c/src",
+ 					"$(SDKROOT)/usr/include/libxml2/**",
+-					"$(PROJECT_DIR)/libs/**",
++					"$(PROJECT_DIR)/libs/opus/include",
++					"$(PROJECT_DIR)/libs/SDL2/include",
++					"$(PROJECT_DIR)/libs/FFmpeg/include",
+ 				);
+ 				INFOPLIST_FILE = "Limelight/Limelight-Info.plist";
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";

@@ -1,0 +1,12 @@
+id: moonlight
+name: Moonlight Game Streaming
+
+source:
+  license: GPL-3.0-only
+  repository: https://github.com/moonlight-stream/moonlight-ios
+  version: "9.0.2"
+  revision: 557765f2c0b83bcfd722b8965fa87bcb46878f6d
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"
