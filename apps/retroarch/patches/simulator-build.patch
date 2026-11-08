@@ -1,3 +1,33 @@
+diff --git a/pkg/apple/JITSupport.m b/pkg/apple/JITSupport.m
+index 0eb1b11..986ead3 100644
+--- a/pkg/apple/JITSupport.m
++++ b/pkg/apple/JITSupport.m
+@@ -9,6 +9,7 @@
+ //  
+ 
+ #import <Foundation/Foundation.h>
++#import <TargetConditionals.h>
+ 
+ #import "JITSupport.h"
+ 
+@@ -35,7 +36,7 @@
+ #define PT_TRACE_ME     0       /* child declares it's being traced */
+ #define PT_SIGEXC       12      /* signals as exceptions for current_proc */
+ 
+-#if !TARGET_OS_TV
++#if !TARGET_OS_TV && !TARGET_OS_SIMULATOR
+ static void *exception_handler(void *argument) {
+     mach_port_t port = *(mach_port_t *)argument;
+     mach_msg_server(exc_server, 2048, port, 0);
+@@ -51,7 +52,7 @@ static bool jb_has_debugger_attached(void) {
+ }
+ 
+ bool jb_enable_ptrace_hack(void) {
+-#if !TARGET_OS_TV
++#if !TARGET_OS_TV && !TARGET_OS_SIMULATOR
+     bool debugged = jb_has_debugger_attached();
+     
+     // Thanks to this comment: https://news.ycombinator.com/item?id=18431524
 diff --git a/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj b/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj
 index c11f131..c54403a 100644
 --- a/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj
@@ -59,3 +89,16 @@ index e3d4a4c..e76109d 100755
  if [ -d "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework" ] ; then
      echo copying moltenvk from "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework"
      cp -R "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework" "${OUTDIR}"
+diff --git a/ui/drivers/ui_cocoatouch.m b/ui/drivers/ui_cocoatouch.m
+index 77d1ea6..fa3e6ab 100644
+--- a/ui/drivers/ui_cocoatouch.m
++++ b/ui/drivers/ui_cocoatouch.m
+@@ -1338,7 +1338,7 @@ void ios_keyboard_end(void)
+ 
+ int main(int argc, char *argv[])
+ {
+-#if TARGET_OS_IOS
++#if TARGET_OS_IOS && !TARGET_OS_SIMULATOR
+     if (jb_enable_ptrace_hack())
+         RARCH_LOG("[Cocoa] Ptrace hack complete, JIT support is enabled.\n");
+     else
