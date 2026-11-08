@@ -1,0 +1,13 @@
+diff --git a/Edhita/Info.plist b/Edhita/Info.plist
+index 29a44ca..0a6efee 100644
+--- a/Edhita/Info.plist
++++ b/Edhita/Info.plist
+@@ -3,7 +3,7 @@
+ <plist version="1.0">
+ <dict>
+ 	<key>GADApplicationIdentifier</key>
+-	<string>ca-app-pub-6374739630212171~7866879841</string>
++	<string>ca-app-pub-3940256099942544~1458002511</string>
+ 	<key>ITSAppUsesNonExemptEncryption</key>
+ 	<false/>
+ 	<key>SKAdNetworkItems</key>
