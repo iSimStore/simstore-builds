@@ -1,0 +1,19 @@
+diff --git a/libretro/Makefile b/libretro/Makefile
+index a8ddae3..ad21628 100644
+--- a/libretro/Makefile
++++ b/libretro/Makefile
+@@ -104,6 +104,14 @@ ifeq ($(arch),ppc)
+ 	CXXFLAGS += -DHAVE_NO_LANGEXTRA
+ endif
+ 
++# iOS Simulator on Apple Silicon
++else ifeq ($(platform), ios-simulator-arm64)
++	TARGET := $(TARGET_NAME)_libretro_ios.dylib
++	fpic := -fPIC
++	SHARED := -dynamiclib
++	PLATFORM_DEFINES += -target arm64-apple-ios$(DEPLOYMENT_TARGET)-simulator -isysroot $(IOSSDK)
++	LDFLAGS += -target arm64-apple-ios$(DEPLOYMENT_TARGET)-simulator -isysroot $(IOSSDK)
++
+ # iOS
+ else ifneq (,$(findstring ios,$(platform)))
+ 

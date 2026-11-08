@@ -1,0 +1,240 @@
+diff --git a/pkg/apple/JITSupport.m b/pkg/apple/JITSupport.m
+index 0eb1b11..986ead3 100644
+--- a/pkg/apple/JITSupport.m
++++ b/pkg/apple/JITSupport.m
+@@ -9,6 +9,7 @@
+ //  
+ 
+ #import <Foundation/Foundation.h>
++#import <TargetConditionals.h>
+ 
+ #import "JITSupport.h"
+ 
+@@ -35,7 +36,7 @@
+ #define PT_TRACE_ME     0       /* child declares it's being traced */
+ #define PT_SIGEXC       12      /* signals as exceptions for current_proc */
+ 
+-#if !TARGET_OS_TV
++#if !TARGET_OS_TV && !TARGET_OS_SIMULATOR
+ static void *exception_handler(void *argument) {
+     mach_port_t port = *(mach_port_t *)argument;
+     mach_msg_server(exc_server, 2048, port, 0);
+@@ -51,7 +52,7 @@ static bool jb_has_debugger_attached(void) {
+ }
+ 
+ bool jb_enable_ptrace_hack(void) {
+-#if !TARGET_OS_TV
++#if !TARGET_OS_TV && !TARGET_OS_SIMULATOR
+     bool debugged = jb_has_debugger_attached();
+     
+     // Thanks to this comment: https://news.ycombinator.com/item?id=18431524
+diff --git a/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj b/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj
+index c11f131..c54403a 100644
+--- a/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj
++++ b/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj
+@@ -1480,7 +1480,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "$SRCROOT/rebuild-assets.sh -o\n";
++			shellScript = "test -s \"$SRCROOT/assets.zip\"\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ 		9204BE271D319EF300BD49DB /* ShellScript */ = {
+@@ -1873,7 +1873,7 @@
+ 				INFOPLIST_KEY_CFBundleDisplayName = RetroArch;
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+ 				IOS_BUNDLE_IDENTIFIER = com.libretro.RetroArchiOS11;
+-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
++				IPHONEOS_DEPLOYMENT_TARGET = "$(RA_IPHONEOS_DEPLOYMENT_TARGET)";
+ 				LIBRARY_SEARCH_PATHS = "";
+ 				LLVM_LTO = YES_THIN;
+ 				MARKETING_VERSION = 1.22.2;
+@@ -1932,7 +1932,7 @@
+ 				INFOPLIST_KEY_CFBundleDisplayName = RetroArch;
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+ 				IOS_BUNDLE_IDENTIFIER = com.libretro.RetroArchiOS11;
+-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
++				IPHONEOS_DEPLOYMENT_TARGET = "$(RA_IPHONEOS_DEPLOYMENT_TARGET)";
+ 				LIBRARY_SEARCH_PATHS = "";
+ 				LLVM_LTO = YES_THIN;
+ 				MARKETING_VERSION = 1.22.2;
+diff --git a/pkg/apple/iOS/Info.plist b/pkg/apple/iOS/Info.plist
+index fa9d709..7ae6175 100644
+--- a/pkg/apple/iOS/Info.plist
++++ b/pkg/apple/iOS/Info.plist
+@@ -2,6 +2,25 @@
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0">
+ <dict>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>RetroArch</string>
++					<key>UISceneClassName</key>
++					<string>UIWindowScene</string>
++					<key>UISceneDelegateClassName</key>
++					<string>RetroArchSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
+ 	<key>ALTBundleIdentifier</key>
+ 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+ 	<key>ALTDeviceID</key>
+diff --git a/pkg/apple/make-frameworks.sh b/pkg/apple/make-frameworks.sh
+index e3d4a4c..e76109d 100755
+--- a/pkg/apple/make-frameworks.sh
++++ b/pkg/apple/make-frameworks.sh
+@@ -1,4 +1,5 @@
+ #!/bin/bash
++set -e
+ 
+ # Prefer the expanded name, if available.
+ CODE_SIGN_IDENTITY_FOR_ITEMS="${EXPANDED_CODE_SIGN_IDENTITY}"
+@@ -48,7 +49,8 @@ for dylib in $(find "$BASE_DIR"/modules -maxdepth 1 -type f -regex '.*libretro.*
+ 
+     fwDir="${OUTDIR}/${fwName}.framework"
+     mkdir -p "$fwDir"
+-    if [ "$PLATFORM_FAMILY_NAME" = "iOS" -o "$PLATFORM_FAMILY_NAME" = "tvOS" ] ; then
++    if [ "$PLATFORM_NAME" != "iphonesimulator" -a "$PLATFORM_NAME" != "appletvsimulator" ] &&
++       [ "$PLATFORM_FAMILY_NAME" = "iOS" -o "$PLATFORM_FAMILY_NAME" = "tvOS" ] ; then
+         build_sdk=$(vtool -show-build "$dylib" | grep sdk | awk '{print $2}')
+         vtool -set-build-version "${PLATFORM}" "${DEPLOYMENT_TARGET}" "${build_sdk}" -set-build-tool "$PLATFORM" ld 1115.7.3 -set-source-version 0.0 -replace -output "$dylib" "$dylib"
+     fi
+@@ -98,6 +100,9 @@ if [ -z "${MOLTENVK_XCFRAMEWORK}" ] ; then
+     MOLTENVK_XCFRAMEWORK="${SRCROOT}/Frameworks/MoltenVK.xcframework"
+ fi
+ MVK_PLATFORM_SUBDIR="${SWIFT_PLATFORM_TARGET_PREFIX}-$(echo $ARCHS_STANDARD_64_BIT | sed -e 's/ /_/g')${LLVM_TARGET_TRIPLE_SUFFIX}"
++if [ "$PLATFORM_NAME" = "iphonesimulator" ] ; then
++    MVK_PLATFORM_SUBDIR="ios-arm64_x86_64-simulator"
++fi
+ if [ -d "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework" ] ; then
+     echo copying moltenvk from "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework"
+     cp -R "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework" "${OUTDIR}"
+diff --git a/ui/drivers/ui_cocoatouch.m b/ui/drivers/ui_cocoatouch.m
+index 77d1ea6..64b34f6 100644
+--- a/ui/drivers/ui_cocoatouch.m
++++ b/ui/drivers/ui_cocoatouch.m
+@@ -520,8 +520,72 @@ @interface RetroArch_iOS () <UITextFieldDelegate>
+ @property (nonatomic, assign) char **keyboardBufferPtr;
+ @property (nonatomic, assign) size_t *keyboardSizePtr;
+ @property (nonatomic, assign) char *keyboardAllocatedBuffer;
++- (void)startWithWindow:(UIWindow *)window;
+ @end
+ 
++#if TARGET_OS_IOS
++API_AVAILABLE(ios(13.0))
++@interface RetroArchSceneDelegate : NSObject <UIWindowSceneDelegate>
++@property (nonatomic, strong) UIWindow *window;
++@end
++
++@implementation RetroArchSceneDelegate
++
++- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session
++      options:(UISceneConnectionOptions *)connectionOptions
++{
++   if (![scene isKindOfClass:[UIWindowScene class]])
++      return;
++
++   RetroArch_iOS *app = [RetroArch_iOS get];
++   if (app.window)
++   {
++      /* Reconnect the existing frontend rather than initializing it twice. */
++      self.window = app.window;
++      self.window.windowScene = (UIWindowScene *)scene;
++      [self.window makeKeyAndVisible];
++   }
++   else
++   {
++      self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
++      [app startWithWindow:self.window];
++   }
++   [self scene:scene openURLContexts:connectionOptions.URLContexts];
++}
++
++- (void)sceneDidBecomeActive:(UIScene *)scene
++{
++   [[RetroArch_iOS get] applicationDidBecomeActive:[UIApplication sharedApplication]];
++}
++
++- (void)sceneWillResignActive:(UIScene *)scene
++{
++   [[RetroArch_iOS get] applicationWillResignActive:[UIApplication sharedApplication]];
++}
++
++- (void)sceneDidEnterBackground:(UIScene *)scene
++{
++   [[RetroArch_iOS get] applicationDidEnterBackground:[UIApplication sharedApplication]];
++}
++
++- (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts
++{
++   for (UIOpenURLContext *context in URLContexts)
++   {
++      NSMutableDictionary *options = [NSMutableDictionary dictionary];
++      if (context.options.sourceApplication)
++         options[UIApplicationOpenURLOptionsSourceApplicationKey] = context.options.sourceApplication;
++      if (context.options.annotation)
++         options[UIApplicationOpenURLOptionsAnnotationKey] = context.options.annotation;
++      options[UIApplicationOpenURLOptionsOpenInPlaceKey] = @(context.options.openInPlace);
++      [[RetroArch_iOS get] application:[UIApplication sharedApplication]
++                              openURL:context.URL options:options];
++   }
++}
++
++@end
++#endif
++
+ @implementation RetroArch_iOS
+ 
+ #pragma mark - ApplePlatform
+@@ -774,6 +838,17 @@ - (void)processKSCrashReports
+ 
+ - (void)applicationDidFinishLaunching:(UIApplication *)application
+ {
++#if TARGET_OS_IOS
++   /* Scene connection owns window creation for the scene-enabled iOS recipe. */
++   if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"UIApplicationSceneManifest"])
++      return;
++#endif
++   [self startWithWindow:[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]]];
++}
++
++- (void)startWithWindow:(UIWindow *)window
++{
++   UIApplication *application = [UIApplication sharedApplication];
+ #ifdef HAVE_KSCRASH
+    [self initKSCrash];
+ #endif
+@@ -818,12 +893,12 @@ - (void)applicationDidFinishLaunching:(UIApplication *)application
+    [self setDelegate:self];
+ 
+    /* Setup window */
+-   self.window        = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+-   [self.window makeKeyAndVisible];
++   self.window = window;
+ 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleAudioSessionInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
+ 
+    [self showGameView];
++   [self.window makeKeyAndVisible];
+ 
+    rarch_main(argc, argv, NULL);
+ 
+@@ -1338,7 +1413,7 @@ void ios_keyboard_end(void)
+ 
+ int main(int argc, char *argv[])
+ {
+-#if TARGET_OS_IOS
++#if TARGET_OS_IOS && !TARGET_OS_SIMULATOR
+     if (jb_enable_ptrace_hack())
+         RARCH_LOG("[Cocoa] Ptrace hack complete, JIT support is enabled.\n");
+     else
