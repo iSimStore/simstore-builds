@@ -1,0 +1,12 @@
+id: habo
+name: Habo
+
+source:
+  license: GPL-3.0-only
+  repository: https://github.com/xpavle00/Habo
+  version: v4.0.0
+  revision: 35fdb2991a76bb4730b56020e44d06e1810d0cbc
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"
