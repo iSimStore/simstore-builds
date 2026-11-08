@@ -1,0 +1,20 @@
+diff --git a/openHAB.xcodeproj/project.pbxproj b/openHAB.xcodeproj/project.pbxproj
+index 5c59733..e591e60 100644
+--- a/openHAB.xcodeproj/project.pbxproj
++++ b/openHAB.xcodeproj/project.pbxproj
+@@ -710,7 +710,6 @@
+ 				DFB2622318830A3600D3244D /* Sources */,
+ 				DFB2622418830A3600D3244D /* Frameworks */,
+ 				DFB2622518830A3600D3244D /* Resources */,
+-				1224F7B7228A8AE600750965 /* Embed Watch Content */,
+ 				93F38C4C23803499001B1451 /* Embed Frameworks */,
+ 				4D6470DE2561F935007B03FC /* Embed Foundation Extensions */,
+ 				DAF0A2902C56FE9F00A14A6A /* Run swiftformat & swiftlint */,
+@@ -718,7 +717,6 @@
+ 			buildRules = (
+ 			);
+ 			dependencies = (
+-				DA07753A2346705F0086C685 /* PBXTargetDependency */,
+ 				657144542C1E438700C8A1F3 /* PBXTargetDependency */,
+ 				50C8570F40A5885164DA68E6 /* PBXTargetDependency */,
+ 			);
