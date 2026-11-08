@@ -1,0 +1,12 @@
+id: bookplayer
+name: BookPlayer
+
+source:
+  license: GPL-3.0-only
+  repository: https://github.com/TortugaPower/BookPlayer
+  version: "6.0.0"
+  revision: a8e2cac72e312c4136dbd26d6822d565f4821660
+
+build:
+  script: build.sh
+  deploymentTarget: "26.0"
