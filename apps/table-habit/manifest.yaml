@@ -1,0 +1,12 @@
+id: table-habit
+name: Table Habit
+
+source:
+  license: Apache-2.0
+  repository: https://github.com/FriesI23/mhabit
+  version: v1.27.18
+  revision: 8adc33765242ef74b49e85a6a01ef93eec04da6f
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"
