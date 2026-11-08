@@ -1,0 +1,6 @@
+NESTOPIA_REPOSITORY=https://github.com/libretro/nestopia
+NESTOPIA_REVISION=5deada54077fae87e2873f5ad9ef77e3ab7af5e1
+SNES9X_REPOSITORY=https://github.com/snes9xgit/snes9x
+SNES9X_REVISION=921f9f7b83660eb44ad263022a57a4a029057c37
+MGBA_REPOSITORY=https://github.com/mgba-emu/mgba
+MGBA_REVISION=26b7884bc25a5933960f3cdcd98bac1ae14d42e2

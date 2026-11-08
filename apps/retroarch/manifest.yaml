@@ -1,0 +1,12 @@
+id: retroarch
+name: RetroArch
+
+source:
+  license: GPL-3.0-or-later
+  repository: https://github.com/libretro/RetroArch
+  version: v1.22.2
+  revision: 69a4f0ea1e8aaf442ae4858f2e7f2b31a1776576
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"

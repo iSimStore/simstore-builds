@@ -1,0 +1,61 @@
+diff --git a/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj b/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj
+index c11f131..c54403a 100644
+--- a/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj
++++ b/pkg/apple/RetroArch_iOS13.xcodeproj/project.pbxproj
+@@ -1480,7 +1480,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "$SRCROOT/rebuild-assets.sh -o\n";
++			shellScript = "test -s \"$SRCROOT/assets.zip\"\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+ 		9204BE271D319EF300BD49DB /* ShellScript */ = {
+@@ -1873,7 +1873,7 @@
+ 				INFOPLIST_KEY_CFBundleDisplayName = RetroArch;
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+ 				IOS_BUNDLE_IDENTIFIER = com.libretro.RetroArchiOS11;
+-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
++				IPHONEOS_DEPLOYMENT_TARGET = "$(RA_IPHONEOS_DEPLOYMENT_TARGET)";
+ 				LIBRARY_SEARCH_PATHS = "";
+ 				LLVM_LTO = YES_THIN;
+ 				MARKETING_VERSION = 1.22.2;
+@@ -1932,7 +1932,7 @@
+ 				INFOPLIST_KEY_CFBundleDisplayName = RetroArch;
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+ 				IOS_BUNDLE_IDENTIFIER = com.libretro.RetroArchiOS11;
+-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
++				IPHONEOS_DEPLOYMENT_TARGET = "$(RA_IPHONEOS_DEPLOYMENT_TARGET)";
+ 				LIBRARY_SEARCH_PATHS = "";
+ 				LLVM_LTO = YES_THIN;
+ 				MARKETING_VERSION = 1.22.2;
+diff --git a/pkg/apple/make-frameworks.sh b/pkg/apple/make-frameworks.sh
+index e3d4a4c..e76109d 100755
+--- a/pkg/apple/make-frameworks.sh
++++ b/pkg/apple/make-frameworks.sh
+@@ -1,4 +1,5 @@
+ #!/bin/bash
++set -e
+ 
+ # Prefer the expanded name, if available.
+ CODE_SIGN_IDENTITY_FOR_ITEMS="${EXPANDED_CODE_SIGN_IDENTITY}"
+@@ -48,7 +49,8 @@ for dylib in $(find "$BASE_DIR"/modules -maxdepth 1 -type f -regex '.*libretro.*
+ 
+     fwDir="${OUTDIR}/${fwName}.framework"
+     mkdir -p "$fwDir"
+-    if [ "$PLATFORM_FAMILY_NAME" = "iOS" -o "$PLATFORM_FAMILY_NAME" = "tvOS" ] ; then
++    if [ "$PLATFORM_NAME" != "iphonesimulator" -a "$PLATFORM_NAME" != "appletvsimulator" ] &&
++       [ "$PLATFORM_FAMILY_NAME" = "iOS" -o "$PLATFORM_FAMILY_NAME" = "tvOS" ] ; then
+         build_sdk=$(vtool -show-build "$dylib" | grep sdk | awk '{print $2}')
+         vtool -set-build-version "${PLATFORM}" "${DEPLOYMENT_TARGET}" "${build_sdk}" -set-build-tool "$PLATFORM" ld 1115.7.3 -set-source-version 0.0 -replace -output "$dylib" "$dylib"
+     fi
+@@ -98,6 +100,9 @@ if [ -z "${MOLTENVK_XCFRAMEWORK}" ] ; then
+     MOLTENVK_XCFRAMEWORK="${SRCROOT}/Frameworks/MoltenVK.xcframework"
+ fi
+ MVK_PLATFORM_SUBDIR="${SWIFT_PLATFORM_TARGET_PREFIX}-$(echo $ARCHS_STANDARD_64_BIT | sed -e 's/ /_/g')${LLVM_TARGET_TRIPLE_SUFFIX}"
++if [ "$PLATFORM_NAME" = "iphonesimulator" ] ; then
++    MVK_PLATFORM_SUBDIR="ios-arm64_x86_64-simulator"
++fi
+ if [ -d "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework" ] ; then
+     echo copying moltenvk from "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework"
+     cp -R "${MOLTENVK_XCFRAMEWORK}/${MVK_PLATFORM_SUBDIR}/MoltenVK.framework" "${OUTDIR}"
