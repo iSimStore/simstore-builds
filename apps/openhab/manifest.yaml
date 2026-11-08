@@ -1,0 +1,12 @@
+id: openhab
+name: openHAB
+
+source:
+  license: EPL-2.0
+  repository: https://github.com/openhab/openhab-ios
+  version: "3.4.37"
+  revision: 19e8e4b7dc046473322431d17ed77781b3c7822b
+
+build:
+  script: build.sh
+  deploymentTarget: "18.0"
