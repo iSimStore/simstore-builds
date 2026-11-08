@@ -1,0 +1,28 @@
+diff --git a/BookPlayer.xcodeproj/project.pbxproj b/BookPlayer.xcodeproj/project.pbxproj
+index 3771bfe..0967eb8 100644
+--- a/BookPlayer.xcodeproj/project.pbxproj
++++ b/BookPlayer.xcodeproj/project.pbxproj
+@@ -4277,13 +4277,11 @@
+ 				418B6CF61D2707F800F974FB /* Resources */,
+ 				41D4F2C92101464D009F1B1E /* Embed Frameworks */,
+ 				41CE44A322712E0F00C900AF /* Embed Foundation Extensions */,
+-				4140EA58227288EF0009F794 /* Embed Watch Content */,
+ 			);
+ 			buildRules = (
+ 			);
+ 			dependencies = (
+ 				41A1B0E6226E9BC500EA0400 /* PBXTargetDependency */,
+-				4140EA4D227288EF0009F794 /* PBXTargetDependency */,
+ 				416A29AF2569658300605395 /* PBXTargetDependency */,
+ 				9F4A33E6292B0C710034CD4C /* PBXTargetDependency */,
+ 			);
+diff --git a/BookPlayer/tr.lproj/AppShortcuts.strings b/BookPlayer/tr.lproj/AppShortcuts.strings
+index e3bbecb..18e54aa 100644
+--- a/BookPlayer/tr.lproj/AppShortcuts.strings
++++ b/BookPlayer/tr.lproj/AppShortcuts.strings
+@@ -19,4 +19,4 @@
+ "Fast forward in ${applicationName}" = "${applicationName} uygulamasında hızlı ileri sar";
+ "Skip forward in ${applicationName}" = "${applicationName} uygulamasında ileri atla";
+ "Jump forward in ${applicationName}" = "${applicationName} içinde ileri atlayın";
+-"Create Bookmark in ${applicationName}" = "${application_name} uygulamasında Yer İmi Oluştur";
++"Create Bookmark in ${applicationName}" = "${applicationName} uygulamasında Yer İmi Oluştur";
