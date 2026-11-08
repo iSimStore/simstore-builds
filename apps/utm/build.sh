@@ -20,7 +20,7 @@ xcodebuild -project UTM.xcodeproj -scheme iOS -configuration Release \
   ENABLE_HARDENED_RUNTIME=NO ENABLE_USER_SCRIPT_SANDBOXING=NO \
   build 2>&1 | tee "$work/logs/xcode-release.log"
 git diff > "$work/source.patch"
-cmp "$app_dir/patches/simulator-build.patch" "$work/source.patch"
+python3 "$repo_dir/scripts/check_patch.py" "$source_dir" "$app_dir/patches/simulator-build.patch"
 built_app="$work/derived-data/Build/Products/Release-iphonesimulator/UTM.app"
 # Framework binaries must retain executable permission when packaged.
 while IFS= read -r -d '' framework; do

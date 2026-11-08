@@ -1,3 +1,56 @@
+diff --git a/Platform/Main.swift b/Platform/Main.swift
+index d00936a..6192cc6 100644
+--- a/Platform/Main.swift
++++ b/Platform/Main.swift
+@@ -35,7 +35,7 @@ class Main {
+     static var jitAvailable = true
+     
+     static func main() {
+-        #if (os(iOS) || os(visionOS)) && WITH_JIT
++        #if (os(iOS) || os(visionOS)) && !targetEnvironment(simulator) && WITH_JIT
+         // check if we have jailbreak
+         if jb_spawn_ptrace_child(CommandLine.argc, CommandLine.unsafeArgv) {
+             logger.info("JIT: ptrace() child spawn trick")
+diff --git a/Services/UTMJailbreak.m b/Services/UTMJailbreak.m
+index ff0fa63..88c0357 100644
+--- a/Services/UTMJailbreak.m
++++ b/Services/UTMJailbreak.m
+@@ -64,7 +64,7 @@
+ 
+ int memorystatus_control(uint32_t command, int32_t pid, uint32_t flags, user_addr_t buffer, size_t buffersize);
+ 
+-#if !TARGET_OS_OSX && defined(WITH_JIT)
++#if !TARGET_OS_OSX && !TARGET_OS_SIMULATOR && defined(WITH_JIT)
+ extern int csops(pid_t pid, unsigned int ops, void * useraddr, size_t usersize);
+ extern boolean_t exc_server(mach_msg_header_t *, mach_msg_header_t *);
+ extern int ptrace(int request, pid_t pid, caddr_t addr, int data);
+@@ -99,7 +99,7 @@ static bool jb_has_debugger_attached(void) {
+ #endif
+ 
+ bool jb_has_cs_disabled(void) {
+-#if TARGET_OS_OSX || !defined(WITH_JIT)
++#if TARGET_OS_OSX || TARGET_OS_SIMULATOR || !defined(WITH_JIT)
+     return false;
+ #else
+     int flags;
+@@ -273,7 +273,7 @@ bool jb_has_container(void) {
+ #endif
+ 
+ bool jb_enable_ptrace_hack(void) {
+-#if TARGET_OS_OSX || !defined(WITH_JIT)
++#if TARGET_OS_OSX || TARGET_OS_SIMULATOR || !defined(WITH_JIT)
+     return false;
+ #else
+     bool debugged = jb_has_debugger_attached();
+@@ -323,7 +323,7 @@ bool jb_increase_memlimit(void) {
+     return ret1 == 0 && ret2 == 0;
+ }
+ 
+-#if !TARGET_OS_OSX && defined(WITH_JIT)
++#if !TARGET_OS_OSX && !TARGET_OS_SIMULATOR && defined(WITH_JIT)
+ extern const char *environ[];
+ 
+ static char *childArgv[] = {NULL, "debugme", NULL};
 diff --git a/patches/sources b/patches/sources
 index bd464fe..5cfb9fb 100644
 --- a/patches/sources
