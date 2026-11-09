@@ -1,0 +1,104 @@
+name: Inspect macOS runner storage
+
+on:
+  pull_request:
+    paths:
+      - .github/workflows/runner-capacity.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: xcode-27
+    timeout-minutes: 15
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Record system capacity
+        run: |
+          report="$RUNNER_TEMP/runner-capacity"
+          mkdir -p "$report"
+          {
+            printf 'ImageOS: %s\nImageVersion: %s\n' "${ImageOS:-unknown}" "${ImageVersion:-unknown}"
+            sw_vers
+            sysctl hw.logicalcpu hw.memsize machdep.cpu.brand_string
+            df -k "$GITHUB_WORKSPACE"
+            xcode-select -p
+            xcodebuild -version
+          } | tee "$report/system.txt"
+          diskutil info -plist /System/Volumes/Data > "$report/disk.plist"
+
+      - name: Measure preinstalled software
+        run: |
+          report="$RUNNER_TEMP/runner-capacity"
+          failed=0
+          measure() {
+            local name=$1 path=$2 depth=${3:-1}
+            if [[ ! -d "$path" ]]; then
+              printf 'Directory not present: %s\n' "$path" > "$report/$name.txt"
+            else
+              local resolved
+              resolved=$(cd "$path" && pwd -P)
+              {
+                printf 'Requested path: %s\nPhysical path: %s\nAllocated sizes in KiB:\n' "$path" "$resolved"
+                if sudo du -k -x -d "$depth" "$resolved" | sort -nr; then
+                  :
+                else
+                  printf '\nMeasurement incomplete; see errors above.\n'
+                  failed=1
+                fi
+              } > "$report/$name.txt" 2>&1
+            fi
+            cat "$report/$name.txt"
+          }
+
+          measure applications /Applications
+          measure android "${ANDROID_HOME:-${ANDROID_SDK_ROOT:-$HOME/Library/Android/sdk}}" 2
+          measure tool-cache "${RUNNER_TOOL_CACHE:-$HOME/hostedtoolcache}" 2
+          measure homebrew-formulas /opt/homebrew/Cellar 2
+          measure homebrew-casks /opt/homebrew/Caskroom
+          measure java /Library/Java/JavaVirtualMachines
+          measure local-share /usr/local/share 2
+          measure dotnet "$HOME/.dotnet"
+          measure rust-toolchains "$HOME/.rustup"
+          measure cargo "$HOME/.cargo"
+          measure powershell "$HOME/.local/share/powershell"
+          measure developer /Library/Developer 2
+          measure user-caches "$HOME/Library/Caches"
+
+          shopt -s nullglob
+          for path in /System/Library/AssetsV2/com_apple_MobileAsset_*Simulator*; do
+            measure "$(basename "$path")" "$path"
+          done
+          exit "$failed"
+
+      - name: List installed Simulator runtimes
+        run: xcrun simctl list runtimes --json | tee "$RUNNER_TEMP/runner-capacity/runtimes.json"
+
+      - name: Write measurement summary
+        if: always()
+        run: |
+          report="$RUNNER_TEMP/runner-capacity"
+          {
+            printf '## Runner storage measurements\n\n'
+            printf 'Measurements precede cleanup and application builds.\n\n'
+            printf 'Directory sizes can overlap and share APFS extents. They do not establish how many bytes deletion would reclaim.\n\n'
+            shopt -s nullglob
+            for file in "$report/"*.txt; do
+              printf '### %s\n\n```text\n' "$(basename "$file" .txt)"
+              head -n 20 "$file"
+              printf '\n```\n\n'
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload capacity reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: runner-capacity
+          path: ${{ runner.temp }}/runner-capacity/
+          if-no-files-found: warn
+          retention-days: 7
