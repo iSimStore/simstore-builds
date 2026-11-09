@@ -78,13 +78,31 @@ jobs:
       - name: List installed Simulator runtimes
         run: xcrun simctl list runtimes --json | tee "$RUNNER_TEMP/runner-capacity/runtimes.json"
 
+      - name: Measure capacity after removing Android SDK
+        run: |
+          report="$RUNNER_TEMP/runner-capacity"
+          {
+            printf 'Before removing Android SDK:\n'
+            df -k "$GITHUB_WORKSPACE"
+            sudo rm -rf "$HOME/Library/Android/sdk"
+            printf '\nAfter removing Android SDK:\n'
+            df -k "$GITHUB_WORKSPACE"
+            printf '\nAvailable build tools:\n'
+            xcode-select -p
+            xcodebuild -version
+            xcrun --sdk iphonesimulator --show-sdk-version
+            python3 --version
+            node --version
+            git --version
+          } | tee "$report/after-android-removal.txt"
+
       - name: Write measurement summary
         if: always()
         run: |
           report="$RUNNER_TEMP/runner-capacity"
           {
             printf '## Runner storage measurements\n\n'
-            printf 'Measurements precede cleanup and application builds.\n\n'
+            printf 'The inventory precedes cleanup. The Android removal report records capacity before and after cleanup. No application is built.\n\n'
             printf 'Directory sizes can overlap and share APFS extents. They do not establish how many bytes deletion would reclaim.\n\n'
             shopt -s nullglob
             for file in "$report/"*.txt; do
