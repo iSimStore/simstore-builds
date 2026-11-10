@@ -1,0 +1,30 @@
+diff --git a/Sources/Paywalls/PaywallColor.swift b/Sources/Paywalls/PaywallColor.swift
+index d1e8ff8dfa1f7a3307f7b9cd488c5945bbe19299..067a6fb4d616d02a23bcc2a3b4efe9f58e3976e7 100644
+--- a/Sources/Paywalls/PaywallColor.swift
++++ b/Sources/Paywalls/PaywallColor.swift
+@@ -45,6 +45,12 @@ public struct PaywallColor {
+     // Only available from iOS 13
+     fileprivate var _underlyingColor: (any Sendable)?
+ 
++    /// "Designated" initializer
++    private init(stringRepresentation: String, underlyingColor: (any Sendable)?) {
++        self.stringRepresentation = stringRepresentation
++        self._underlyingColor = underlyingColor
++    }
++
+ }
+ 
+ // MARK: - Public constructors
+@@ -120,12 +126,6 @@ private extension PaywallColor {
+ 
+     #endif
+ 
+-    /// "Designated" initializer
+-    private init(stringRepresentation: String, underlyingColor: (any Sendable)?) {
+-        self.stringRepresentation = stringRepresentation
+-        self._underlyingColor = underlyingColor
+-    }
+-
+ }
+ 
+ // MARK: - Errors

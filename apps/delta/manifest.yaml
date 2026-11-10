@@ -1,0 +1,12 @@
+id: delta
+name: Delta
+
+source:
+  license: AGPL-3.0-only
+  repository: https://github.com/rileytestut/Delta
+  version: "1.7.0"
+  revision: e67f2841e779d7a2c85042647c2488921bdc7bc3
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"

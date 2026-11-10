@@ -1,0 +1,13 @@
+diff --git a/pngpriv.h b/pngpriv.h
+index 24d245dbfb8738e07a4e1bf588ae2b533517c5d1..79bca2ed4f0a1b275c4c74eb502577cf714cf05f 100644
+--- a/pngpriv.h
++++ b/pngpriv.h
+@@ -518,7 +518,7 @@
+ #  include <float.h>
+ 
+ #  if (defined(__MWERKS__) && defined(macintosh)) || defined(applec) || \
+-    defined(THINK_C) || defined(__SC__) || defined(TARGET_OS_MAC)
++    defined(THINK_C) || defined(__SC__)
+    /* We need to check that <math.h> hasn't already been included earlier
+     * as it seems it doesn't agree with <fp.h>, yet we should really use
+     * <fp.h> if possible.
