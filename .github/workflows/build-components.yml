@@ -37,7 +37,6 @@ jobs:
           python3 -m pip install -r requirements-dev.txt
           python3 -m ruff check scripts tests components
           python3 -m mypy
-          python3 -m unittest discover -s tests -v
       - name: Select changed components
         id: projects
         env:
@@ -74,6 +73,8 @@ jobs:
           python3 -m venv build/python
           build/python/bin/python3 -m pip install -r requirements.txt
           echo "$PWD/build/python/bin" >> "$GITHUB_PATH"
+      - name: Run tests with macOS tools
+        run: python3 -m unittest discover -s tests -v
       - name: Record system capacity
         run: |
           report="$RUNNER_TEMP/runner-capacity"
