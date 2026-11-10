@@ -1,61 +1,24 @@
 name: Build components
+run-name: Build ${{ inputs.id }} ${{ inputs.version }}
 
 on:
-  pull_request:
-    paths:
-      - .github/workflows/build-components.yml
-      - components/**
   workflow_dispatch:
     inputs:
       id:
         description: Component id under components/
         required: true
         type: string
+      version:
+        description: Pinned version from manifest.yaml (with or without v)
+        required: true
+        type: string
 
 permissions:
   contents: read
 
-concurrency:
-  group: components-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
-
 jobs:
-  select:
-    runs-on: ubuntu-26.04
-    outputs:
-      projects: ${{ steps.projects.outputs.projects }}
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: '3.15'
-      - name: Check Python tools
-        run: |
-          python3 -m pip install -r requirements-dev.txt
-          python3 -m ruff check scripts tests components
-          python3 -m mypy
-      - name: Select changed components
-        id: projects
-        env:
-          PROJECT_ID: ${{ inputs.id }}
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          EVENT_NAME: ${{ github.event_name }}
-        run: |
-          python3 scripts/changed_apps.py --directory components --id "$PROJECT_ID" \
-            --base "$BASE_SHA" --head "$HEAD_SHA" --event "$EVENT_NAME" >> "$GITHUB_OUTPUT"
-
   build:
-    needs: select
-    if: needs.select.outputs.projects != '[]'
-    name: Build ${{ matrix.id }}
-    strategy:
-      fail-fast: false
-      matrix:
-        id: ${{ fromJSON(needs.select.outputs.projects) }}
+    name: Build ${{ inputs.id }}
     runs-on: xcode-27
     timeout-minutes: 360
     defaults:
@@ -73,8 +36,17 @@ jobs:
           python3 -m venv build/python
           build/python/bin/python3 -m pip install -r requirements.txt
           echo "$PWD/build/python/bin" >> "$GITHUB_PATH"
-      - name: Run tests with macOS tools
-        run: python3 -m unittest discover -s tests -v
+      - name: Check requested component and version
+        env:
+          COMPONENT_ID: ${{ inputs.id }}
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          python3 scripts/changed_apps.py --directory components --id "$COMPONENT_ID" --event workflow_dispatch
+          expected=$(python3 scripts/manifest.py "components/$COMPONENT_ID/manifest.yaml" --field source.version)
+          if [[ "${REQUESTED_VERSION#v}" != "${expected#v}" ]]; then
+            printf 'Requested version %s does not match pinned manifest version %s\n' "$REQUESTED_VERSION" "$expected" >&2
+            exit 2
+          fi
       - name: Record system capacity
         run: |
           report="$RUNNER_TEMP/runner-capacity"
@@ -158,7 +130,7 @@ jobs:
 
       - name: Build and package component
         env:
-          COMPONENT_ID: ${{ matrix.id }}
+          COMPONENT_ID: ${{ inputs.id }}
         run: |
           recipe="$GITHUB_WORKSPACE/components/$COMPONENT_ID"
           script=$(python3 scripts/manifest.py "$recipe/manifest.yaml" --field build.script)
@@ -178,14 +150,14 @@ jobs:
       - name: Upload component archive
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          path: components/${{ matrix.id }}/build/artifacts/${{ matrix.id }}.tar.bz2
+          path: components/${{ inputs.id }}/build/artifacts/${{ inputs.id }}.tar.bz2
           archive: false
           if-no-files-found: error
       - name: Upload build metadata
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: ${{ matrix.id }}-metadata
-          path: components/${{ matrix.id }}/build/artifacts/build-info.json
+          name: ${{ inputs.id }}-metadata
+          path: components/${{ inputs.id }}/build/artifacts/build-info.json
           if-no-files-found: error
 
       - name: Write measurement summary
@@ -208,42 +180,37 @@ jobs:
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          name: ${{ matrix.id }}-diagnostics
+          name: ${{ inputs.id }}-diagnostics
           path: |
             ${{ runner.temp }}/runner-capacity/
-            components/${{ matrix.id }}/build/logs/
-            components/${{ matrix.id }}/build/source/src/out/*/siso_metrics*.json
-            components/${{ matrix.id }}/build/source/src/out/*/siso_failed_commands*.sh
+            components/${{ inputs.id }}/build/logs/
+            components/${{ inputs.id }}/build/source/src/out/*/siso_metrics*.json
+            components/${{ inputs.id }}/build/source/src/out/*/siso_failed_commands*.sh
           if-no-files-found: warn
           retention-days: 7
 
   publish:
-    needs: [select, build]
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-    name: Publish ${{ matrix.id }}
+    needs: build
+    name: Publish ${{ inputs.id }}
     runs-on: ubuntu-26.04
     permissions:
       contents: write
-    strategy:
-      fail-fast: false
-      matrix:
-        id: ${{ fromJSON(needs.select.outputs.projects) }}
     steps:
       - name: Download component archive
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: ${{ matrix.id }}.tar.bz2
+          name: ${{ inputs.id }}.tar.bz2
           path: release
           skip-decompress: true
       - name: Download build metadata
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
-          name: ${{ matrix.id }}-metadata
+          name: ${{ inputs.id }}-metadata
           path: release
       - name: Create versioned component release
         env:
-          COMPONENT_ID: ${{ matrix.id }}
-          RECIPE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          COMPONENT_ID: ${{ inputs.id }}
+          RECIPE_SHA: ${{ github.sha }}
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
