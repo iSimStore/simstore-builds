@@ -1,0 +1,12 @@
+id: artsy
+name: Artsy
+
+source:
+  license: MIT
+  repository: https://github.com/artsy/eigen
+  version: "9.22.0"
+  revision: 8af2ef1859fdee9f217a8fd3c125f3538e0ca1c5
+
+build:
+  script: build.sh
+  deploymentTarget: "16.6"

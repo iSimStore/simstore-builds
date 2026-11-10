@@ -1,0 +1,12 @@
+diff --git a/sdks/hermes-engine/hermes-engine.podspec b/sdks/hermes-engine/hermes-engine.podspec
+--- a/sdks/hermes-engine/hermes-engine.podspec
++++ b/sdks/hermes-engine/hermes-engine.podspec
+@@ -104,7 +104,7 @@
+       relative_hermesc = Pathname.new(hermesc_path).relative_path_from(pods_root)
+ 
+       spec.user_target_xcconfig = {
+-        'HERMES_CLI_PATH' => "$(PODS_ROOT)/#{relative_hermesc}"
++        'HERMES_CLI_PATH' => '$(PODS_PODFILE_DIR_PATH)/../node_modules/hermes-compiler/hermesc/osx-bin/hermesc'
+       }
+     end
+ 

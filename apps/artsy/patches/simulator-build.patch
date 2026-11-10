@@ -1,0 +1,1464 @@
+diff --git a/.yarnrc.yml b/.yarnrc.yml
+index 653e7e9..f19eacc 100644
+--- a/.yarnrc.yml
++++ b/.yarnrc.yml
+@@ -13,3 +13,6 @@ npmPreapprovedPackages:
+   - "@artsy/update-repo"
+ 
+ yarnPath: .yarn/releases/yarn-4.18.1.cjs
++
++approvedGitRepositories:
++  - "https://github.com/artsy/react-native-launch-arguments.git"
+diff --git a/index.js b/index.js
+index f77ae9b..3954d2a 100644
+--- a/index.js
++++ b/index.js
+@@ -34,5 +34,13 @@ if (typeof globalThis.ReadableStream === "undefined") {
+ }
+ 
+ require("react-native-gesture-handler")
++// Use fonts supplied by iOS instead of embedding commercially licensed fonts.
++const { THEMES } = require("@artsy/palette-mobile")
++Object.assign(THEMES.v3.fonts.sans, {
++  regular: "ArialMT",
++  italic: "Arial-ItalicMT",
++  medium: "Arial-BoldMT",
++  mediumItalic: "Arial-BoldItalicMT",
++})
+ const { App } = require("./src/app/App")
+ export default registerRootComponent(App)
+diff --git a/ios/Artsy.xcodeproj/project.pbxproj b/ios/Artsy.xcodeproj/project.pbxproj
+index 8eca3b6..a914e95 100644
+--- a/ios/Artsy.xcodeproj/project.pbxproj
++++ b/ios/Artsy.xcodeproj/project.pbxproj
+@@ -34,11 +34,7 @@
+ 		CB0F3C762E58E91E0029A028 /* ARRouter+RestAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0F3C752E58E9150029A028 /* ARRouter+RestAPI.m */; };
+ 		CB18282829CE1DD1006A0805 /* ARAugmentedWallBasedVIRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB18282729CE1DD1006A0805 /* ARAugmentedWallBasedVIRViewController.swift */; };
+ 		CB18282B29D35F29006A0805 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CB18282A29D35F29006A0805 /* GoogleService-Info.plist */; };
+-		CB18283A29D36A3A006A0805 /* Unica77LL-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB18283529D36A3A006A0805 /* Unica77LL-Medium.otf */; };
+ 		CB18283B29D36A3A006A0805 /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = CB18283629D36A3A006A0805 /* .gitkeep */; };
+-		CB18283C29D36A3A006A0805 /* Unica77LL-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB18283729D36A3A006A0805 /* Unica77LL-MediumItalic.otf */; };
+-		CB18283D29D36A3A006A0805 /* Unica77LL-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB18283829D36A3A006A0805 /* Unica77LL-Regular.otf */; };
+-		CB18283E29D36A3A006A0805 /* Unica77LL-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB18283929D36A3A006A0805 /* Unica77LL-Italic.otf */; };
+ 		CB18284429DEFA6D006A0805 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = CB18284329DEFA6D006A0805 /* LICENSE.txt */; };
+ 		CB18284529DF3DE9006A0805 /* FocusSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB18284129DEFA5A006A0805 /* FocusSquare.swift */; };
+ 		CB18284629DF3DED006A0805 /* FocusSquareSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB18284029DEFA5A006A0805 /* FocusSquareSegment.swift */; };
+@@ -569,11 +565,7 @@
+ 		CB0F3C752E58E9150029A028 /* ARRouter+RestAPI.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ARRouter+RestAPI.m"; sourceTree = "<group>"; };
+ 		CB18282729CE1DD1006A0805 /* ARAugmentedWallBasedVIRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARAugmentedWallBasedVIRViewController.swift; sourceTree = "<group>"; };
+ 		CB18282A29D35F29006A0805 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = "GoogleService-Info.plist"; path = "Artsy/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+-		CB18283529D36A3A006A0805 /* Unica77LL-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Unica77LL-Medium.otf"; sourceTree = "<group>"; };
+ 		CB18283629D36A3A006A0805 /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
+-		CB18283729D36A3A006A0805 /* Unica77LL-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Unica77LL-MediumItalic.otf"; sourceTree = "<group>"; };
+-		CB18283829D36A3A006A0805 /* Unica77LL-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Unica77LL-Regular.otf"; sourceTree = "<group>"; };
+-		CB18283929D36A3A006A0805 /* Unica77LL-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Unica77LL-Italic.otf"; sourceTree = "<group>"; };
+ 		CB18284029DEFA5A006A0805 /* FocusSquareSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSquareSegment.swift; sourceTree = "<group>"; };
+ 		CB18284129DEFA5A006A0805 /* FocusSquare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSquare.swift; sourceTree = "<group>"; };
+ 		CB18284329DEFA6D006A0805 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+@@ -1405,11 +1397,7 @@
+ 		CB18283429D36A3A006A0805 /* fonts */ = {
+ 			isa = PBXGroup;
+ 			children = (
+-				CB18283529D36A3A006A0805 /* Unica77LL-Medium.otf */,
+ 				CB18283629D36A3A006A0805 /* .gitkeep */,
+-				CB18283729D36A3A006A0805 /* Unica77LL-MediumItalic.otf */,
+-				CB18283829D36A3A006A0805 /* Unica77LL-Regular.otf */,
+-				CB18283929D36A3A006A0805 /* Unica77LL-Italic.otf */,
+ 			);
+ 			path = fonts;
+ 			sourceTree = "<group>";
+@@ -3336,7 +3324,6 @@
+ 				CBE3275427E275A400395A93 /* Chevron_White_Left@2x.png in Resources */,
+ 				CB18283B29D36A3A006A0805 /* .gitkeep in Resources */,
+ 				CBE3276227E275A400395A93 /* full_logo_black_large@2x.png in Resources */,
+-				CB18283A29D36A3A006A0805 /* Unica77LL-Medium.otf in Resources */,
+ 				CBE3275827E275A400395A93 /* paddle@2x.png in Resources */,
+ 				CB762B3D2911A5E100881194 /* ARVIRShadow.png in Resources */,
+ 				CBE3272927E275A400395A93 /* ViewInRoom_Wall@2x.png in Resources */,
+@@ -3374,7 +3361,6 @@
+ 				CBE3274727E275A400395A93 /* BackChevron.png in Resources */,
+ 				CBE3272E27E275A400395A93 /* ViewInRoom_BaseNoBench@2x.png in Resources */,
+ 				CB762B3C2911A5E100881194 /* ARVIRModalClose@2x.png in Resources */,
+-				CB18283C29D36A3A006A0805 /* Unica77LL-MediumItalic.otf in Resources */,
+ 				CBE3273727E275A400395A93 /* navigation_more_arrow_vertical@2x.png in Resources */,
+ 				CBE3275327E275A400395A93 /* CircleCheckGreen@2x.png in Resources */,
+ 				CBE3275727E275A400395A93 /* paddle@3x.png in Resources */,
+@@ -3401,7 +3387,6 @@
+ 				CBE3275927E275A400395A93 /* CircleCheckGreen.png in Resources */,
+ 				CB762B3B2911A5E100881194 /* ARVIRTick@3x.png in Resources */,
+ 				CBE3276127E275A400395A93 /* CircularCancelButton.png in Resources */,
+-				CB18283D29D36A3A006A0805 /* Unica77LL-Regular.otf in Resources */,
+ 				CBE3276927E275A400395A93 /* BackChevron@3x.png in Resources */,
+ 				CB762B382911A5E100881194 /* ARVIRTick.png in Resources */,
+ 				CBE3273E27E275A400395A93 /* serif_modal_close@2x.png in Resources */,
+@@ -3410,7 +3395,6 @@
+ 				CBE3274027E275A400395A93 /* SearchButton@2x.png in Resources */,
+ 				CBE3273327E275A400395A93 /* Hash@3x.png in Resources */,
+ 				CB18284429DEFA6D006A0805 /* LICENSE.txt in Resources */,
+-				CB18283E29D36A3A006A0805 /* Unica77LL-Italic.otf in Resources */,
+ 				CBE3275027E275A400395A93 /* Artsy_Logo.png in Resources */,
+ 				CBE3276327E275A400395A93 /* BackArrow_Highlighted@2x.png in Resources */,
+ 				CB762B3E2911A5E100881194 /* ar_vir_opening_frame.jpg in Resources */,
+diff --git a/ios/Artsy.xcodeproj/xcshareddata/xcschemes/Artsy.xcscheme b/ios/Artsy.xcodeproj/xcshareddata/xcschemes/Artsy.xcscheme
+index 2723832..be92175 100644
+--- a/ios/Artsy.xcodeproj/xcshareddata/xcschemes/Artsy.xcscheme
++++ b/ios/Artsy.xcodeproj/xcshareddata/xcschemes/Artsy.xcscheme
+@@ -10,7 +10,7 @@
+             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+             <ActionContent
+                title = "Run Script"
+-               scriptText = "export KEYSFILE=keys.shared.json&#10;export PATH=&quot;/opt/homebrew/bin:/usr/local/bin:$PATH&quot;&#10;export node_version=&quot;22.0.0&quot;&#10;&#10;# Check for mise&#10;if command -v mise &gt;/dev/null 2&gt;&amp;1; then&#10;  eval &quot;$(mise activate bash)&quot;&#10;  mise install -q&#10;  echo &quot;Using Node via mise: $(node -v)&quot;&#10;elif [ -f &quot;/opt/homebrew/opt/asdf/libexec/asdf.sh&quot; ]; then&#10;  . &quot;/opt/homebrew/opt/asdf/libexec/asdf.sh&quot;&#10;  echo &quot;Using Node via asdf&quot;&#10;  asdf local nodejs $NODE_VERSION&#10;elif [ -f &quot;/usr/local/libexec/asdf.sh&quot; ]; then&#10;  . &quot;/usr/local/libexec/asdf.sh&quot;&#10;  echo &quot;Using Node via asdf&quot;&#10;  asdf local nodejs $NODE_VERSION&#10;elif [ -f &quot;$HOME/.asdf/bin/asdf&quot; ]; then&#10;  echo &quot;Using Node via asdf&quot;&#10;  ASDF_DIR=&quot;${ASDF_DIR:-$HOME/.asdf}&quot;&#10;  export PATH=&quot;$ASDF_DIR/bin:$ASDF_DIR/shims:$PATH&quot;&#10;  asdf local nodejs $NODE_VERSION&#10;elif command -v asdf &gt;/dev/null 2&gt;&amp;1; then&#10;  echo &quot;Using Node via asdf&quot;&#10;  ASDF_DIR=&quot;${ASDF_DIR:-$HOME/.asdf}&quot;&#10;  export PATH=&quot;$ASDF_DIR/bin:$ASDF_DIR/shims:$PATH&quot;&#10;  asdf set nodejs $NODE_VERSION&#10;# Check for nvm&#10;elif [ -f &quot;$HOME/.nvm/nvm.sh&quot; ]; then&#10;  . &quot;$HOME/.nvm/nvm.sh&quot;&#10;  nvm use default &gt; /dev/null&#10;  echo &quot;Using Node via nvm&quot;&#10;elif command -v node &gt;/dev/null 2&gt;&amp;1; then&#10;    echo &quot;Node is already available: $(node -v)&quot;&#10;else&#10;  echo &quot;Neither asdf nor nvm found! Please install one of them to use Node.js.&quot;&#10;  exit 1&#10;fi&#10;&#10;&quot;${SRCROOT}/../node_modules/react-native-keys/keysIOS.js&quot;&#10;">
++               scriptText = "export KEYSFILE=keys.shared.json&#10;&quot;${SRCROOT}/../node_modules/react-native-keys/keysIOS.js&quot;&#10;">
+                <EnvironmentBuildable>
+                   <BuildableReference
+                      BuildableIdentifier = "primary"
+diff --git a/ios/Artsy/App/ARAppDelegateHelper.h b/ios/Artsy/App/ARAppDelegateHelper.h
+index 5ec19a9..9ef1bb8 100644
+--- a/ios/Artsy/App/ARAppDelegateHelper.h
++++ b/ios/Artsy/App/ARAppDelegateHelper.h
+@@ -1,5 +1,4 @@
+ #import <UIKit/UIKit.h>
+-#import <Expo/Expo.h>
+ #import <BrazeKit/BrazeKit-Swift.h>
+ #import "ARWindow.h"
+ 
+diff --git a/ios/Artsy/App/AppDelegateCategories/AppDelegate+ActivityContinuation.h b/ios/Artsy/App/AppDelegateCategories/AppDelegate+ActivityContinuation.h
+index 762bb1b..1299320 100644
+--- a/ios/Artsy/App/AppDelegateCategories/AppDelegate+ActivityContinuation.h
++++ b/ios/Artsy/App/AppDelegateCategories/AppDelegate+ActivityContinuation.h
+@@ -1,4 +1,5 @@
+ #import "ARAppDelegateHelper.h"
++#import <UserNotifications/UNUserNotificationCenter.h>
+ 
+ @interface ARAppDelegateHelper (ActivityContinuation) <UNUserNotificationCenterDelegate>
+ 
+diff --git a/ios/Artsy/App/AppDelegateCategories/AppDelegate+Notifications.h b/ios/Artsy/App/AppDelegateCategories/AppDelegate+Notifications.h
+index 328ea29..52a3f8f 100644
+--- a/ios/Artsy/App/AppDelegateCategories/AppDelegate+Notifications.h
++++ b/ios/Artsy/App/AppDelegateCategories/AppDelegate+Notifications.h
+@@ -1,5 +1,5 @@
+ #import "ARAppDelegateHelper.h"
+-#import <UserNotifications/UNUserNotificationCenter.h>
++#import <UserNotifications/UserNotifications.h>
+ 
+ @interface ARAppDelegateHelper (Notifications) <UNUserNotificationCenterDelegate>
+ 
+diff --git a/ios/Artsy/AppDelegate.swift b/ios/Artsy/AppDelegate.swift
+index 49111ee..c17c34d 100644
+--- a/ios/Artsy/AppDelegate.swift
++++ b/ios/Artsy/AppDelegate.swift
+@@ -1,9 +1,10 @@
+ internal import Expo
+ import React
+ import ReactAppDependencyProvider
++import UIKit
+ import UserNotifications
+ 
+-class AppDelegate: ExpoAppDelegate, UNUserNotificationCenterDelegate {
++class AppDelegate: ExpoAppDelegate, ExpoReactNativeFactoryProvider, UNUserNotificationCenterDelegate {
+     var window: UIWindow?
+ 
+     @objc static var shared: AppDelegate? {
+@@ -31,14 +32,7 @@ class AppDelegate: ExpoAppDelegate, UNUserNotificationCenterDelegate {
+       reactNativeDelegate = delegate
+       reactNativeFactory = factory
+ 
+-  #if os(iOS) || os(tvOS)
+-      window = UIWindow(frame: UIScreen.main.bounds)
+-
+-      factory.startReactNative(
+-        withModuleName: "main",
+-        in: window,
+-        launchOptions: launchOptions)
+-  #endif
++      // Expo creates the scene window and starts React Native when it connects.
+ 
+       return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+     }
+diff --git a/ios/Artsy/Categories/Artsy/UIFont+ArtsyFonts.m b/ios/Artsy/Categories/Artsy/UIFont+ArtsyFonts.m
+index b72588f..7d731f2 100644
+--- a/ios/Artsy/Categories/Artsy/UIFont+ArtsyFonts.m
++++ b/ios/Artsy/Categories/Artsy/UIFont+ArtsyFonts.m
+@@ -1,93 +1,31 @@
+-// NOTE: This file should be a copy and paste of
+-//       https://github.com/artsy/Artsy-OSSUIFonts/blob/master/Pod/Classes/UIFont+ArtsyFonts.m
+-
+ #import "UIFont+ArtsyFonts.h"
+-#import <CoreText/CoreText.h>
+-
+-// Based on https://github.com/CocoaPods-Fonts/OpenSans/blob/874e65bc21abe54284e195484d2259b2fe858680/UIFont%2BOpenSans.m
+-
+-@interface ARFontLoader: NSObject
+-
+-+ (void)loadFontWithFileName:(NSString *)fontFileName extension:(NSString *)extension;
+-
+-@end
+-
+-@implementation ARFontLoader
+-
+-+ (void)loadFontWithFileName:(NSString *)fontFileName extension:(NSString *)extension {
+-    NSBundle *bundle = [NSBundle bundleForClass:self];
+-    NSURL *fontURL = [bundle URLForResource:fontFileName withExtension:extension];
+-    NSData *fontData = [NSData dataWithContentsOfURL:fontURL];
+-
+-    CGDataProviderRef provider = CGDataProviderCreateWithCFData((CFDataRef)fontData);
+-    CGFontRef font = CGFontCreateWithDataProvider(provider);
+-
+-    if (font) {
+-        CFErrorRef errorRef = NULL;
+-        if (CTFontManagerRegisterGraphicsFont(font, &errorRef) == NO) {
+-            NSError *error = (__bridge NSError *)errorRef;
+-            if (error.code == kCTFontManagerErrorAlreadyRegistered || error.code == kCTFontManagerErrorDuplicatedName) {
+-                // nop - the font must have been registered by someone else already.
+-            } else {
+-                @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:error.localizedDescription userInfo:@{ NSUnderlyingErrorKey: error }];
+-            }
+-        }
+-
+-        CFRelease(font);
+-    }
+-
+-    if (provider) {
+-        CFRelease(provider);
+-    }
+-}
+-
+-@end
+ 
++// The upstream fonts require a separate commercial embedding licence.
+ @implementation UIFont (ArtsyFonts)
+ 
+-+ (instancetype)ar_LoadAndReturnFont:(NSString *)fontName extension:(NSString *)extension size:(CGFloat)fontSize onceToken:(dispatch_once_t *)onceToken {
+-    // Overload to default to fontName for fontFileName
+-    return [self ar_LoadAndReturnFont:fontName extension:extension size:fontSize onceToken:onceToken fontFileName:fontName];
+-}
+-
+-+ (instancetype)ar_LoadAndReturnFont:(NSString *)fontName extension:(NSString *)extension size:(CGFloat)fontSize onceToken:(dispatch_once_t *)onceToken fontFileName:(NSString *)fontFileName {
+-
+-    dispatch_once(onceToken, ^{
+-        [ARFontLoader loadFontWithFileName:fontFileName extension:extension];
+-    });
+-
+-    return [self fontWithName:fontName size:fontSize];
+-}
+-
+ + (UIFont *)serifSemiBoldFontWithSize:(CGFloat)size
+ {
+-    static dispatch_once_t onceToken;
+-  return [self ar_LoadAndReturnFont:@"Unica77LL-Medium" extension:@"otf" size:size onceToken:&onceToken fontFileName:@"Unica77LL-Medium"];
++    return [UIFont systemFontOfSize:size weight:UIFontWeightMedium];
+ }
+ 
+ + (UIFont *)serifFontWithSize:(CGFloat)size
+ {
+-  static dispatch_once_t onceToken;
+-  return [self ar_LoadAndReturnFont:@"Unica77LL-Regular" extension:@"otf" size:size onceToken:&onceToken fontFileName:@"Unica77LL-Regular"];
++    return [UIFont systemFontOfSize:size];
+ }
+ 
+ + (UIFont *)serifItalicFontWithSize:(CGFloat)size
+ {
+-  static dispatch_once_t onceToken;
+-  return [self ar_LoadAndReturnFont:@"Unica77LL-Italic" extension:@"otf" size:size onceToken:&onceToken fontFileName:@"Unica77LL-Italic"];
++    return [UIFont italicSystemFontOfSize:size];
+ }
+ 
+ + (UIFont *)sansSerifFontWithSize:(CGFloat)size
+ {
+-  static dispatch_once_t onceToken;
+-  return [self ar_LoadAndReturnFont:@"Unica77LL-Medium" extension:@"otf" size:size onceToken:&onceToken fontFileName:@"Unica77LL-Medium"];
++    return [UIFont systemFontOfSize:size weight:UIFontWeightMedium];
+ }
+ 
+-/// Unica Medium
+ + (UIFont *)displayMediumSansSerifFontWithSize:(CGFloat)size
+ {
+-    static dispatch_once_t onceToken;
+-    return [self ar_LoadAndReturnFont:@"Unica77LL-Medium" extension:@"otf" size:size onceToken:&onceToken fontFileName:@"Unica77LL-Medium"];
++    return [UIFont systemFontOfSize:size weight:UIFontWeightMedium];
+ }
+ 
+ @end
+diff --git a/ios/Artsy/Resources/Artsy-Bridging-Header.h b/ios/Artsy/Resources/Artsy-Bridging-Header.h
+index ed33d57..e71e14d 100644
+--- a/ios/Artsy/Resources/Artsy-Bridging-Header.h
++++ b/ios/Artsy/Resources/Artsy-Bridging-Header.h
+@@ -2,8 +2,6 @@
+ //  Use this file to import your target's public headers that you would like to expose to Swift.
+ //
+ 
+-#import <Expo/Expo.h>
+-
+ // AppDelegate
+ #import "ARAppDelegateHelper.h"
+ #import "AppDelegate+Notifications.h"
+diff --git a/ios/Artsy/Supporting/Expo.plist b/ios/Artsy/Supporting/Expo.plist
+index 431addf..3f7473c 100644
+--- a/ios/Artsy/Supporting/Expo.plist
++++ b/ios/Artsy/Supporting/Expo.plist
+@@ -5,7 +5,7 @@
+ 	<key>EXUpdatesCheckOnLaunch</key>
+ 	<string>ALWAYS</string>
+ 	<key>EXUpdatesEnabled</key>
+-	<true/>
++	<false/>
+ 	<key>EXUpdatesLaunchWaitMs</key>
+ 	<integer>0</integer>
+ 	<key>EXUpdatesRequestHeaders</key>
+diff --git a/ios/Artsy/Supporting/Info.plist b/ios/Artsy/Supporting/Info.plist
+index 6b3352a..79938dd 100644
+--- a/ios/Artsy/Supporting/Info.plist
++++ b/ios/Artsy/Supporting/Info.plist
+@@ -2,6 +2,23 @@
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0">
+ <dict>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default Configuration</string>
++					<key>UISceneDelegateClassName</key>
++					<string>EXExpoAppSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
+ 	<key>AppIdentifierPrefix</key>
+ 	<string>$(AppIdentifierPrefix)</string>
+ 	<key>CADisableMinimumFrameDurationOnPhone</key>
+@@ -38,7 +55,7 @@
+ 	<key>CFBundlePackageType</key>
+ 	<string>APPL</string>
+ 	<key>CFBundleShortVersionString</key>
+-	<string>7.3.6</string>
++	<string>$(MARKETING_VERSION)</string>
+ 	<key>CFBundleSignature</key>
+ 	<string>????</string>
+ 	<key>CFBundleURLTypes</key>
+@@ -78,7 +95,7 @@
+ 		</dict>
+ 	</array>
+ 	<key>CFBundleVersion</key>
+-	<string>2022.05.11.13</string>
++	<string>$(CURRENT_PROJECT_VERSION)</string>
+ 	<key>FacebookAdvertiserIDCollectionEnabled</key>
+ 	<false/>
+ 	<key>FacebookAppID</key>
+@@ -149,13 +166,6 @@
+ 	<true/>
+ 	<key>ReactNativeReleaseLevel</key>
+ 	<string>stable</string>
+-	<key>UIAppFonts</key>
+-	<array>
+-		<string>Unica77LL-Italic.otf</string>
+-		<string>Unica77LL-Medium.otf</string>
+-		<string>Unica77LL-MediumItalic.otf</string>
+-		<string>Unica77LL-Regular.otf</string>
+-	</array>
+ 	<key>UIApplicationShortcutItems</key>
+ 	<array>
+ 		<dict>
+diff --git a/ios/Podfile b/ios/Podfile
+index ea96ff8..4f9efb1 100644
+--- a/ios/Podfile
++++ b/ios/Podfile
+@@ -1,10 +1,10 @@
+ require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
+ # frozen_string_literal: true
+ 
+-# Important: Artsy must come first, see here: https://github.com/artsy/eigen/issues/12584
+-source 'https://github.com/artsy/Specs.git'
+ source 'https://cdn.cocoapods.org/'
+ 
++install! 'cocoapods', :parallel_pod_downloads => true, :parallel_pod_download_thread_pool_size => 4
++
+ 
+ require 'dotenv'
+ Dotenv.load('../.env.shared')
+@@ -49,8 +49,7 @@ if linkage != nil
+   use_frameworks! :linkage => linkage.to_sym
+ end
+ 
+-load File.join(__dir__, 'mapbox_setup.rb')
+-setup_mapbox_credentials
++# Mapbox 11.20 provides public SDK downloads without credentials.
+ 
+ pre_install do |installer|
+   $RNMapboxMaps.pre_install(installer)
+diff --git a/ios/Podfile.lock b/ios/Podfile.lock
+index 0057685..7d37c9c 100644
+--- a/ios/Podfile.lock
++++ b/ios/Podfile.lock
+@@ -90,7 +90,7 @@ PODS:
+   - DGSwiftUtilities (0.47.0)
+   - EASClient (57.0.3):
+     - ExpoModulesCore
+-  - EXConstants (57.0.17):
++  - EXConstants (57.0.23):
+     - ExpoModulesCore
+   - EXJSONUtils (57.0.1)
+   - EXManifests (57.0.1):
+@@ -100,7 +100,7 @@ PODS:
+     - Expecta (~> 1.0)
+     - iOSSnapshotTestCase (~> 8.0)
+     - Specta (~> 2.0)
+-  - Expo (57.0.21):
++  - Expo (57.0.23):
+     - ExpoModulesCore
+     - ExpoModulesJSI
+     - hermes-engine
+@@ -134,22 +134,22 @@ PODS:
+     - ExpoModulesCore
+     - GoogleSignIn (~> 9.0)
+     - React-Core
+-  - ExpoAsset (57.0.16):
++  - ExpoAsset (57.0.21):
+     - ExpoModulesCore
+   - ExpoDomWebView (57.0.1):
+     - ExpoModulesCore
+   - ExpoFileSystem (57.0.6):
+     - ExpoModulesCore
+-  - ExpoFont (57.0.3):
++  - ExpoFont (57.0.4):
+     - ExpoModulesCore
+   - ExpoImageManipulator (57.0.16):
+     - ExpoModulesCore
+     - SDWebImageWebPCoder
+-  - ExpoKeepAwake (57.0.1):
++  - ExpoKeepAwake (57.0.2):
+     - ExpoModulesCore
+   - ExpoLogBox (57.0.4):
+     - React-Core
+-  - ExpoModulesCore (57.0.17):
++  - ExpoModulesCore (57.0.25):
+     - ExpoModulesJSI
+     - hermes-engine
+     - RCTRequired
+@@ -173,13 +173,13 @@ PODS:
+     - ReactCommon/turbomodule/core
+     - ReactNativeDependencies
+     - Yoga
+-  - ExpoModulesJSI (57.1.0):
++  - ExpoModulesJSI (57.1.3):
+     - React-Core
+     - ReactCommon
+-  - ExpoModulesWorklets (57.0.17):
++  - ExpoModulesWorklets (57.0.25):
+     - ExpoModulesCore
+     - ExpoModulesJSI
+-  - ExpoModulesWorkletsAdapter (57.0.17):
++  - ExpoModulesWorkletsAdapter (57.0.25):
+     - ExpoModulesCore
+     - ExpoModulesJSI
+     - ExpoModulesWorklets
+@@ -3561,7 +3561,7 @@ DEPENDENCIES:
+   - ExpoFont (from `../node_modules/expo-font/ios`)
+   - ExpoImageManipulator (from `../node_modules/expo-image-manipulator/ios`)
+   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
+-  - "ExpoLogBox (from `../node_modules/@expo/log-box`)"
++  - "ExpoLogBox (from `../node_modules/expo/node_modules/@expo/log-box`)"
+   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
+   - ExpoModulesJSI (from `../node_modules/expo-modules-jsi/apple`)
+   - ExpoModulesWorklets (from `../node_modules/expo-modules-core`)
+@@ -3848,7 +3848,7 @@ EXTERNAL SOURCES:
+   ExpoKeepAwake:
+     :path: "../node_modules/expo-keep-awake/ios"
+   ExpoLogBox:
+-    :path: "../node_modules/@expo/log-box"
++    :path: "../node_modules/expo/node_modules/@expo/log-box"
+   ExpoModulesCore:
+     :path: "../node_modules/expo-modules-core"
+   ExpoModulesJSI:
+@@ -4148,25 +4148,25 @@ SPEC CHECKSUMS:
+   CwlPreconditionTesting: 67a0047dd4de4382b93442c0e3f25207f984f35a
+   DGSwiftUtilities: 567f8d5ee618f0b7afb185b17aa45ff356315a0f
+   EASClient: 756e3ad8cf4f8352aa4520d1596e8fc7d071b7ef
+-  EXConstants: 799577d2516460afb4b57874d6823a62327ce5c7
++  EXConstants: 6dae4529b5d2acfb7e81f4f2e1110e4cdd0c4df3
+   EXJSONUtils: 7a1683cfa2cbe6d11fca97097d51a496755b0287
+   EXManifests: f9888c0bf5aaa6ddb7e3d4b224d6d54ac4ca84a4
+   Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
+   "Expecta+Snapshots": 7a3ac7ad2b9bae43aadb4dca08113bb495c98f3e
+-  Expo: 8fcd49c9918bb861a881ea9844a3f099a9b0bd3b
++  Expo: d06878ab7512dbcb2deec84c4d56f07af8a8b765
+   ExpoAdapterFBSDKNext: 16c905ebd6449c37bd5dfbb2784a678ce084b26e
+   ExpoAdapterGoogleSignIn: ab4d9fc38cb91077a4138d178395525ec65d0c2e
+-  ExpoAsset: bea9115098b9f4ddfb0456961c8a7d2779ccc8f5
++  ExpoAsset: a936cb6daa7a1c1f03c9ecc90e2e8feec2c745eb
+   ExpoDomWebView: beaec034e51bd028428b98bb1f2633ab79c6d095
+   ExpoFileSystem: cc500f33804065aacc7b3366007267b84deca8c8
+-  ExpoFont: d5b77d74f8d5d1a248de70955bfad847079e9074
++  ExpoFont: f8198a952ba2ff53c9b393b5269ea435f232cfc3
+   ExpoImageManipulator: 6ef20bed2da7cb3897f1e434552275e4dcd74eb1
+-  ExpoKeepAwake: c26f14275017370cc8a4b7b43a0e23361f2053a5
++  ExpoKeepAwake: 72af0b3be3615e59bc819d26061ff4e06b155ee0
+   ExpoLogBox: 80957303325cd4439137765c90a87d7f22aaf2ff
+-  ExpoModulesCore: 293e47c82c6c3ec4d3ec9571112a79d56c8a343a
+-  ExpoModulesJSI: 9df8e7c9719f59e8c001ec33611774137fc1484a
+-  ExpoModulesWorklets: 767d05688faa3bbf38b19c08abca031b5328093a
+-  ExpoModulesWorkletsAdapter: 13e111038fec9c5f2e92c16481ba928fa4bf5414
++  ExpoModulesCore: be9e09606c2a68db882affd3b0e6dae9778fb1d2
++  ExpoModulesJSI: ded9f4c72f35fc9400ad85506a94acdd87b2b23b
++  ExpoModulesWorklets: 8f4fc5a9ad92641e1fded703d491dce1ea77bbe2
++  ExpoModulesWorkletsAdapter: fc4bce2ace721d85baf536de0b4d289915573a46
+   EXStructuredHeaders: 1423c3602a30eb078e03b63b251ef912267dd4c0
+   EXUpdates: 2d116786371b48dccfec2726d77aefea5c1ae8aa
+   EXUpdatesInterface: 92d2aa5194b6fb93ca8ab749db75665cb28b2e60
+@@ -4190,7 +4190,7 @@ SPEC CHECKSUMS:
+   GoogleUtilities: 00c88b9a86066ef77f0da2fab05f65d7768ed8e1
+   GTMAppAuth: 217a876b249c3c585a54fd6f73e6b58c4f5c4238
+   GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
+-  hermes-engine: 63c5db7d529c36335fada6582fd293ae2a105d77
++  hermes-engine: fe90a4848e86150074eecb6155cf17bc2b5d8262
+   Interstellar: cd0c3290e249b5f156113a4c6c9c09dd0f418aaa
+   iOSSnapshotTestCase: a670511f9ee3829c2b9c23e6e68f315fd7b6790f
+   JWTDecode: 178e47e5d28d3abcff778bacced8342858cd6cb5
+@@ -4365,6 +4365,6 @@ SPEC CHECKSUMS:
+   "XCTest+OHHTTPStubSuiteCleanUp": 4469ec8863c6bc022c5089a9b94233eb3416c5ee
+   Yoga: 18b74b3ade30bebc1904004dfaceae1dd02a330a
+ 
+-PODFILE CHECKSUM: 3637779f30c3422766e1d6f937cc4296e5e89e06
++PODFILE CHECKSUM: e0ee836a6a9a6b7111766807e06d830612579223
+ 
+ COCOAPODS: 1.16.2
+diff --git a/package.json b/package.json
+index a8f1214..2578cf9 100644
+--- a/package.json
++++ b/package.json
+@@ -160,7 +160,7 @@
+     "autosuggest-highlight": "3.3.4",
+     "easy-peasy": "6.1.0",
+     "events": "3.3.0",
+-    "expo": "57.0.21",
++    "expo": "57.0.23",
+     "expo-build-properties": "57.0.17",
+     "expo-file-system": "57.0.6",
+     "expo-image-manipulator": "57.0.16",
+diff --git a/src/app/App.tsx b/src/app/App.tsx
+index bc57cf8..7996105 100644
+--- a/src/app/App.tsx
++++ b/src/app/App.tsx
+@@ -72,16 +72,15 @@ const Main = () => {
+   useMaestroInitialization()
+ 
+   useEffect(() => {
++    // Google uses public client IDs and must be configured before sign-in, including OSS builds.
++    GoogleSignin.configure({
++      webClientId: "673710093763-hbj813nj4h3h183c4ildmu8vvqc0ek4h.apps.googleusercontent.com",
++      iosClientId: "673710093763-mjnb33vmcd74p4io0kbc2d8mkpj9jnh7.apps.googleusercontent.com",
++    })
+     const oss = Keys.OSS
+     if (oss === "true") {
+       return
+     }
+-    if (Keys.OSS !== "true") {
+-      GoogleSignin.configure({
+-        webClientId: "673710093763-hbj813nj4h3h183c4ildmu8vvqc0ek4h.apps.googleusercontent.com",
+-        iosClientId: "673710093763-mjnb33vmcd74p4io0kbc2d8mkpj9jnh7.apps.googleusercontent.com",
+-      })
+-    }
+     Settings.initializeSDK()
+   }, [])
+   const isHydrated = GlobalStore.useAppState((state) => state.sessionState.isHydrated)
+diff --git a/src/app/Components/ConnectivityBanner.tsx b/src/app/Components/ConnectivityBanner.tsx
+index 60b7086..7e581ed 100644
+--- a/src/app/Components/ConnectivityBanner.tsx
++++ b/src/app/Components/ConnectivityBanner.tsx
+@@ -13,7 +13,7 @@ const Container = styled.View`
+ const ConnectivityMessage = styled.Text`
+   color: ${themeGet("colors.copper100")};
+   text-align: center;
+-  font-family: "Unica77LL-Regular";
++  font-family: "ArialMT";
+   font-size: 16;
+   padding-top: 5px;
+ `
+diff --git a/src/app/Components/Containers/Inquiry.tsx b/src/app/Components/Containers/Inquiry.tsx
+index 73cf864..848dc7f 100644
+--- a/src/app/Components/Containers/Inquiry.tsx
++++ b/src/app/Components/Containers/Inquiry.tsx
+@@ -58,7 +58,7 @@ const Content = styled.View`
+ const InquiryTextInput = styled.TextInput`
+   font-size: 16;
+   margin-top: 20px;
+-  font-family: "Unica77LL-Regular";
++  font-family: "ArialMT";
+ `
+ const ResponseRate = styled(SmallHeadline)`
+   color: ${themeGet("colors.copper100")};
+diff --git a/src/app/Components/HTML.tsx b/src/app/Components/HTML.tsx
+index 6fabe29..341c233 100644
+--- a/src/app/Components/HTML.tsx
++++ b/src/app/Components/HTML.tsx
+@@ -21,10 +21,10 @@ interface HTMLProps extends FlexProps {
+ }
+ 
+ export const FONTS = {
+-  regular: "Unica77LL-Regular",
+-  italic: "Unica77LL-Italic",
+-  medium: "Unica77LL-Medium",
+-  mediumItalic: "Unica77LL-MediumItalic",
++  regular: "ArialMT",
++  italic: "Arial-ItalicMT",
++  medium: "Arial-BoldMT",
++  mediumItalic: "Arial-BoldItalicMT",
+ }
+ 
+ export const HTML: React.FC<HTMLProps> = ({
+diff --git a/src/app/Scenes/Inbox/Components/Conversations/Composer.tsx b/src/app/Scenes/Inbox/Components/Conversations/Composer.tsx
+index d672672..eaa130b 100644
+--- a/src/app/Scenes/Inbox/Components/Conversations/Composer.tsx
++++ b/src/app/Scenes/Inbox/Components/Conversations/Composer.tsx
+@@ -76,7 +76,7 @@ export const Composer: React.FC<
+     paddingRight: 10,
+     borderColor: active ? color("blue100") : "transparent",
+     borderWidth: 1,
+-    fontFamily: "Unica77LL-Regular",
++    fontFamily: "ArialMT",
+   }
+   // expose ref if provided
+   useEffect(() => {
+diff --git a/src/app/Scenes/Inbox/Components/Typography/index.tsx b/src/app/Scenes/Inbox/Components/Typography/index.tsx
+index 4263dda..7fbd4b4 100644
+--- a/src/app/Scenes/Inbox/Components/Typography/index.tsx
++++ b/src/app/Scenes/Inbox/Components/Typography/index.tsx
+@@ -145,11 +145,11 @@ interface Styles {
+ 
+ const styles = StyleSheet.create<Styles>({
+   subtitleRequired: {
+-    fontFamily: "Unica77LL-Italic",
++    fontFamily: "Arial-ItalicMT",
+   },
+ 
+   fromSignatureDefault: {
+-    fontFamily: "Unica77LL-Regular",
++    fontFamily: "ArialMT",
+   },
+ 
+   metadataDefault: {
+@@ -164,6 +164,6 @@ const styles = StyleSheet.create<Styles>({
+   },
+ 
+   bodyRequired: {
+-    fontFamily: "Unica77LL-Regular",
++    fontFamily: "ArialMT",
+   },
+ })
+diff --git a/src/app/system/flags/Components/WrappedFlagProvider.tsx b/src/app/system/flags/Components/WrappedFlagProvider.tsx
+index a8a4936..0cc7f5a 100644
+--- a/src/app/system/flags/Components/WrappedFlagProvider.tsx
++++ b/src/app/system/flags/Components/WrappedFlagProvider.tsx
+@@ -10,6 +10,15 @@ import Keys from "react-native-keys"
+ export const WrappedFlagProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+   const { unleashEnv: env } = useUnleashEnvironment()
+ 
++  // The SDK's default config is offline; the public example URLs are placeholders.
++  if (Keys.OSS === "true") {
++    return (
++      <FlagProvider startTransition={(fn) => fn()} startClient={false}>
++        {children}
++      </FlagProvider>
++    )
++  }
++
+   const storageName = (name: string) => `unleash-values:${name}`
+ 
+   const config: IConfig = {
+diff --git a/yarn.lock b/yarn.lock
+index d789ba8..bc2b7d1 100644
+--- a/yarn.lock
++++ b/yarn.lock
+@@ -3681,29 +3681,29 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"@expo/cli@npm:^57.0.23":
+-  version: 57.0.23
+-  resolution: "@expo/cli@npm:57.0.23"
++"@expo/cli@npm:^57.0.25":
++  version: 57.0.33
++  resolution: "@expo/cli@npm:57.0.33"
+   dependencies:
+     "@expo/code-signing-certificates": "npm:^0.0.6"
+-    "@expo/config": "npm:~57.0.9"
+-    "@expo/config-plugins": "npm:~57.0.9"
++    "@expo/config": "npm:~57.0.11"
++    "@expo/config-plugins": "npm:~57.0.12"
+     "@expo/devcert": "npm:^1.2.1"
+-    "@expo/env": "npm:~2.4.3"
+-    "@expo/image-utils": "npm:^0.11.5"
+-    "@expo/inline-modules": "npm:^0.1.7"
++    "@expo/env": "npm:~2.4.4"
++    "@expo/image-utils": "npm:^0.11.7"
++    "@expo/inline-modules": "npm:^0.1.9"
+     "@expo/json-file": "npm:^11.0.1"
+-    "@expo/log-box": "npm:^57.0.4"
++    "@expo/log-box": "npm:^57.0.5"
+     "@expo/metro": "npm:~56.0.2"
+-    "@expo/metro-config": "npm:~57.0.12"
+-    "@expo/metro-file-map": "npm:^57.0.3"
++    "@expo/metro-config": "npm:~57.0.14"
++    "@expo/metro-file-map": "npm:^57.0.4"
+     "@expo/osascript": "npm:^2.7.1"
+     "@expo/package-manager": "npm:^1.13.1"
+-    "@expo/plist": "npm:^0.8.1"
+-    "@expo/prebuild-config": "npm:^57.0.15"
+-    "@expo/require-utils": "npm:^57.0.5"
+-    "@expo/router-server": "npm:^57.0.9"
+-    "@expo/schema-utils": "npm:^57.0.2"
++    "@expo/plist": "npm:^0.8.2"
++    "@expo/prebuild-config": "npm:^57.0.20"
++    "@expo/require-utils": "npm:^57.0.7"
++    "@expo/router-server": "npm:^57.0.15"
++    "@expo/schema-utils": "npm:^57.0.3"
+     "@expo/spawn-async": "npm:^1.8.0"
+     "@expo/ws-tunnel": "npm:^2.0.0"
+     "@expo/xcpretty": "npm:^4.4.4"
+@@ -3722,7 +3722,7 @@ __metadata:
+     expo-server: "npm:^57.0.3"
+     fetch-nodeshim: "npm:^0.4.10"
+     getenv: "npm:^2.0.0"
+-    glob: "npm:^13.0.0"
++    glob: "npm:^14.0.3"
+     lan-network: "npm:^0.2.1"
+     multitars: "npm:^1.0.2"
+     node-forge: "npm:^1.3.3"
+@@ -3743,19 +3743,21 @@ __metadata:
+     toqr: "npm:^0.1.1"
+     wrap-ansi: "npm:^7.0.0"
+     ws: "npm:^8.12.1"
+-    zod: "npm:^3.25.76"
+   peerDependencies:
+     expo: "*"
++    expo-mcp: "*"
+     expo-router: "*"
+     react-native: "*"
+   peerDependenciesMeta:
++    expo-mcp:
++      optional: true
+     expo-router:
+       optional: true
+     react-native:
+       optional: true
+   bin:
+     expo-internal: main.js
+-  checksum: 10c0/faeb67361fbe9616c689f44ac9b4522a4dbb92a8421fe3249750a4c44612434c236daad065cbe276315c8701ad862553db4300fce39b5b1e0f0f7d1bec432611
++  checksum: 10c0/262c7328f288a18db27b8396692633bbe004f8ad7a4173c1ae7952e0bfc901182d147144c5d6a2a88f4a7a87b5ba6c732d0cef1c1b3278cb207cb0d50ab38b52
+   languageName: node
+   linkType: hard
+ 
+@@ -3789,6 +3791,26 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"@expo/config-plugins@npm:~57.0.12":
++  version: 57.0.12
++  resolution: "@expo/config-plugins@npm:57.0.12"
++  dependencies:
++    "@expo/config-types": "npm:^57.0.2"
++    "@expo/json-file": "npm:~11.0.1"
++    "@expo/plist": "npm:^0.8.2"
++    "@expo/require-utils": "npm:^57.0.7"
++    "@expo/sdk-runtime-versions": "npm:^1.0.0"
++    chalk: "npm:^4.1.2"
++    debug: "npm:^4.3.5"
++    glob: "npm:^14.0.3"
++    semver: "npm:^7.5.4"
++    slugify: "npm:^1.6.6"
++    xcode: "npm:^4.0.0"
++    xml2js: "npm:0.6.0"
++  checksum: 10c0/0185f6eb53737d9c2ad449d270f04d1c172d782e01dbebdafcfccf8b0c79701db8c69dfd03aadbbcfe15593610fb357d9b76bd7836d8698fdc0a7254356bdbe0
++  languageName: node
++  linkType: hard
++
+ "@expo/config-types@npm:^57.0.2":
+   version: 57.0.2
+   resolution: "@expo/config-types@npm:57.0.2"
+@@ -3796,6 +3818,22 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"@expo/config@npm:~57.0.11":
++  version: 57.0.11
++  resolution: "@expo/config@npm:57.0.11"
++  dependencies:
++    "@expo/config-plugins": "npm:~57.0.12"
++    "@expo/config-types": "npm:^57.0.2"
++    "@expo/json-file": "npm:^11.0.1"
++    "@expo/require-utils": "npm:^57.0.7"
++    glob: "npm:^14.0.3"
++    resolve-workspace-root: "npm:^2.0.0"
++    semver: "npm:^7.6.0"
++    slugify: "npm:^1.3.4"
++  checksum: 10c0/e4a9b5250611b35a0de9dc00e9c0e6ceb8506a97c8dfaf72716306169c4a68237d906019da254ff07ae97705a12b927fe21058ba961913a9aa46a820b7111f51
++  languageName: node
++  linkType: hard
++
+ "@expo/config@npm:~57.0.9":
+   version: 57.0.9
+   resolution: "@expo/config@npm:57.0.9"
+@@ -3852,7 +3890,18 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"@expo/env@npm:^2.4.3, @expo/env@npm:~2.4.3":
++"@expo/env@npm:^2.4.4":
++  version: 2.5.4
++  resolution: "@expo/env@npm:2.5.4"
++  dependencies:
++    chalk: "npm:^4.0.0"
++    debug: "npm:^4.3.4"
++    getenv: "npm:^2.0.0"
++  checksum: 10c0/6d8fc5e7ef2155676fa772806fb82dd98ca9f5f646ff5c6e4538adf54138212dccc024d5a2d81dceb2070191db1e0638518122634f5103869cac0c14d919d74e
++  languageName: node
++  linkType: hard
++
++"@expo/env@npm:~2.4.3":
+   version: 2.4.3
+   resolution: "@expo/env@npm:2.4.3"
+   dependencies:
+@@ -3863,6 +3912,17 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"@expo/env@npm:~2.4.4":
++  version: 2.4.4
++  resolution: "@expo/env@npm:2.4.4"
++  dependencies:
++    chalk: "npm:^4.0.0"
++    debug: "npm:^4.3.4"
++    getenv: "npm:^2.0.0"
++  checksum: 10c0/bbd12edc76561171c9f183784f739ae625da4d15e4656d33c9faa85b96f5d0245af63034e3d32e3decdb41ac691b29925fd1044eb014264994272bc860cea0c5
++  languageName: node
++  linkType: hard
++
+ "@expo/expo-modules-macros-plugin@npm:0.6.1":
+   version: 0.6.1
+   resolution: "@expo/expo-modules-macros-plugin@npm:0.6.1"
+@@ -3870,11 +3930,11 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"@expo/fingerprint@npm:^0.20.12":
+-  version: 0.20.12
+-  resolution: "@expo/fingerprint@npm:0.20.12"
++"@expo/fingerprint@npm:^0.20.13":
++  version: 0.20.15
++  resolution: "@expo/fingerprint@npm:0.20.15"
+   dependencies:
+-    "@expo/env": "npm:^2.4.3"
++    "@expo/env": "npm:^2.4.4"
+     "@expo/spawn-async": "npm:^1.8.0"
+     arg: "npm:^5.0.2"
+     chalk: "npm:^4.1.2"
+@@ -3887,31 +3947,30 @@ __metadata:
+     semver: "npm:^7.6.0"
+   bin:
+     fingerprint: bin/cli.js
+-  checksum: 10c0/294664ca3e42ba4df465abfc36d2eb80f18d8fb3478f42c7bc40cc79e49f5468f16dd189d59fc6a662fdf9cfc80d4a8771b2f08ed4c0f02899c813e57cea3cce
++  checksum: 10c0/df350a630270377f445efe2075bdd76bd4f67c60e9f0ed3a6f9241a1cc71d29d916c8130455035520a007d2677898fc6eae0af7854bb3db395cabd2ac7d70d7f
+   languageName: node
+   linkType: hard
+ 
+-"@expo/image-utils@npm:^0.11.5":
+-  version: 0.11.5
+-  resolution: "@expo/image-utils@npm:0.11.5"
++"@expo/image-utils@npm:^0.11.7":
++  version: 0.11.7
++  resolution: "@expo/image-utils@npm:0.11.7"
+   dependencies:
+-    "@expo/require-utils": "npm:^57.0.5"
++    "@expo/require-utils": "npm:^57.0.7"
+     "@expo/spawn-async": "npm:^1.8.0"
+     chalk: "npm:^4.0.0"
+-    getenv: "npm:^2.0.0"
+     jimp-compact: "npm:0.16.1"
+     parse-png: "npm:^2.1.0"
+     semver: "npm:^7.6.0"
+-  checksum: 10c0/bca05d61164c88eafcbb01e82eea92679b9fcbc435ad50f0b8f7b0c74259ea50a7e7535d5403ea747be241c9560b04be66df8f3e0f926a6da1e5a1954a41a45d
++  checksum: 10c0/b295fd31ba6534709a9ebf9341477a5f9c13cb367daf6824fe3ea5c0963ab89dbfab9899296cf50d448517f11478cc446681bc8a7b171359926c9f26f07430b3
+   languageName: node
+   linkType: hard
+ 
+-"@expo/inline-modules@npm:^0.1.7":
+-  version: 0.1.7
+-  resolution: "@expo/inline-modules@npm:0.1.7"
++"@expo/inline-modules@npm:^0.1.9":
++  version: 0.1.9
++  resolution: "@expo/inline-modules@npm:0.1.9"
+   dependencies:
+-    "@expo/config-plugins": "npm:~57.0.9"
+-  checksum: 10c0/3dff95ce7d61915a20687cf4d3112acfa1c5865d2ca6fa814783355fb4220f074344718c81ec319849f3d9a8e2b942ca540ba7ed1a4377af844b7e6637da2191
++    "@expo/config-plugins": "npm:~57.0.12"
++  checksum: 10c0/25c983aae5fafdf3ebd57394842fea4ba1c6e7f04072108e6ef8dae3236968c5d8f3670104a4df2a2ed41313c342d3ee189afb5d94b3c8dc86d48e4d13ae92a1
+   languageName: node
+   linkType: hard
+ 
+@@ -3951,6 +4010,22 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"@expo/log-box@npm:^57.0.5":
++  version: 57.0.5
++  resolution: "@expo/log-box@npm:57.0.5"
++  dependencies:
++    "@expo/dom-webview": "npm:^57.0.1"
++    anser: "npm:^1.4.9"
++    stacktrace-parser: "npm:^0.1.10"
++  peerDependencies:
++    "@expo/dom-webview": ^57.0.1
++    expo: "*"
++    react: "*"
++    react-native: "*"
++  checksum: 10c0/14bc11e07e4d5e171de76cb499271f19abfa7dd3f8be6cdfbe36021352b28a7405e5dd26bee8c232bb036813b560eef50bbd263506d5c8b1f240448752a4e0af
++  languageName: node
++  linkType: hard
++
+ "@expo/metro-config@npm:~57.0.12":
+   version: 57.0.12
+   resolution: "@expo/metro-config@npm:57.0.12"
+@@ -3987,17 +4062,52 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"@expo/metro-file-map@npm:^57.0.3":
+-  version: 57.0.3
+-  resolution: "@expo/metro-file-map@npm:57.0.3"
++"@expo/metro-config@npm:~57.0.14":
++  version: 57.0.14
++  resolution: "@expo/metro-config@npm:57.0.14"
++  dependencies:
++    "@babel/code-frame": "npm:^7.20.0"
++    "@babel/core": "npm:^7.20.0"
++    "@babel/generator": "npm:^7.20.5"
++    "@expo/config": "npm:~57.0.11"
++    "@expo/env": "npm:~2.4.4"
++    "@expo/json-file": "npm:~11.0.1"
++    "@expo/metro": "npm:~56.0.2"
++    "@expo/require-utils": "npm:^57.0.7"
++    "@expo/spawn-async": "npm:^1.8.0"
++    "@jridgewell/gen-mapping": "npm:^0.3.13"
++    "@jridgewell/remapping": "npm:^2.3.5"
++    "@jridgewell/sourcemap-codec": "npm:^1.5.5"
++    browserslist: "npm:^4.25.0"
++    chalk: "npm:^4.1.0"
++    debug: "npm:^4.3.2"
++    getenv: "npm:^2.0.0"
++    glob: "npm:^14.0.3"
++    hermes-parser: "npm:^0.36.0"
++    jsc-safe-url: "npm:^0.2.4"
++    lightningcss: "npm:^1.30.1"
++    picomatch: "npm:^4.0.4"
++    postcss: "npm:^8.5.14"
++    resolve-from: "npm:^5.0.0"
++  peerDependencies:
++    expo: "*"
++  peerDependenciesMeta:
++    expo:
++      optional: true
++  checksum: 10c0/05b1d1d14e285ce56b5b8992d03a608989a734ba6342e4263deb9b7ff3e004d38fe7fc810afc5d7ded90ddb2e959c94dc60b50e8085bf3498e08f8eda5a6cd43
++  languageName: node
++  linkType: hard
++
++"@expo/metro-file-map@npm:^57.0.4":
++  version: 57.0.4
++  resolution: "@expo/metro-file-map@npm:57.0.4"
+   dependencies:
+     debug: "npm:^4.3.4"
+     fb-watchman: "npm:^2.0.2"
+     invariant: "npm:^2.2.4"
+     jest-worker: "npm:^29.7.0"
+-    micromatch: "npm:^4.0.4"
+     walker: "npm:^1.0.8"
+-  checksum: 10c0/57770deb2f83b21418ef86a9484521d27a66c20156a7aed33fc72a035d2b445b81bc9a10f464fb691a934cecf95da1fd30b759b09eee1bb6818f244d7d92d453
++  checksum: 10c0/64d100d758d6883f5aa942dd71b6056664210b07020ef5f2ad6b334d601a72633e313f290e6822485ce668c24e1e86dd79142469ff15c4b465a54b826de2bfdf
+   languageName: node
+   linkType: hard
+ 
+@@ -4057,21 +4167,31 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"@expo/prebuild-config@npm:^57.0.15":
+-  version: 57.0.15
+-  resolution: "@expo/prebuild-config@npm:57.0.15"
++"@expo/plist@npm:^0.8.2":
++  version: 0.8.2
++  resolution: "@expo/plist@npm:0.8.2"
+   dependencies:
+-    "@expo/config": "npm:~57.0.9"
+-    "@expo/config-plugins": "npm:~57.0.9"
++    "@xmldom/xmldom": "npm:^0.8.8"
++    xmlbuilder: "npm:^15.1.1"
++  checksum: 10c0/da84e59b5fb7248dbafb8b732531fa53006383eff13fa03084eb8fc1f1eec8f5125c7911fdcb33e3302bcedc8755ef6c5598b7e1c678ad549ae37777d9b2a6ea
++  languageName: node
++  linkType: hard
++
++"@expo/prebuild-config@npm:^57.0.20":
++  version: 57.0.20
++  resolution: "@expo/prebuild-config@npm:57.0.20"
++  dependencies:
++    "@expo/config": "npm:~57.0.11"
++    "@expo/config-plugins": "npm:~57.0.12"
+     "@expo/config-types": "npm:^57.0.2"
+-    "@expo/image-utils": "npm:^0.11.5"
++    "@expo/image-utils": "npm:^0.11.7"
+     "@expo/json-file": "npm:^11.0.1"
+     "@react-native/normalize-colors": "npm:0.86.3"
+     debug: "npm:^4.3.1"
+-    expo-modules-autolinking: "npm:~57.0.12"
++    expo-modules-autolinking: "npm:~57.0.17"
+     resolve-from: "npm:^5.0.0"
+     semver: "npm:^7.6.0"
+-  checksum: 10c0/a11790363b067159a5b046d45965672a5f3f925ddd1d9004c0536dbd9bc71f20464e9385b79abd12f8475b7d48bf57735a7672e477d99e54758bdc5eb4ecee7a
++  checksum: 10c0/fd18e05b86b0e18ee4e64e663fe5f779872b94b2dc1b6a0c07e9c5f99682bee09b6631d2515447a0b0e834a9c686138c4b0501d4f076481c298b10df78908f83
+   languageName: node
+   linkType: hard
+ 
+@@ -4103,16 +4223,32 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"@expo/router-server@npm:^57.0.9":
+-  version: 57.0.9
+-  resolution: "@expo/router-server@npm:57.0.9"
++"@expo/require-utils@npm:^57.0.7":
++  version: 57.0.7
++  resolution: "@expo/require-utils@npm:57.0.7"
++  dependencies:
++    "@babel/code-frame": "npm:^7.20.0"
++    "@babel/core": "npm:^7.25.2"
++    "@babel/plugin-transform-modules-commonjs": "npm:^7.24.8"
++  peerDependencies:
++    typescript: ^5.0.0 || ^5.0.0-0 || ^6.0.0 || ^7.0.0
++  peerDependenciesMeta:
++    typescript:
++      optional: true
++  checksum: 10c0/84a433404b40e6936a5ff05d773b559e077214b69542e62c5c4930d8d21b4f3311bcec2c1b7e342cc3a760fd78e038631c7710519a696510ebe3c944cfa07772
++  languageName: node
++  linkType: hard
++
++"@expo/router-server@npm:^57.0.15":
++  version: 57.0.15
++  resolution: "@expo/router-server@npm:57.0.15"
+   dependencies:
+     debug: "npm:^4.3.4"
+   peerDependencies:
+-    "@expo/metro-runtime": ^57.0.15
++    "@expo/metro-runtime": ^57.0.18
+     expo: "*"
+-    expo-constants: ^57.0.17
+-    expo-font: ^57.0.3
++    expo-constants: ^57.0.23
++    expo-font: ^57.0.4
+     expo-router: "*"
+     expo-server: ^57.0.3
+     react: "*"
+@@ -4127,7 +4263,7 @@ __metadata:
+       optional: true
+     react-server-dom-webpack:
+       optional: true
+-  checksum: 10c0/f8a802ea7bcb73df0da718ee895341c0ca9ecdb0dd40a27316b9960524bac0c0bdfd9ee271b536e28ab1e46ec333f3e966548dfcca6ecacc1c21eb7f54e3703b
++  checksum: 10c0/27a98ff337a16c02d831f1ab30518b35dd8b476f1e091f22e1a328b828cf0c832f14a3486c513da81f1a07e0cea439169845135a5cc99c4f36fa7031884364f6
+   languageName: node
+   linkType: hard
+ 
+@@ -4138,6 +4274,13 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"@expo/schema-utils@npm:^57.0.3":
++  version: 57.0.3
++  resolution: "@expo/schema-utils@npm:57.0.3"
++  checksum: 10c0/c61131cc1e812fea610d7f0e8155c7c23c8971df416023bbcbd32cbe81a448881e47544618d33dca973ad4c45a7bd7e43978d9d19951dce7fa774355cde8f851
++  languageName: node
++  linkType: hard
++
+ "@expo/sdk-runtime-versions@npm:^1.0.0":
+   version: 1.0.0
+   resolution: "@expo/sdk-runtime-versions@npm:1.0.0"
+@@ -5258,6 +5401,13 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"@isaacs/nonrecursive-glob-match@npm:^1.1.0":
++  version: 1.1.0
++  resolution: "@isaacs/nonrecursive-glob-match@npm:1.1.0"
++  checksum: 10c0/89f8535f3d8147649360de992f58fba2b0e97b687e18cdc16c5b34a6c52afff4f474d05c5a0b6411708614f368cf19c41b037d3a1c6c6821e02aee967d888e98
++  languageName: node
++  linkType: hard
++
+ "@isaacs/ttlcache@npm:^1.4.1":
+   version: 1.4.1
+   resolution: "@isaacs/ttlcache@npm:1.4.1"
+@@ -11765,6 +11915,15 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"bplist-creator@npm:0.1.1":
++  version: 0.1.1
++  resolution: "bplist-creator@npm:0.1.1"
++  dependencies:
++    stream-buffers: "npm:2.2.x"
++  checksum: 10c0/427ec37263ce0e8c68a83f595fc9889a9cbf2e6fda2de18e1f8ef7f0c6ce68c0cdbb7c9c1f3bb3f2d217407af8cffbdf254bf0f71c99f2186175d07752f08a47
++  languageName: node
++  linkType: hard
++
+ "bplist-parser@npm:0.3.1":
+   version: 0.3.1
+   resolution: "bplist-parser@npm:0.3.1"
+@@ -11774,7 +11933,7 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"bplist-parser@npm:^0.3.1":
++"bplist-parser@npm:0.3.2, bplist-parser@npm:^0.3.1":
+   version: 0.3.2
+   resolution: "bplist-parser@npm:0.3.2"
+   dependencies:
+@@ -11802,6 +11961,15 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"brace-expansion@npm:^5.0.12":
++  version: 5.0.12
++  resolution: "brace-expansion@npm:5.0.12"
++  dependencies:
++    balanced-match: "npm:^4.0.2"
++  checksum: 10c0/a40ac64d3bdb5bb222456514d3633c1f627f03b844f509c69e70f98b78be0ce85e21b44bbfecdd0ddd4cc0855ca4242b41ea96ddccf88c7c3c7a84405474bb3a
++  languageName: node
++  linkType: hard
++
+ "brace-expansion@npm:^5.0.5":
+   version: 5.0.9
+   resolution: "brace-expansion@npm:5.0.9"
+@@ -13788,7 +13956,7 @@ __metadata:
+     eslint-plugin-react-native-a11y: "npm:3.5.1"
+     eslint-plugin-testing-library: "npm:6.5.0"
+     events: "npm:3.3.0"
+-    expo: "npm:57.0.21"
++    expo: "npm:57.0.23"
+     expo-build-disk-cache: "patch:expo-build-disk-cache@npm%3A0.7.2#~/.yarn/patches/expo-build-disk-cache-npm-0.7.2-c51a562767.patch"
+     expo-build-properties: "npm:57.0.17"
+     expo-file-system: "npm:57.0.6"
+@@ -15087,17 +15255,17 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"expo-asset@npm:~57.0.16":
+-  version: 57.0.16
+-  resolution: "expo-asset@npm:57.0.16"
++"expo-asset@npm:~57.0.17":
++  version: 57.0.21
++  resolution: "expo-asset@npm:57.0.21"
+   dependencies:
+-    "@expo/image-utils": "npm:^0.11.5"
+-    expo-constants: "npm:~57.0.17"
++    "@expo/image-utils": "npm:^0.11.7"
++    expo-constants: "npm:~57.0.23"
+   peerDependencies:
+     expo: "*"
+     react: "*"
+     react-native: "*"
+-  checksum: 10c0/133747db81af5887753112b043d6738e1445576f13f7347802c151fadbae53a6315c2a27b72c506666a94c4f18741c885a1aed050177c8a1253c97e7d6aa180b
++  checksum: 10c0/b900457c630cf6206fffa0ccb2cc03006b8b3d90fd41dea5614aa4c299ba01bf310fadcf2da3bfc0982a22256ead072e387c135040f96273b2feb16073160512
+   languageName: node
+   linkType: hard
+ 
+@@ -15166,15 +15334,15 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"expo-constants@npm:~57.0.17":
+-  version: 57.0.17
+-  resolution: "expo-constants@npm:57.0.17"
++"expo-constants@npm:~57.0.18, expo-constants@npm:~57.0.23":
++  version: 57.0.23
++  resolution: "expo-constants@npm:57.0.23"
+   dependencies:
+-    "@expo/env": "npm:~2.4.3"
++    "@expo/env": "npm:~2.4.4"
+   peerDependencies:
+     expo: "*"
+     react-native: "*"
+-  checksum: 10c0/863aea3af9487909b273af33def489a529bc6831b8b9ea0af9b4c77e33a1db6f9f67ad0327f03ee54e41b5fe0fe1c40211987251a0d51ab35e57bc9deee019fa
++  checksum: 10c0/c31de76b9b51e57d1fbb3b3ecf6b72a1538c8e3b4548d554254f746af7dc5e94f6bf77688edb04b10c5f1aa33484115c984523eb611e4ab838b8b17cd28f0ef5
+   languageName: node
+   linkType: hard
+ 
+@@ -15185,7 +15353,7 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"expo-file-system@npm:57.0.6, expo-file-system@npm:~57.0.6":
++"expo-file-system@npm:57.0.6":
+   version: 57.0.6
+   resolution: "expo-file-system@npm:57.0.6"
+   peerDependencies:
+@@ -15195,16 +15363,26 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"expo-font@npm:~57.0.3":
+-  version: 57.0.3
+-  resolution: "expo-font@npm:57.0.3"
++"expo-file-system@npm:~57.0.7":
++  version: 57.0.7
++  resolution: "expo-file-system@npm:57.0.7"
++  peerDependencies:
++    expo: "*"
++    react-native: "*"
++  checksum: 10c0/ca02903e7b918f2b73f9f009d13e2f3f2eda46b04d479af770385c463631feb843f6a742c34a75ad7e892862dfb4b4311fa0520d7599a9f01e478014b105d3b0
++  languageName: node
++  linkType: hard
++
++"expo-font@npm:~57.0.4":
++  version: 57.0.4
++  resolution: "expo-font@npm:57.0.4"
+   dependencies:
+     fontfaceobserver: "npm:^2.1.0"
+   peerDependencies:
+     expo: "*"
+     react: "*"
+     react-native: "*"
+-  checksum: 10c0/55e34df33d2abe91082d33c3e63a70c2c8969b77de46df72ef351146f8f24351eb8cb4fa525db944212b7320e3e47c9b3ce53b8977d7bc9585c39ec6dbb7f596
++  checksum: 10c0/b9e13197971c3a3b354e498315033e11d4a834de695637914273225a24fd7c88172b23ab7eb1dde88620dbe093b6958d361751d839b87d4bf09d9ad5ca2b0117
+   languageName: node
+   linkType: hard
+ 
+@@ -15235,13 +15413,13 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"expo-keep-awake@npm:~57.0.1":
+-  version: 57.0.1
+-  resolution: "expo-keep-awake@npm:57.0.1"
++"expo-keep-awake@npm:~57.0.2":
++  version: 57.0.2
++  resolution: "expo-keep-awake@npm:57.0.2"
+   peerDependencies:
+     expo: "*"
+     react: "*"
+-  checksum: 10c0/bb95a181c3a808c3ee41df93909baae913e2226bbc9382c6712549d734cb684a8bb28026d3411c01ab25251798ab77617ce2a6b2ea98f986c0ddae2c74b2f89e
++  checksum: 10c0/2e7cd81adea1c62f49f4e9ba76b606960969779222626abc90c6b4cd872c0e47c062eebb5e1688550676f55300677348252d9fe8a7c95d03e1320496a2c136ca
+   languageName: node
+   linkType: hard
+ 
+@@ -15256,26 +15434,26 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"expo-modules-autolinking@npm:~57.0.12":
+-  version: 57.0.12
+-  resolution: "expo-modules-autolinking@npm:57.0.12"
++"expo-modules-autolinking@npm:~57.0.13, expo-modules-autolinking@npm:~57.0.17":
++  version: 57.0.17
++  resolution: "expo-modules-autolinking@npm:57.0.17"
+   dependencies:
+-    "@expo/require-utils": "npm:^57.0.5"
++    "@expo/require-utils": "npm:^57.0.7"
+     "@expo/spawn-async": "npm:^1.8.0"
+     chalk: "npm:^4.1.0"
+     commander: "npm:^7.2.0"
+   bin:
+     expo-modules-autolinking: bin/expo-modules-autolinking.js
+-  checksum: 10c0/9afa2687f7cfaa8206b3c66cb6ad210f7c723efcbd9a0d46fc9633cfcc33727869ddf96aa3bdb7d813a4357977abb6fdd5c27e083cfe203a5bb2677e480a1868
++  checksum: 10c0/34db5d4dae306949d79ac65ce889357ea102f8337711d54877f3c74a02f1a6a4ad54bda841f9f0df6fb1f1745e62212d6c5e6dcc92e8708e58d543fb7e18478a
+   languageName: node
+   linkType: hard
+ 
+-"expo-modules-core@npm:~57.0.17":
+-  version: 57.0.17
+-  resolution: "expo-modules-core@npm:57.0.17"
++"expo-modules-core@npm:~57.0.18":
++  version: 57.0.25
++  resolution: "expo-modules-core@npm:57.0.25"
+   dependencies:
+     "@expo/expo-modules-macros-plugin": "npm:0.6.1"
+-    expo-modules-jsi: "npm:~57.1.0"
++    expo-modules-jsi: "npm:~57.1.3"
+     invariant: "npm:^2.2.4"
+   peerDependencies:
+     react: "*"
+@@ -15284,16 +15462,16 @@ __metadata:
+   peerDependenciesMeta:
+     react-native-worklets:
+       optional: true
+-  checksum: 10c0/e783917edb1edb133bbd31629acae9de0430dd699f67bfaaca53ee1352f2b88b2bc5419b284a4593b9b659ec004c451fd9035c13ecad4094f0c4bfdd6908ca27
++  checksum: 10c0/586a523f26bcea11353b90985261c49aba06f6cfb852657f4c1638f2bd910390b97278e1d5bd8410521748593b39e2d2df31d60efb9558b6acc77d9cb69aa495
+   languageName: node
+   linkType: hard
+ 
+-"expo-modules-jsi@npm:~57.1.0":
+-  version: 57.1.0
+-  resolution: "expo-modules-jsi@npm:57.1.0"
++"expo-modules-jsi@npm:~57.1.3":
++  version: 57.1.3
++  resolution: "expo-modules-jsi@npm:57.1.3"
+   peerDependencies:
+     react-native: "*"
+-  checksum: 10c0/41400e830b346e70db621abd66d1552932083f75af184cf043a2d322a55e5a9da9a34727be772180005da0eb883e191efedadf0dcf0de6bda715ae42814f524a
++  checksum: 10c0/4808c99d342bca121e7fb77103b42edb3ccfa2f7ae71b1ce953796c4a4596c21fbd76e5af91c130f7e34f71d78a93b70ef8fa8e6e5bba4a0648461c7023dbc45
+   languageName: node
+   linkType: hard
+ 
+@@ -15399,30 +15577,30 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"expo@npm:57.0.21":
+-  version: 57.0.21
+-  resolution: "expo@npm:57.0.21"
++"expo@npm:57.0.23":
++  version: 57.0.23
++  resolution: "expo@npm:57.0.23"
+   dependencies:
+     "@babel/runtime": "npm:^7.20.0"
+-    "@expo/cli": "npm:^57.0.23"
++    "@expo/cli": "npm:^57.0.25"
+     "@expo/config": "npm:~57.0.9"
+     "@expo/config-plugins": "npm:~57.0.9"
+     "@expo/devtools": "npm:~57.0.1"
+     "@expo/dom-webview": "npm:~57.0.1"
+-    "@expo/fingerprint": "npm:^0.20.12"
++    "@expo/fingerprint": "npm:^0.20.13"
+     "@expo/local-build-cache-provider": "npm:^57.0.8"
+     "@expo/log-box": "npm:^57.0.4"
+     "@expo/metro": "npm:~56.0.2"
+     "@expo/metro-config": "npm:~57.0.12"
+     "@ungap/structured-clone": "npm:^1.3.0"
+-    babel-preset-expo: "npm:~57.0.11"
+-    expo-asset: "npm:~57.0.16"
+-    expo-constants: "npm:~57.0.17"
+-    expo-file-system: "npm:~57.0.6"
+-    expo-font: "npm:~57.0.3"
+-    expo-keep-awake: "npm:~57.0.1"
+-    expo-modules-autolinking: "npm:~57.0.12"
+-    expo-modules-core: "npm:~57.0.17"
++    babel-preset-expo: "npm:~57.0.12"
++    expo-asset: "npm:~57.0.17"
++    expo-constants: "npm:~57.0.18"
++    expo-file-system: "npm:~57.0.7"
++    expo-font: "npm:~57.0.4"
++    expo-keep-awake: "npm:~57.0.2"
++    expo-modules-autolinking: "npm:~57.0.13"
++    expo-modules-core: "npm:~57.0.18"
+     pretty-format: "npm:^29.7.0"
+     react-refresh: "npm:^0.14.2"
+     whatwg-url-minimum: "npm:^0.1.2"
+@@ -15449,7 +15627,7 @@ __metadata:
+     expo: bin/cli
+     expo-modules-autolinking: bin/autolinking
+     fingerprint: bin/fingerprint
+-  checksum: 10c0/3f314c4782542f2473ab07645b2d8979142479e6927fee2a398e32fcf276e8f19b3d4af14a08635e1b4925f0cd0d41c1c8c8a7cd2ec008fdc4df647f53c112fd
++  checksum: 10c0/0995c62eb13fe288fcbf1d6d9e02007ac552049e2af4b5fa3aab5f68f5950cff0d2825e896a94d712275705ee0a9656467c1cff92cf3b651957831e67cdc7a8a
+   languageName: node
+   linkType: hard
+ 
+@@ -16437,6 +16615,17 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"glob@npm:^14.0.3":
++  version: 14.0.4
++  resolution: "glob@npm:14.0.4"
++  dependencies:
++    minimatch: "npm:^11.0.5"
++    minipass: "npm:^7.1.3"
++    path-scurry: "npm:^3.0.0"
++  checksum: 10c0/18e243038706bb72d3a2e74603b3408cd3771521c506c7f427d71e79dcaf65eecfa540157ba139ae9f270c89a699560a23ce7bb113d6921a457fa4ad9a06b55d
++  languageName: node
++  linkType: hard
++
+ "glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
+   version: 7.2.3
+   resolution: "glob@npm:7.2.3"
+@@ -20101,6 +20290,16 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"minimatch@npm:^11.0.5":
++  version: 11.0.5
++  resolution: "minimatch@npm:11.0.5"
++  dependencies:
++    "@isaacs/nonrecursive-glob-match": "npm:^1.1.0"
++    brace-expansion: "npm:^5.0.12"
++  checksum: 10c0/398cbb80d0faf4d9714d62b9d8a55af4df27d885144317416a6efc1c673705210cbc9b17d263b368b19a91749df9b4769a18fafd5e88eb43326f502267145fc0
++  languageName: node
++  linkType: hard
++
+ "minimatch@npm:^3.0.2, minimatch@npm:^3.0.4, minimatch@npm:^3.0.5, minimatch@npm:^3.1.1, minimatch@npm:^3.1.2":
+   version: 3.1.5
+   resolution: "minimatch@npm:3.1.5"
+@@ -21234,6 +21433,16 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"path-scurry@npm:^3.0.0":
++  version: 3.0.0
++  resolution: "path-scurry@npm:3.0.0"
++  dependencies:
++    lru-cache: "npm:^11.0.0"
++    minipass: "npm:^7.1.2"
++  checksum: 10c0/3256223b51952732bc5460f574143d7d9904cd6d68fac3072906162c90e9f27fdf6f3fe812287e65a876f92d73c12a58368b28749ed07a58bdb04dc76f60a938
++  languageName: node
++  linkType: hard
++
+ "path-to-regexp@npm:^8.0.0":
+   version: 8.4.2
+   resolution: "path-to-regexp@npm:8.4.2"
+@@ -24156,6 +24365,17 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"simple-plist@npm:^1.3.1":
++  version: 1.4.0
++  resolution: "simple-plist@npm:1.4.0"
++  dependencies:
++    bplist-creator: "npm:0.1.1"
++    bplist-parser: "npm:0.3.2"
++    plist: "npm:^3.0.5"
++  checksum: 10c0/226c283492d8518d715e4133d94bdbd15c0619561bcde583b4807b36cde106c0078c615b9b4e25c0e8758a4ae4e79ed5dd76e57cd528d8b7001ecab5ad35e343
++  languageName: node
++  linkType: hard
++
+ "simple-swizzle@npm:^0.2.2":
+   version: 0.2.2
+   resolution: "simple-swizzle@npm:0.2.2"
+@@ -26758,6 +26978,15 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
++"xcode@npm:^4.0.0":
++  version: 4.0.0
++  resolution: "xcode@npm:4.0.0"
++  dependencies:
++    simple-plist: "npm:^1.3.1"
++  checksum: 10c0/cbb3510eda03636a1594476978f48eebea88a9d8c8ba506df0366c007581774551bb45ca8b511c6a41fc4b6b564958e765c89ad31d8aabec4e4f8f993c8a7fc6
++  languageName: node
++  linkType: hard
++
+ "xml-formatter@npm:^3.6.7":
+   version: 3.6.7
+   resolution: "xml-formatter@npm:3.6.7"
+@@ -27042,13 +27271,6 @@ __metadata:
+   languageName: node
+   linkType: hard
+ 
+-"zod@npm:^3.25.76":
+-  version: 3.25.76
+-  resolution: "zod@npm:3.25.76"
+-  checksum: 10c0/5718ec35e3c40b600316c5b4c5e4976f7fee68151bc8f8d90ec18a469be9571f072e1bbaace10f1e85cf8892ea12d90821b200e980ab46916a6166a4260a983c
+-  languageName: node
+-  linkType: hard
+-
+ "zod@npm:^4.0.0":
+   version: 4.3.6
+   resolution: "zod@npm:4.3.6"
