@@ -83,6 +83,8 @@ jobs:
             printf 'ImageOS: %s\nImageVersion: %s\n' "${ImageOS:-unknown}" "${ImageVersion:-unknown}"
             sw_vers
             sysctl hw.logicalcpu hw.memsize machdep.cpu.brand_string
+            sysctl kern.maxproc kern.maxprocperuid
+            printf 'Process limit (soft): %s\nProcess limit (hard): %s\n' "$(ulimit -Su)" "$(ulimit -Hu)"
             df -k "$GITHUB_WORKSPACE"
             xcode-select -p
             xcodebuild -version
@@ -165,8 +167,9 @@ jobs:
               date -u +%FT%TZ
               df -k "$GITHUB_WORKSPACE"
               vm_stat
+              ps -axo pid= | awk 'END { print "Process count:", NR }'
               ps -axo pid,ppid,rss,%cpu,comm | sort -k3 -nr | awk 'NR <= 12'
-              sleep 60
+              sleep 10
             done
           ) > "$RUNNER_TEMP/runner-capacity/resources.txt" 2>&1 &
           monitor=$!

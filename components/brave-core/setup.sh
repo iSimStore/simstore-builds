@@ -21,7 +21,8 @@ if [[ ! -x "$work/pnpm/bin/pnpm" ]]; then
   npm install --global --prefix "$work/pnpm" "pnpm@$PNPM_VERSION" --no-audit --no-fund
 fi
 [[ $(node --version) == "v$NODE_VERSION" && $(pnpm --version) == "$PNPM_VERSION" ]]
-checkout "$(manifest_field source.repository)" "$(manifest_field source.revision)" "$source_dir"
+checkout_patched "$(manifest_field source.repository)" "$(manifest_field source.revision)" \
+  "$source_dir" "$app_dir/source.patch"
 [[ $(node -p "require('$source_dir/package.json').version") == "$(manifest_field source.version | sed 's/^v//')" ]]
 checkout https://chromium.googlesource.com/chromium/tools/depot_tools.git \
   "$DEPOT_TOOLS_REVISION" "$source_dir/vendor/depot_tools"

@@ -1,0 +1,13 @@
+--- a/build/commands/lib/gitPatcher.js
++++ b/build/commands/lib/gitPatcher.js
+@@ -214,8 +214,9 @@
+         patchData.reason === patchApplyReasons.SRC_REMOVED
+           ? new Error('Target file does not exist')
+           : undefined
++      // Bound Git subprocesses instead of starting one per patch at once.
+       prepOps.push(
+-        this.getAppliesTo(patchData.patchPath)
++        await this.getAppliesTo(patchData.patchPath)
+           .then((appliesTo) => ({
+             appliesTo,
+             error,
