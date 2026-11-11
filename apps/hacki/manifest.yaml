@@ -1,0 +1,12 @@
+id: hacki
+name: Hacki
+
+source:
+  license: GPL-3.0-only
+  repository: https://github.com/Livinglist/Hacki
+  version: "3.8.2"
+  revision: 40f4022adb2f34621442082e023d917bd3ff3f3a
+
+build:
+  script: build.sh
+  deploymentTarget: "18.6"

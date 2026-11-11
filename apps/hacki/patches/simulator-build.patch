@@ -1,0 +1,13 @@
+diff --git a/lib/main.dart b/lib/main.dart
+index 1770133be8fec61a3ac95d42ac84a0acbdb15ce4..8e25bb900317a7f1b48987de0f598339dfa587e5 100644
+--- a/lib/main.dart
++++ b/lib/main.dart
+@@ -45,7 +45,7 @@ void notificationReceiver(NotificationResponse details) =>
+     selectNotificationSubject.add(details.payload);
+ 
+ Future<void> main({bool testing = false}) async {
+-  if (kDebugMode) {
++  if (kDebugMode && testing) {
+     HttpOverrides.global = DebugHttpOverrides();
+   }
+ 
