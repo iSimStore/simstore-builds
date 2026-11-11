@@ -1,0 +1,89 @@
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+index ca14fc9d32fdc70886595c95e8ce2c5f8386181d..913744b1d3a98b4d65aab52c189cf373ff6cdba6 100644
+--- a/gradle/wrapper/gradle-wrapper.properties
++++ b/gradle/wrapper/gradle-wrapper.properties
+@@ -22,3 +22,5 @@ networkTimeout=10000
+ validateDistributionUrl=true
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
++
++distributionSha256Sum=9c0f7faeeb306cb14e4279a3e084ca6b596894089a0638e68a07c945a32c9e14
+diff --git a/iosApp/iosApp.xcodeproj/project.pbxproj b/iosApp/iosApp.xcodeproj/project.pbxproj
+index cd59ce95503247c51a2a907b2107357179e39a02..9cf41f2ad5d96ac845610bbbd6be6e1e1b18a434 100644
+--- a/iosApp/iosApp.xcodeproj/project.pbxproj
++++ b/iosApp/iosApp.xcodeproj/project.pbxproj
+@@ -219,7 +219,6 @@
+ 				CDBE05D42E129DDC00CC593E /* Embed Foundation Extensions */,
+ 				7555FF79242A565900829871 /* Resources */,
+ 				F85CB1118929364A9C6EFABC /* Frameworks */,
+-				E8479EF0239AA3C1B90F902B /* Upload Bugsnag dSYM */,
+ 			);
+ 			buildRules = (
+ 			);
+@@ -360,7 +359,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "cd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode\n";
++			shellScript = "cd \"$SRCROOT/..\"\n./gradlew --no-daemon --console=plain --max-workers=1 :shared:embedAndSignAppleFrameworkForXcode\n";
+ 		};
+ 		CDBE05D92E129E4C00CC593E /* Compile Kotlin */ = {
+ 			isa = PBXShellScriptBuildPhase;
+@@ -378,7 +377,7 @@
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+-			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew :shared:embedAndSignAppleFrameworkForXcode";
++			shellScript = "if [ \"YES\" = \"$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED\" ]; then\n  echo \"Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \\\"YES\\\"\"\n  exit 0\nfi\ncd \"$SRCROOT/..\"\n./gradlew --no-daemon --console=plain --max-workers=1 :shared:embedAndSignAppleFrameworkForXcode";
+ 		};
+ 		E8479EF0239AA3C1B90F902B /* Upload Bugsnag dSYM */ = {
+ 			isa = PBXShellScriptBuildPhase;
+diff --git a/iosApp/iosApp/AppDelegate.swift b/iosApp/iosApp/AppDelegate.swift
+index bbaabc6d208e9ebf51766db0a1495d54c35924bd..e9a924e084f9ccbd6e4ceb63b14a0196c56d8689 100644
+--- a/iosApp/iosApp/AppDelegate.swift
++++ b/iosApp/iosApp/AppDelegate.swift
+@@ -38,7 +38,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
+             self.handleCloudSync(task: task as! BGProcessingTask)
+         }
+ 
+-        #if !DEBUG
++        #if !DEBUG && !targetEnvironment(simulator)
+         Bugsnag.start()
+         let config = BugsnagConfiguration.loadConfig()
+         BugsnagConfigKt.startBugsnag(config: config)
+diff --git a/iosApp/iosApp/Info.plist b/iosApp/iosApp/Info.plist
+index fbdbc1469fb4655604048f9d37d4b49a313e842b..e95fc52e17bfdd27b8c3a39df0b1300762b6eb8a 100644
+--- a/iosApp/iosApp/Info.plist
++++ b/iosApp/iosApp/Info.plist
+@@ -27,7 +27,7 @@
+ 	<key>CFBundlePackageType</key>
+ 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+ 	<key>CFBundleShortVersionString</key>
+-	<string>1.0</string>
++	<string>$(MARKETING_VERSION)</string>
+ 	<key>CFBundleURLTypes</key>
+ 	<array>
+ 		<dict>
+@@ -52,7 +52,7 @@
+ 		</dict>
+ 	</array>
+ 	<key>CFBundleVersion</key>
+-	<string>1</string>
++	<string>$(CURRENT_PROJECT_VERSION)</string>
+ 	<key>ITSAppUsesNonExemptEncryption</key>
+ 	<false/>
+ 	<key>LSApplicationQueriesSchemes</key>
+diff --git a/shared/build.gradle.kts b/shared/build.gradle.kts
+index 86f2c1d9906e9522ec95f3c6f263b2f42f3fba15..aef4c4bdb83e8be82acf909639485e9209061261 100644
+--- a/shared/build.gradle.kts
++++ b/shared/build.gradle.kts
+@@ -63,6 +63,9 @@ kotlin {
+       isStatic = true
+ 
+       freeCompilerArgs += iOSBinaryFlags
++      if (iOSTarget.name == "iosSimulatorArm64") {
++        freeCompilerArgs += "-Xdisable-phases=RemoveRedundantCallsToStaticInitializersPhase"
++      }
+ 
+       export(projects.core.base)
+       export(libs.crashkios.bugsnag)

@@ -1,0 +1,12 @@
+id: twine
+name: Twine
+
+source:
+  license: GPL-3.0-only
+  repository: https://github.com/msasikanth/twine
+  version: "3.10.0"
+  revision: baf8d83c6372565ff2675018157c998e2086e475
+
+build:
+  script: build.sh
+  deploymentTarget: "18.5"
