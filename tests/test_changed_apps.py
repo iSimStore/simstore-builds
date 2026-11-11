@@ -26,6 +26,33 @@ class ChangedAppsTests(unittest.TestCase):
     def test_only_changed_recipe_is_selected(self) -> None:
         self.assertEqual(select_projects(self.root, ['apps/beta/build.sh']), ['beta'])
 
+    def test_components_and_apps_are_selected_independently(self) -> None:
+        component = self.root / 'components' / 'engine'
+        component.mkdir(parents=True)
+        (component / 'manifest.yaml').write_text('{}\n')
+        paths = ['components/engine/build.sh', 'apps/beta/build.sh', 'scripts/changed_apps.py']
+        self.assertEqual(select_projects(self.root, paths), ['beta'])
+        self.assertEqual(select_projects(self.root, paths, directory='components'), ['engine'])
+        self.assertEqual(select_projects(self.root, ['apps/beta/build.sh'], directory='components'), [])
+        self.assertEqual(select_projects(self.root, ['components/engine/build.sh']), [])
+        with self.assertRaises(ValueError):
+            select_projects(self.root, [], 'beta', directory='components')
+
+    def test_component_git_diff_does_not_include_apps(self) -> None:
+        self.git('init', '--initial-branch=main')
+        self.git('config', 'user.name', 'Test')
+        self.git('config', 'user.email', 'test@example.com')
+        base = self.commit('apps/alpha/manifest.yaml')
+        component = self.root / 'components' / 'engine'
+        component.mkdir(parents=True)
+        (component / 'manifest.yaml').write_text('{}\n')
+        head = self.commit('apps/beta/manifest.yaml')
+        for event in ('push', 'pull_request'):
+            with self.subTest(event=event):
+                paths = changed_paths(self.root, base, head, event, 'components')
+                self.assertEqual(paths, ['components/engine/manifest.yaml'])
+                self.assertEqual(select_projects(self.root, paths, directory='components'), ['engine'])
+
     def test_shared_changes_do_not_select_apps(self) -> None:
         for path in ('scripts/package.py', 'tests/test_package.py', '.github/workflows/build.yml',
                      'requirements.txt', 'requirements-dev.txt', 'mypy.ini'):

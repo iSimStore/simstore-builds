@@ -1,0 +1,223 @@
+name: Build components
+run-name: Build ${{ inputs.id }} ${{ inputs.version }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      id:
+        description: Component id under components/
+        required: true
+        type: string
+      version:
+        description: Pinned version from manifest.yaml (with or without v)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ inputs.id }}
+    runs-on: xcode-27
+    timeout-minutes: 360
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.15'
+      - name: Set up shared Python tools
+        run: |
+          python3 -m venv build/python
+          build/python/bin/python3 -m pip install -r requirements.txt
+          echo "$PWD/build/python/bin" >> "$GITHUB_PATH"
+      - name: Check requested component and version
+        env:
+          COMPONENT_ID: ${{ inputs.id }}
+          REQUESTED_VERSION: ${{ inputs.version }}
+        run: |
+          python3 scripts/changed_apps.py --directory components --id "$COMPONENT_ID" --event workflow_dispatch
+          expected=$(python3 scripts/manifest.py "components/$COMPONENT_ID/manifest.yaml" --field source.version)
+          if [[ "${REQUESTED_VERSION#v}" != "${expected#v}" ]]; then
+            printf 'Requested version %s does not match pinned manifest version %s\n' "$REQUESTED_VERSION" "$expected" >&2
+            exit 2
+          fi
+      - name: Record system capacity
+        run: |
+          report="$RUNNER_TEMP/runner-capacity"
+          mkdir -p "$report"
+          {
+            printf 'ImageOS: %s\nImageVersion: %s\n' "${ImageOS:-unknown}" "${ImageVersion:-unknown}"
+            sw_vers
+            sysctl hw.logicalcpu hw.memsize machdep.cpu.brand_string
+            sysctl kern.maxproc kern.maxprocperuid
+            printf 'Process limit (soft): %s\nProcess limit (hard): %s\n' "$(ulimit -Su)" "$(ulimit -Hu)"
+            df -k "$GITHUB_WORKSPACE"
+            xcode-select -p
+            xcodebuild -version
+          } | tee "$report/system.txt"
+          diskutil info -plist /System/Volumes/Data > "$report/disk.plist"
+
+      - name: Measure preinstalled software
+        run: |
+          report="$RUNNER_TEMP/runner-capacity"
+          failed=0
+          measure() {
+            local name=$1 path=$2 depth=${3:-1}
+            if [[ ! -d "$path" ]]; then
+              printf 'Directory not present: %s\n' "$path" > "$report/$name.txt"
+            else
+              local resolved
+              resolved=$(cd "$path" && pwd -P)
+              {
+                printf 'Requested path: %s\nPhysical path: %s\nAllocated sizes in KiB:\n' "$path" "$resolved"
+                if sudo du -k -x -d "$depth" "$resolved" | sort -nr; then
+                  :
+                else
+                  printf '\nMeasurement incomplete; see errors above.\n'
+                  failed=1
+                fi
+              } > "$report/$name.txt" 2>&1
+            fi
+            cat "$report/$name.txt"
+          }
+
+          measure applications /Applications
+          measure android "${ANDROID_HOME:-${ANDROID_SDK_ROOT:-$HOME/Library/Android/sdk}}" 2
+          measure tool-cache "${RUNNER_TOOL_CACHE:-$HOME/hostedtoolcache}" 2
+          measure homebrew-formulas /opt/homebrew/Cellar 2
+          measure homebrew-casks /opt/homebrew/Caskroom
+          measure java /Library/Java/JavaVirtualMachines
+          measure local-share /usr/local/share 2
+          measure dotnet "$HOME/.dotnet"
+          measure rust-toolchains "$HOME/.rustup"
+          measure cargo "$HOME/.cargo"
+          measure powershell "$HOME/.local/share/powershell"
+          measure developer /Library/Developer 2
+          measure user-caches "$HOME/Library/Caches"
+
+          shopt -s nullglob
+          for path in /System/Library/AssetsV2/com_apple_MobileAsset_*Simulator*; do
+            measure "$(basename "$path")" "$path"
+          done
+          exit "$failed"
+
+      - name: List installed Simulator runtimes
+        run: xcrun simctl list runtimes --json | tee "$RUNNER_TEMP/runner-capacity/runtimes.json"
+
+      - name: Measure capacity after removing Android SDK
+        run: |
+          report="$RUNNER_TEMP/runner-capacity"
+          {
+            printf 'Before removing Android SDK:\n'
+            df -k "$GITHUB_WORKSPACE"
+            sudo rm -rf "$HOME/Library/Android/sdk"
+            printf '\nAfter removing Android SDK:\n'
+            df -k "$GITHUB_WORKSPACE"
+            printf '\nAvailable build tools:\n'
+            xcode-select -p
+            xcodebuild -version
+            xcrun --sdk iphonesimulator --show-sdk-version
+            python3 --version
+            node --version
+            git --version
+          } | tee "$report/after-android-removal.txt"
+
+      - name: Build and package component
+        env:
+          COMPONENT_ID: ${{ inputs.id }}
+        run: |
+          recipe="$GITHUB_WORKSPACE/components/$COMPONENT_ID"
+          script=$(python3 scripts/manifest.py "$recipe/manifest.yaml" --field build.script)
+          (
+            while true; do
+              date -u +%FT%TZ
+              df -k "$GITHUB_WORKSPACE"
+              vm_stat
+              ps -axo pid= | awk 'END { print "Process count:", NR }'
+              ps -axo pid,ppid,rss,%cpu,comm | sort -k3 -nr | awk 'NR <= 12'
+              sleep 10
+            done
+          ) > "$RUNNER_TEMP/runner-capacity/resources.txt" 2>&1 &
+          monitor=$!
+          trap 'kill "$monitor" 2>/dev/null || true' EXIT
+          /usr/bin/time -l bash "$recipe/$script"
+      - name: Upload component archive
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          path: components/${{ inputs.id }}/build/artifacts/${{ inputs.id }}.tar.bz2
+          archive: false
+          if-no-files-found: error
+      - name: Upload build metadata
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ inputs.id }}-metadata
+          path: components/${{ inputs.id }}/build/artifacts/build-info.json
+          if-no-files-found: error
+
+      - name: Write measurement summary
+        if: always()
+        run: |
+          report="$RUNNER_TEMP/runner-capacity"
+          {
+            printf '## Runner storage measurements\n\n'
+            printf 'The inventory precedes cleanup. The Android removal report records capacity before and after cleanup. Component build logs and resource samples are retained separately.\n\n'
+            printf 'Directory sizes can overlap and share APFS extents. They do not establish how many bytes deletion would reclaim.\n\n'
+            shopt -s nullglob
+            for file in "$report/"*.txt; do
+              printf '### %s\n\n```text\n' "$(basename "$file" .txt)"
+              head -n 20 "$file"
+              printf '\n```\n\n'
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload capacity reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: ${{ inputs.id }}-diagnostics
+          path: |
+            ${{ runner.temp }}/runner-capacity/
+            components/${{ inputs.id }}/build/logs/
+            components/${{ inputs.id }}/build/source/src/out/*/siso_metrics*.json
+            components/${{ inputs.id }}/build/source/src/out/*/siso_failed_commands*.sh
+          if-no-files-found: warn
+          retention-days: 7
+
+  publish:
+    needs: build
+    name: Publish ${{ inputs.id }}
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download component archive
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.id }}.tar.bz2
+          path: release
+          skip-decompress: true
+      - name: Download build metadata
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.id }}-metadata
+          path: release
+      - name: Create versioned component release
+        env:
+          COMPONENT_ID: ${{ inputs.id }}
+          RECIPE_SHA: ${{ github.sha }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          tag=$(jq -er --arg id "$COMPONENT_ID" 'select(.id == $id) | .id + "/" + .version' release/build-info.json)
+          checksum=$(jq -er '.sha256' release/build-info.json)
+          printf '%s  %s\n' "$checksum" "release/$COMPONENT_ID.tar.bz2" | sha256sum -c -
+          printf 'arm64 iOS Simulator component.\n\nBuilt from recipe commit %s. See build-info.json for source revisions, toolchain versions, and SHA-256.\n' \
+            "$RECIPE_SHA" > release/notes.txt
+          gh release create "$tag" "release/$COMPONENT_ID.tar.bz2" release/build-info.json \
+            --target "$RECIPE_SHA" --title "$tag" --notes-file release/notes.txt --latest=false

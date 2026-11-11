@@ -1,0 +1,16 @@
+/*
+!/chrome/test/data/*
+!/content/test/data/*
+!/third_party/blink/web_tests/*
+!/media/test/data/*
+!/tools/perf/page_sets/*
+/chrome/test/data/webui
+!/chrome/test/data/webui/*
+/tools/perf/page_sets/system_health
+!/tools/perf/page_sets/system_health/*
+/chrome/test/data/webui/settings
+!/chrome/test/data/webui/settings/*
+/chrome/test/data/webui/settings/BUILD.gn
+/chrome/test/data/webui/settings/personalization_options_test.ts
+/chrome/test/data/webui/settings/sync_test_util.ts
+/tools/perf/page_sets/system_health/story_tags.py

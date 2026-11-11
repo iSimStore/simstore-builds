@@ -1,0 +1,12 @@
+id: brave-core
+name: Brave Core
+
+source:
+  license: MPL-2.0
+  repository: https://github.com/brave/brave-core
+  version: v1.98.64
+  revision: 84c4b9af378e546d7f8ed4b52e0f7a6d0f0e45c7
+
+build:
+  script: build.sh
+  deploymentTarget: "18.0"
