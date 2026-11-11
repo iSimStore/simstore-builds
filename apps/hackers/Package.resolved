@@ -1,0 +1,15 @@
+{
+  "originHash" : "0acd42613f108f57497dfc31579a0a4c28449ade3c7bfe29ad4f68a5a9043483",
+  "pins" : [
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup.git",
+      "state" : {
+        "revision" : "18b80329749eca5ea29fc50211dca5c7eff5bfec",
+        "version" : "2.13.9"
+      }
+    }
+  ],
+  "version" : 3
+}
