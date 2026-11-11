@@ -72,7 +72,7 @@ def smoke_test(app: Path, manifest_path: Path | None = None, target: str | None 
     if target is None:
         subprocess.run(['xcrun', 'simctl', 'bootstatus', udid, '-b'], check=True, timeout=300)
     print(f'Installing {info["CFBundleIdentifier"]} on {udid}', flush=True)
-    subprocess.run(['xcrun', 'simctl', 'install', udid, str(app)], check=True, timeout=300)
+    subprocess.run(['xcrun', 'simctl', 'install', udid, str(app)], check=True, timeout=600)
     print(f'Launching {info["CFBundleIdentifier"]} on {udid}', flush=True)
     launched = subprocess.run(
         ['xcrun', 'simctl', 'launch', '--terminate-running-process', udid, info['CFBundleIdentifier']],
