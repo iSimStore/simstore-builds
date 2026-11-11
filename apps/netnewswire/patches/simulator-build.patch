@@ -1,0 +1,26 @@
+diff --git a/NetNewsWire.xcodeproj/xcshareddata/xcschemes/NetNewsWire-iOS.xcscheme b/NetNewsWire.xcodeproj/xcshareddata/xcschemes/NetNewsWire-iOS.xcscheme
+index 5c7febc92bad43458ab5387ba5b0db4223a3ad68..b0bd8bec817a5b8236bb6f462525ae0e805c60af 100644
+--- a/NetNewsWire.xcodeproj/xcshareddata/xcschemes/NetNewsWire-iOS.xcscheme
++++ b/NetNewsWire.xcodeproj/xcshareddata/xcschemes/NetNewsWire-iOS.xcscheme
+@@ -4,7 +4,7 @@
+    version = "1.7">
+    <BuildAction
+       parallelizeBuildables = "YES"
+-      buildImplicitDependencies = "YES">
++      buildImplicitDependencies = "NO">
+       <PreActions>
+          <ExecutionAction
+             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
+diff --git a/iOS/MainTimeline/MainTimelineModernViewController.swift b/iOS/MainTimeline/MainTimelineModernViewController.swift
+index c7cf1243e5ef7c183d6b85e27986ea11c180903e..63b8b7d40f3f10c74003fd923b497c9fa23287b5 100644
+--- a/iOS/MainTimeline/MainTimelineModernViewController.swift
++++ b/iOS/MainTimeline/MainTimelineModernViewController.swift
+@@ -387,7 +387,7 @@ final class MainTimelineModernViewController: UIViewController, UndoableCommandR
+ 
+ 		var snapshot = dataSource.snapshot()
+ 		snapshot.reloadItems(articles)
+-		DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.0, execute: {
++		DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.0, execute: { [self] in
+ 			guard let dataSource = self.dataSource else {
+ 				return
+ 			}

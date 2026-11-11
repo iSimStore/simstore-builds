@@ -1,0 +1,12 @@
+id: netnewswire
+name: NetNewsWire
+
+source:
+  license: MIT
+  repository: https://github.com/Ranchero-Software/NetNewsWire
+  version: "7.0.6"
+  revision: 1991dbac677581d5912ec7fe3205a731d0810598
+
+build:
+  script: build.sh
+  deploymentTarget: "17.0"
