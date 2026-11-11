@@ -1,0 +1,110 @@
+diff --git a/Harmony-Drive/DriveService.swift b/Harmony-Drive/DriveService.swift
+index afbe71fbe3b1ae20de525e96c4a2f00ad2606ecd..1adf558ca9810b4f6436cd27347bbeb506587909 100644
+--- a/Harmony-Drive/DriveService.swift
++++ b/Harmony-Drive/DriveService.swift
+@@ -27,11 +27,7 @@ public class DriveService: NSObject, Service
+     public let localizedName = NSLocalizedString("Google Drive", comment: "")
+     public let identifier = "com.rileytestut.Harmony.Drive"
+ 
+-    public var clientID: String? {
+-        didSet {
+-            GIDSignIn.sharedInstance().clientID = self.clientID
+-        }
+-    }
++    public var clientID: String?
+ 
+     let service = GTLRDriveService()
+     
+@@ -41,13 +37,6 @@ public class DriveService: NSObject, Service
+ 
+     private override init()
+     {
+-        var scopes = GIDSignIn.sharedInstance().scopes as? [String] ?? []
+-        if !scopes.contains(kGTLRAuthScopeDriveAppdata)
+-        {
+-            scopes.append(kGTLRAuthScopeDriveAppdata)
+-            GIDSignIn.sharedInstance().scopes = scopes
+-        }
+-        
+         super.init()
+         
+         self.service.shouldFetchNextPages = true
+@@ -58,29 +47,37 @@ public extension DriveService
+ {
+     func authenticate(withPresentingViewController viewController: UIViewController, completionHandler: @escaping (Result<Account, AuthenticationError>) -> Void)
+     {
+-        self.authorizationCompletionHandlers.append(completionHandler)
+-
+-        GIDSignIn.sharedInstance().presentingViewController = viewController
+-        GIDSignIn.sharedInstance().delegate = self
++        guard let clientID = self.clientID, !clientID.isEmpty else
++        {
++            let error = NSError(domain: kGIDSignInErrorDomain, code: GIDSignInError.Code.unknown.rawValue,
++                                userInfo: [NSLocalizedDescriptionKey: "Google Drive is not configured."])
++            completionHandler(.failure(AuthenticationError(error)))
++            return
++        }
+ 
+-        GIDSignIn.sharedInstance().signIn()
++        self.authorizationCompletionHandlers.append(completionHandler)
++        let configuration = GIDConfiguration(clientID: clientID)
++        GIDSignIn.sharedInstance.signIn(with: configuration, presenting: viewController, hint: nil,
++                                      additionalScopes: [kGTLRAuthScopeDriveAppdata]) { user, error in
++            self.completeAuthentication(user: user, error: error)
++        }
+     }
+ 
+     func authenticateInBackground(completionHandler: @escaping (Result<Account, AuthenticationError>) -> Void)
+     {
+         self.authorizationCompletionHandlers.append(completionHandler)
+ 
+-        GIDSignIn.sharedInstance().delegate = self
+-
+         // Must run on main thread.
+         DispatchQueue.main.async {
+-            GIDSignIn.sharedInstance().restorePreviousSignIn()
++            GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
++                self.completeAuthentication(user: user, error: error)
++            }
+         }
+     }
+     
+     func deauthenticate(completionHandler: @escaping (Result<Void, DeauthenticationError>) -> Void)
+     {
+-        GIDSignIn.sharedInstance().signOut()
++        GIDSignIn.sharedInstance.signOut()
+         completionHandler(.success)
+     }
+ }
+@@ -100,8 +97,8 @@ extension DriveService
+             {
+                 switch error._code
+                 {
+-                case GIDSignInErrorCode.canceled.rawValue: throw GeneralError.cancelled
+-                case GIDSignInErrorCode.hasNoAuthInKeychain.rawValue: throw AuthenticationError.noSavedCredentials
++                case GIDSignInError.Code.canceled.rawValue: throw GeneralError.cancelled
++                case GIDSignInError.Code.hasNoAuthInKeychain.rawValue: throw AuthenticationError.noSavedCredentials
+                 default: throw ServiceError(error)
+                 }
+             }
+@@ -132,9 +129,9 @@ extension DriveService
+     }
+ }
+ 
+-extension DriveService: GIDSignInDelegate
++extension DriveService
+ {
+-    public func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!)
++    func completeAuthentication(user: GIDGoogleUser?, error: Error?)
+     {
+         let result: Result<Account, AuthenticationError>
+ 
+@@ -144,7 +141,7 @@ extension DriveService: GIDSignInDelegate
+             
+             self.service.authorizer = user.authentication.fetcherAuthorizer()
+             
+-            let account = Account(name: user.profile.name, emailAddress: user.profile.email)
++            let account = Account(name: user.profile?.name ?? self.localizedName, emailAddress: user.profile?.email)
+             result = .success(account)
+         }
+         catch

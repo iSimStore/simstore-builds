@@ -1,0 +1,13 @@
+diff --git a/Harmony.podspec b/Harmony.podspec
+index dcaf6d245d691834ee1bb363420d0d8be96c9304..73d78e4ce8a1c04673586c61810842bd141b55fa 100644
+--- a/Harmony.podspec
++++ b/Harmony.podspec
+@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
+   spec.subspec 'Harmony-Drive' do |drive|
+     drive.source_files  = "Backends/Drive/Harmony-Drive/**/*.swift"
+     drive.dependency 'GoogleAPIClientForREST/Drive', '~> 1.3.0'
+-    drive.dependency 'GoogleSignIn', '~> 5.0'
++    drive.dependency 'GoogleSignIn', '= 6.2.4'
+   end
+   
+ end

@@ -1,0 +1,209 @@
+diff --git a/.gitmodules b/.gitmodules
+index 161889a2c51730f988156de5012cc26113b89f05..501d4216dc949780e5bd0159759348780f0522f1 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -1,27 +1,27 @@
+ [submodule "Cores/DeltaCore"]
+ 	path = Cores/DeltaCore
+-	url = git@github.com:rileytestut/DeltaCore.git
++	url = https://github.com/rileytestut/DeltaCore.git
+ [submodule "Cores/SNESDeltaCore"]
+ 	path = Cores/SNESDeltaCore
+-	url = git@github.com:rileytestut/SNESDeltaCore.git
++	url = https://github.com/rileytestut/SNESDeltaCore.git
+ [submodule "External/Roxas"]
+ 	path = External/Roxas
+-	url = git@github.com:rileytestut/Roxas.git
++	url = https://github.com/rileytestut/Roxas.git
+ [submodule "Cores/GBADeltaCore"]
+ 	path = Cores/GBADeltaCore
+-	url = git@github.com:rileytestut/GBADeltaCore.git
++	url = https://github.com/rileytestut/GBADeltaCore.git
+ [submodule "Cores/GBCDeltaCore"]
+ 	path = Cores/GBCDeltaCore
+-	url = git@github.com:rileytestut/GBCDeltaCore.git
++	url = https://github.com/rileytestut/GBCDeltaCore.git
+ [submodule "External/Harmony"]
+ 	path = External/Harmony
+ 	url = https://github.com/rileytestut/Harmony.git
+ [submodule "Cores/NESDeltaCore"]
+ 	path = Cores/NESDeltaCore
+-	url = git@github.com:rileytestut/NESDeltaCore.git
++	url = https://github.com/rileytestut/NESDeltaCore.git
+ [submodule "Cores/N64DeltaCore"]
+ 	path = Cores/N64DeltaCore
+-	url = git@github.com:rileytestut/N64DeltaCore.git
++	url = https://github.com/rileytestut/N64DeltaCore.git
+ [submodule "Cores/MelonDSDeltaCore"]
+ 	path = Cores/MelonDSDeltaCore
+ 	url = https://github.com/rileytestut/MelonDSDeltaCore.git
+diff --git a/Delta.xcodeproj/project.pbxproj b/Delta.xcodeproj/project.pbxproj
+index 3f1eabdb4f540f150e7640e56522e1e02f071bcb..7f457be1ff606fc5197bedeaf6b8b7f5cda09c46 100644
+--- a/Delta.xcodeproj/project.pbxproj
++++ b/Delta.xcodeproj/project.pbxproj
+@@ -1655,10 +1655,11 @@
+ 			);
+ 			inputPaths = (
+ 				"${PODS_ROOT}/Target Support Files/Pods-Delta/Pods-Delta-resources.sh",
++				"${PODS_CONFIGURATION_BUILD_DIR}/AppAuth/AppAuthCore_Privacy.bundle",
+ 				"${PODS_CONFIGURATION_BUILD_DIR}/DeltaCore/DeltaCore.bundle",
+ 				"${PODS_CONFIGURATION_BUILD_DIR}/GBADeltaCore/GBADeltaCore.bundle",
+ 				"${PODS_CONFIGURATION_BUILD_DIR}/GBCDeltaCore/GBCDeltaCore.bundle",
+-				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
++				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleSignIn/GoogleSignIn.bundle",
+ 				"${PODS_ROOT}/../External/Harmony/Harmony/Model/Core Data/Harmony.xcdatamodeld",
+ 				"${PODS_ROOT}/../External/Harmony/Harmony/Model/Core Data/Migrations/Harmony2ToHarmony3.xcmappingmodel",
+ 				"${PODS_ROOT}/../External/Harmony/Harmony/Model/Core Data/Migrations/HarmonyToHarmony2.xcmappingmodel",
+@@ -1671,6 +1672,7 @@
+ 			);
+ 			name = "[CP] Copy Pods Resources";
+ 			outputPaths = (
++				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AppAuthCore_Privacy.bundle",
+ 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DeltaCore.bundle",
+ 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GBADeltaCore.bundle",
+ 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GBCDeltaCore.bundle",
+@@ -2246,7 +2248,6 @@
+ 				);
+ 				MARKETING_VERSION = 1.7;
+ 				OTHER_LDFLAGS = (
+-					"-ld64",
+ 					"-ObjC",
+ 					"-l\"Alamofire\"",
+ 					"-l\"AppAuth\"",
+@@ -2329,7 +2330,6 @@
+ 				);
+ 				MARKETING_VERSION = 1.7;
+ 				OTHER_LDFLAGS = (
+-					"-ld64",
+ 					"${inherited}",
+ 				);
+ 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -DIMPACTOR";
+diff --git a/Podfile.lock b/Podfile.lock
+index c3b70c98c705345edd13ebe7a3dd2f9a1e6b345d..272e46c8b896bf8410782c56619e5a25a3099317 100644
+--- a/Podfile.lock
++++ b/Podfile.lock
+@@ -1,10 +1,10 @@
+ PODS:
+   - Alamofire (4.7.3)
+-  - AppAuth (1.6.2):
+-    - AppAuth/Core (= 1.6.2)
+-    - AppAuth/ExternalUserAgent (= 1.6.2)
+-  - AppAuth/Core (1.6.2)
+-  - AppAuth/ExternalUserAgent (1.6.2):
++  - AppAuth (1.7.6):
++    - AppAuth/Core (= 1.7.6)
++    - AppAuth/ExternalUserAgent (= 1.7.6)
++  - AppAuth/Core (1.7.6)
++  - AppAuth/ExternalUserAgent (1.7.6):
+     - AppAuth/Core
+   - DeltaCore (0.1):
+     - ZIPFoundation
+@@ -17,25 +17,25 @@ PODS:
+   - GoogleAPIClientForREST/Drive (1.3.11):
+     - GoogleAPIClientForREST/Core
+     - GTMSessionFetcher (>= 1.1.7)
+-  - GoogleSignIn (5.0.2):
+-    - AppAuth (~> 1.2)
+-    - GTMAppAuth (~> 1.0)
+-    - GTMSessionFetcher/Core (~> 1.1)
++  - GoogleSignIn (6.2.4):
++    - AppAuth (~> 1.5)
++    - GTMAppAuth (~> 1.3)
++    - GTMSessionFetcher/Core (< 3.0, >= 1.1)
+   - GTMAppAuth (1.3.1):
+     - AppAuth/Core (~> 1.6)
+     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
+-  - GTMSessionFetcher (1.7.2):
+-    - GTMSessionFetcher/Full (= 1.7.2)
+-  - GTMSessionFetcher/Core (1.7.2)
+-  - GTMSessionFetcher/Full (1.7.2):
+-    - GTMSessionFetcher/Core (= 1.7.2)
++  - GTMSessionFetcher (2.3.0):
++    - GTMSessionFetcher/Full (= 2.3.0)
++  - GTMSessionFetcher/Core (2.3.0)
++  - GTMSessionFetcher/Full (2.3.0):
++    - GTMSessionFetcher/Core
+   - Harmony (0.1):
+     - Harmony/Harmony-Drive (= 0.1)
+     - Harmony/Harmony-Dropbox (= 0.1)
+     - Roxas
+   - Harmony/Harmony-Drive (0.1):
+     - GoogleAPIClientForREST/Drive (~> 1.3.0)
+-    - GoogleSignIn (~> 5.0)
++    - GoogleSignIn (= 6.2.4)
+     - Roxas
+   - Harmony/Harmony-Dropbox (0.1):
+     - Roxas
+@@ -116,26 +116,26 @@ EXTERNAL SOURCES:
+ 
+ SPEC CHECKSUMS:
+   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+-  AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+-  DeltaCore: 6a430005ea397fcd5b40b964effe41ac69cc9037
+-  GBADeltaCore: c2f7ce5e5616ed63d2b99c9ba9a7e020f2263248
+-  GBCDeltaCore: 27f09a1c88a4ac832aa549fbe34aaf277251b6b8
++  AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
++  DeltaCore: 34fa5d77f195d43597f330216b2fba47ef303384
++  GBADeltaCore: 833d6ed008e40daf8c91c92eeebe99cf7817e919
++  GBCDeltaCore: 820ff1db27f67534229e536504ebfedf40ef0abc
+   GoogleAPIClientForREST: 0f19a8280dfe6471f76016645d26eb5dae305101
+-  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
++  GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
+   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
+-  GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
+-  Harmony: 1d8166b6168eec8cce046c4366765d15f7e3b9fc
+-  MelonDSDeltaCore: c0d16e1fa8dbaf77fb268c6f1ab344c6db4ace34
+-  N64DeltaCore: 4eeb468746722952bcd5467ecb9ebe7df070f53a
+-  NESDeltaCore: ffae3bba878fc505bac0914150a695ede7bc9550
++  GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
++  Harmony: adcd508528a99c2682c7eb3f2467c8b72f4fdb8c
++  MelonDSDeltaCore: 390bafa4bdf8284d30436c98e5e1b571a67ef564
++  N64DeltaCore: 28c148ad8ee6b6ebd2dfba643f429b06ff89bbdd
++  NESDeltaCore: f03042c80d16c800ddc10b999535d0153229af20
+   Roxas: 1990039f843f5dc284918dc82375feb80020ef62
+   SDWebImage: a72e880a8fe0f7fc31efe15aaed443c074d2a80c
+   SMCalloutView: 5c0ee363dc8e7204b2fda17dfad38c93e9e23481
+-  SNESDeltaCore: d9b60ba8851d5d9cc8ab61616cc72396c292c87b
++  SNESDeltaCore: c537de1864485166e22749d18bb3fe20c9444c02
+   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
+   SwiftyDropbox: 378b4425a2e8d0cb24c7b0f2e3af72bfbaaf1e73
+   ZIPFoundation: b1f0de4eed33e74a676f76e12559ab6b75990197
+ 
+ PODFILE CHECKSUM: c14e4a610ac3b6803641cd873d8bc0dfd734ff14
+ 
+-COCOAPODS: 1.15.2
++COCOAPODS: 1.16.2
+diff --git a/Systems/build.sh b/Systems/build.sh
+index 00accbcddf200058a1c361ca5fd27b48cfb5d706..110d3aaa0a651d33035ca5c6ca07f6e71f720122 100755
+--- a/Systems/build.sh
++++ b/Systems/build.sh
+@@ -4,9 +4,9 @@
+ set -e
+ 
+ SCHEME="Systems"
+-PLATFORM="iOS"
++PLATFORM="iOS Simulator"
+ 
+-BUILD_DIR=".build"
++BUILD_DIR="$DELTA_SYSTEMS_DERIVED_DATA"
+ 
+ case $PLATFORM in
+ "iOS")
+@@ -19,6 +19,16 @@ esac
+ 
+ OUTPUT_DIR="$BUILD_DIR/Build/Products/$CONFIG_FOLDER"
+ 
+-xcodebuild -workspace Systems.xcworkspace -scheme $SCHEME -configuration ${CONFIGURATION} -destination "generic/platform=$PLATFORM" -derivedDataPath $BUILD_DIR BITCODE_GENERATION_MODE=bitcode
++xcodebuild -workspace Systems.xcworkspace -scheme "$SCHEME" -configuration "$CONFIGURATION" \
++    -sdk iphonesimulator -destination "generic/platform=$PLATFORM" -derivedDataPath "$BUILD_DIR" \
++    -clonedSourcePackagesDirPath "$DELTA_SYSTEMS_PACKAGES" -packageCachePath "$DELTA_PACKAGE_CACHE" \
++    -disableAutomaticPackageResolution -onlyUsePackageVersionsFromResolvedFile -jobs 2 \
++    ARCHS=arm64 ONLY_ACTIVE_ARCH=YES IPHONEOS_DEPLOYMENT_TARGET="$IPHONEOS_DEPLOYMENT_TARGET" \
++    CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO COMPILER_INDEX_STORE_ENABLE=NO
+         
+ cp -Rf "$OUTPUT_DIR/Systems.framework" "${BUILT_PRODUCTS_DIR}/"
++
++# Re-exported Swift modules must also be visible to the parent app's dependency scanner.
++for module in GPGXDeltaCore GPGXSwift; do
++    cp -Rf "$OUTPUT_DIR/$module.swiftmodule" "${BUILT_PRODUCTS_DIR}/"
++done
