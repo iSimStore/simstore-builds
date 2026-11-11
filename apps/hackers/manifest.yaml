@@ -1,0 +1,12 @@
+id: hackers
+name: Hackers
+
+source:
+  license: MIT
+  repository: https://github.com/weiran/Hackers
+  version: v5.6.1
+  revision: d18b53422be643d806f74d68393a771f964ba18e
+
+build:
+  script: build.sh
+  deploymentTarget: "26.0"
