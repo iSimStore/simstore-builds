@@ -1,0 +1,12 @@
+id: duckduckgo
+name: DuckDuckGo
+
+source:
+  license: Apache-2.0
+  repository: https://github.com/duckduckgo/apple-browsers
+  version: "7.245.0"
+  revision: fd1edb68c067ba30b72ec4f644a821491eb3b30e
+
+build:
+  script: build.sh
+  deploymentTarget: "15.6"
