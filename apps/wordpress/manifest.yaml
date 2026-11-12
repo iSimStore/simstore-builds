@@ -1,0 +1,12 @@
+id: wordpress
+name: WordPress
+
+source:
+  license: GPL-2.0-only
+  repository: https://github.com/wordpress-mobile/WordPress-iOS
+  version: "27.4.0"
+  revision: 69c635303678e18700c989d94f0e250cf1877e8f
+
+build:
+  script: build.sh
+  deploymentTarget: "17.0"

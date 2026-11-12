@@ -1,0 +1,543 @@
+{
+  "schema_version": 1,
+  "scope": {
+    "status": "VERIFIED NATIVE RETAINED-TEXT COLLECTION; NOT AN EXHAUSTIVE BUNDLED JAVASCRIPT DEPENDENCY AUDIT",
+    "description": "Exact-release core and native dependency license texts, with conservative retention of producer Podfile.lock dependencies and embedded Hermes notice collections. Individual license text bytes verified against immutable upstream commit URLs. This collection is not an upstream-generated aggregate and does not prove completeness of transitive or bundled JavaScript notices.",
+    "remaining_gap": "Production npm modules incorporated into the opaque Gutenberg iOS JavaScript bundle have not been comprehensively inventoried. React JavaScript itself and native-module project licenses are included, but do not cover all other runtime npm modules.",
+    "source_obligations": "This inventory and project links do not independently satisfy GPL corresponding-source or MPL source-availability obligations."
+  },
+  "provenance": {
+    "binary_url": "https://cdn.a8c-ci.services/gutenberg-mobile/Gutenberg-v1.121.0.tar.gz",
+    "producer_revision": "2ec1f526f28da566370a7b705176f6e9c0054c30",
+    "producer_lockfile_url": "https://raw.githubusercontent.com/wordpress-mobile/gutenberg-mobile/2ec1f526f28da566370a7b705176f6e9c0054c30/ios-xcframework/Podfile.lock",
+    "producer_packaging_url": "https://raw.githubusercontent.com/wordpress-mobile/gutenberg-mobile/2ec1f526f28da566370a7b705176f6e9c0054c30/ios-xcframework/build.sh",
+    "third_party_podspecs_url": "https://github.com/wordpress-mobile/gutenberg-mobile/tree/2ec1f526f28da566370a7b705176f6e9c0054c30/third-party-podspecs",
+    "gutenberg_submodule_revision": "0ced152c769c32305b581f240c3871c53e14721e",
+    "aggregate_discovery_result": "No complete public exact-release aggregate discovered in official release assets or pinned project source trees. Best upstream artifact to request: producer CocoaPods acknowledgement output plus production bundled-JavaScript license collection.",
+    "metadata_correction": "DoubleConversion 1.1.6 actual license text is BSD-3-Clause despite React Native podspec MIT label. Aztec is MPL-2.0, while RNTAztecView is Gutenberg GPL-2.0-or-later."
+  },
+  "files": [
+    {
+      "path": "gb-LICENSE.md",
+      "source_url": "https://raw.githubusercontent.com/WordPress/gutenberg/0ced152c769c32305b581f240c3871c53e14721e/LICENSE.md",
+      "sha256": "aabb1212a7e75f5670c9baf1a99e3c7c8a4c0525aedba97fd8f0c598ebe91141"
+    },
+    {
+      "path": "gm-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/wordpress-mobile/gutenberg-mobile/2ec1f526f28da566370a7b705176f6e9c0054c30/LICENSE",
+      "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643"
+    },
+    {
+      "path": "hermes-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/facebook/hermes/21043a3fc062be445e56a2c10ecd8be028dd9cc5/LICENSE",
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    },
+    {
+      "path": "hermes-Regex-LICENSE.TXT",
+      "source_url": "https://raw.githubusercontent.com/facebook/hermes/21043a3fc062be445e56a2c10ecd8be028dd9cc5/include/hermes/Regex/LICENSE.TXT",
+      "sha256": "c1938c0e9e90639d1e8f5a7f6bebaab83a3642e0ee44295a4c69934686d0bda8"
+    },
+    {
+      "path": "hermes-icu-license.txt",
+      "source_url": "https://raw.githubusercontent.com/facebook/hermes/21043a3fc062be445e56a2c10ecd8be028dd9cc5/doc/icu_license.txt",
+      "sha256": "4efd0445de1976f59f435b884312d43dfdd3c21d309ec66d5b755362a81aaa10"
+    },
+    {
+      "path": "hermes-icu_decls-license.html",
+      "source_url": "https://raw.githubusercontent.com/facebook/hermes/21043a3fc062be445e56a2c10ecd8be028dd9cc5/external/icu_decls/license.html",
+      "sha256": "0f6b1df0f0deedbe33e0a371314e9c32249a0a539c5c2be9609211d6dbe0dc10"
+    },
+    {
+      "path": "hermes-llvh-LICENSE.txt",
+      "source_url": "https://raw.githubusercontent.com/facebook/hermes/21043a3fc062be445e56a2c10ecd8be028dd9cc5/external/llvh/LICENSE.txt",
+      "sha256": "8d85c1057d742e597985c7d4e6320b015a9139385cff4cbae06ffc0ebe89afee"
+    },
+    {
+      "path": "hermes-llvh-Support-LICENSE.TXT",
+      "source_url": "https://raw.githubusercontent.com/facebook/hermes/21043a3fc062be445e56a2c10ecd8be028dd9cc5/external/llvh/include/llvh/Support/LICENSE.TXT",
+      "sha256": "a012d664e4e01df52a65b2eeafdfb8aeb856fec0e6c372265d01b0109c3f5e2a"
+    },
+    {
+      "path": "native-Aztec-LICENSE.md",
+      "source_url": "https://raw.githubusercontent.com/wordpress-mobile/AztecEditor-iOS/8ea911f3c5fdc3721c2b3f5ba897c42dd660e466/LICENSE.md",
+      "sha256": "e6b6566f085df5746515c6d7e2edcaec0d2b77d527ac40d91409d783fb6c8508"
+    },
+    {
+      "path": "native-BVLinearGradient-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/brentvatne/react-native-linear-gradient/ebad0e1317e24aefc9a7fc00be0a5eee345eb649/LICENSE",
+      "sha256": "6e25cc53807b75564774ac22ef5fe9ac418dfd9c6640049864e0c2c3c00b2891"
+    },
+    {
+      "path": "native-DoubleConversion-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/google/double-conversion/361924fb61c043627d4179e941a102d543f6efa0/LICENSE",
+      "sha256": "4af93c12062c58058378de2397dc1c92bbff9ddfb1d583a01c84127557ce97ca"
+    },
+    {
+      "path": "native-RCT-Folly-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/facebook/folly/1d196d678392a442851ed4bf5a63dc5edb67cb91/LICENSE",
+      "sha256": "2206c00af7013581ae0d7c8c8a0089f02fab621913daac019b32336bd4d1e1db"
+    },
+    {
+      "path": "native-RNCClipboard-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/react-native-clipboard/clipboard/c95742cdfaa86a927f98e06da1cdebe3e2887727/LICENSE",
+      "sha256": "212dbf14b113759356207347826f21ac3c81151943fdb89ce25da5dc6214831c"
+    },
+    {
+      "path": "native-RNCMaskedView-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/react-native-masked-view/masked-view/f5bf964bffb9fbb35be34151102b5064fd744696/LICENSE",
+      "sha256": "22a28f29cff8f5ecf9f463301d9c03b8245a2952ebae0bcab633fd654c0792fb"
+    },
+    {
+      "path": "native-RNFastImage-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/DylanVann/react-native-fast-image/4d8c74945df460bd89ad2bb74c86efb6ccf76c48/LICENSE",
+      "sha256": "19c73560de9147ad2389d5b9450199833d3d6902ab3c5b5f8f6f0c65712104ea"
+    },
+    {
+      "path": "native-RNGestureHandler-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/software-mansion/react-native-gesture-handler/55007fbd7a8430c22e38d0dc1789ab73648d5130/LICENSE",
+      "sha256": "f1ae22eddd3a96c3b7b8a494ef03749ae6a1e19574bacc9c195d83c916de09e2"
+    },
+    {
+      "path": "native-RNReanimated-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/wordpress-mobile/react-native-reanimated/370beae83df674476e6917fe8ac4cea6b0179ad3/LICENSE",
+      "sha256": "f1ae22eddd3a96c3b7b8a494ef03749ae6a1e19574bacc9c195d83c916de09e2"
+    },
+    {
+      "path": "native-RNSVG-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/react-native-community/react-native-svg/1868f00f2012488fdc23d1e4adfafebc97e937be/LICENSE",
+      "sha256": "1bc2aa7dad15097cd71308d9ae013ff14d11a84357b170c1554f4035fb8a3acb"
+    },
+    {
+      "path": "native-RNScreens-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/software-mansion/react-native-screens/016497940e3276f1e8cbebb157d5d06fb6a8d7fc/LICENSE",
+      "sha256": "95b52e497653b738fd50e4bd3a8197dc41593c63129acb4f8069dbf49530ef82"
+    },
+    {
+      "path": "native-SDWebImage-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/SDWebImage/SDWebImage/76dd4b49110b8624317fc128e7fa0d8a252018bc/LICENSE",
+      "sha256": "db5ae21958ad3871339a53acfabc7e9c20553a35761878dfd304573de1e88740"
+    },
+    {
+      "path": "native-SDWebImageWebPCoder-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/SDWebImage/SDWebImageWebPCoder/18834cac007c8cc982c57d384b00e7a8a129e9db/LICENSE",
+      "sha256": "2b4e998db6eb1c4f7fe3533dca578b0951274d24bef5f647f42000df43f5af91"
+    },
+    {
+      "path": "native-SocketRocket-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/facebook/SocketRocket/6fdc5fd0db5c49b1ed050d4033ee6a6ee2ec4d39/LICENSE",
+      "sha256": "41c74b84758ab303b091b0afbf958de909559556c8f1591dc4d687ea184356ab"
+    },
+    {
+      "path": "native-boost-LICENSE_1_0.txt",
+      "source_url": "https://raw.githubusercontent.com/boostorg/boost/564e2ac16907019696cdaba8a93e3588ec596062/LICENSE_1_0.txt",
+      "sha256": "c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566"
+    },
+    {
+      "path": "native-fmt-LICENSE.rst",
+      "source_url": "https://raw.githubusercontent.com/fmtlib/fmt/19bd751020a1f3c3363b2eb67a039852f139a8d3/LICENSE.rst",
+      "sha256": "825c9324e70f8c839c8ba910543dd4a7daee243b86ef960594c11381a19980b8"
+    },
+    {
+      "path": "native-glog-COPYING",
+      "source_url": "https://raw.githubusercontent.com/google/glog/a6a166db069520dbbd653c97c2e5b12e08a8bb26/COPYING",
+      "sha256": "0fc497129c5c69ff6f22da6933c7e4aaef082fde8437fd57680c2780100772a4"
+    },
+    {
+      "path": "native-libevent-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/libevent/libevent/5df3037d10556bfcb675bc73e516978b75fc7bc7/LICENSE",
+      "sha256": "ff02effc9b331edcdac387d198691bfa3e575e7d244ad10cb826aa51ef085670"
+    },
+    {
+      "path": "native-libwebp-COPYING",
+      "source_url": "https://raw.githubusercontent.com/webmproject/libwebp/ca332209cb5567c9b249c86788cb2dbf8847e760/COPYING",
+      "sha256": "5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf"
+    },
+    {
+      "path": "native-react-native-blur-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/react-native-community/react-native-blur/9d2d744a5171f3a77564a43f87c2cfb3fbcf597e/LICENSE",
+      "sha256": "6e25cc53807b75564774ac22ef5fe9ac418dfd9c6640049864e0c2c3c00b2891"
+    },
+    {
+      "path": "native-react-native-get-random-values-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/LinusU/react-native-get-random-values/75829b251c5f99b2d6dd3015a5091c7e0e9b4666/LICENSE",
+      "sha256": "133786f19c18daa34e4f8565653995930d709421784c5faceb840619cfe82934"
+    },
+    {
+      "path": "native-react-native-safe-area-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/miyabi/react-native-safe-area/9721e26253e59c855ed55df5f9da8b6aaaadd409/LICENSE",
+      "sha256": "bf7672f9de67c5972f7db432af9c2fa7d82e3d9dabbc71d1b45f41af26a4e1d3"
+    },
+    {
+      "path": "native-react-native-safe-area-context-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/th3rdwave/react-native-safe-area-context/f7e7e20b930c1e414ea34ede5d7aa1c406edc36a/LICENSE",
+      "sha256": "f5c7a4d527258e11fdfe3d84eb73cd14fe6d64224ef051e59f6ee21fe378800c"
+    },
+    {
+      "path": "native-react-native-slider-LICENSE.md",
+      "source_url": "https://raw.githubusercontent.com/wordpress-mobile/react-native-slider/ebb8213b20b3582cf09752ac931505ecc3115913/LICENSE.md",
+      "sha256": "7d060af61ae5e95c26d620ce2d40fec91ff3175824e516905e8a61b4d94b07af"
+    },
+    {
+      "path": "native-react-native-video-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/wordpress-mobile/react-native-video/197c644d6d1b86d0ad86831310992e71b776c9b3/LICENSE",
+      "sha256": "e8d659fd95163d65cf2932412c07270f3f702d970c5fdf7830d86b7ca1110b62"
+    },
+    {
+      "path": "native-react-native-webview-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/react-native-webview/react-native-webview/663f256a576d458c50254409e0ede76039929f05/LICENSE",
+      "sha256": "22a28f29cff8f5ecf9f463301d9c03b8245a2952ebae0bcab633fd654c0792fb"
+    },
+    {
+      "path": "reactjs-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/facebook/react/f1338f8080abd1386454a10bbf93d67bfe37ce85/LICENSE",
+      "sha256": "52412d7bc7ce4157ea628bbaacb8829e0a9cb3c58f57f99176126bc8cf2bfc85"
+    },
+    {
+      "path": "rn-LICENSE",
+      "source_url": "https://raw.githubusercontent.com/facebook/react-native/53061d7b85a98f442f1b652488f9e150563d3c96/packages/react-native/LICENSE",
+      "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
+    }
+  ],
+  "components": [
+    {
+      "name": "Aztec",
+      "version": "1.19.11",
+      "revision": "8ea911f3c5fdc3721c2b3f5ba897c42dd660e466",
+      "source_url": "https://github.com/wordpress-mobile/AztecEditor-iOS/tree/8ea911f3c5fdc3721c2b3f5ba897c42dd660e466",
+      "license_files": [
+        "native-Aztec-LICENSE.md"
+      ],
+      "upstream_ref": "1.19.11"
+    },
+    {
+      "name": "boost",
+      "version": "1.83.0",
+      "revision": "564e2ac16907019696cdaba8a93e3588ec596062",
+      "source_url": "https://github.com/boostorg/boost/tree/564e2ac16907019696cdaba8a93e3588ec596062",
+      "license_files": [
+        "native-boost-LICENSE_1_0.txt"
+      ],
+      "upstream_ref": "boost-1.83.0"
+    },
+    {
+      "name": "BVLinearGradient",
+      "version": "2.7.3",
+      "revision": "ebad0e1317e24aefc9a7fc00be0a5eee345eb649",
+      "source_url": "https://github.com/brentvatne/react-native-linear-gradient/tree/ebad0e1317e24aefc9a7fc00be0a5eee345eb649",
+      "license_files": [
+        "native-BVLinearGradient-LICENSE"
+      ],
+      "upstream_ref": "v2.7.3"
+    },
+    {
+      "name": "DoubleConversion",
+      "version": "1.1.6",
+      "revision": "361924fb61c043627d4179e941a102d543f6efa0",
+      "source_url": "https://github.com/google/double-conversion/tree/361924fb61c043627d4179e941a102d543f6efa0",
+      "license_files": [
+        "native-DoubleConversion-LICENSE"
+      ],
+      "upstream_ref": "v1.1.6"
+    },
+    {
+      "name": "fmt",
+      "version": "6.2.1",
+      "revision": "19bd751020a1f3c3363b2eb67a039852f139a8d3",
+      "source_url": "https://github.com/fmtlib/fmt/tree/19bd751020a1f3c3363b2eb67a039852f139a8d3",
+      "license_files": [
+        "native-fmt-LICENSE.rst"
+      ],
+      "upstream_ref": "6.2.1"
+    },
+    {
+      "name": "glog",
+      "version": "0.3.5",
+      "revision": "a6a166db069520dbbd653c97c2e5b12e08a8bb26",
+      "source_url": "https://github.com/google/glog/tree/a6a166db069520dbbd653c97c2e5b12e08a8bb26",
+      "license_files": [
+        "native-glog-COPYING"
+      ],
+      "upstream_ref": "v0.3.5"
+    },
+    {
+      "name": "Gutenberg",
+      "version": "pinned submodule",
+      "revision": "0ced152c769c32305b581f240c3871c53e14721e",
+      "source_url": "https://github.com/WordPress/gutenberg/tree/0ced152c769c32305b581f240c3871c53e14721e",
+      "license_files": [
+        "gb-LICENSE.md"
+      ]
+    },
+    {
+      "name": "Gutenberg Mobile",
+      "version": "1.121.0",
+      "revision": "2ec1f526f28da566370a7b705176f6e9c0054c30",
+      "source_url": "https://github.com/wordpress-mobile/gutenberg-mobile/tree/2ec1f526f28da566370a7b705176f6e9c0054c30",
+      "license_files": [
+        "gm-LICENSE"
+      ]
+    },
+    {
+      "name": "Hermes",
+      "version": "React Native pod 0.73.3",
+      "revision": "21043a3fc062be445e56a2c10ecd8be028dd9cc5",
+      "source_url": "https://github.com/facebook/hermes/tree/21043a3fc062be445e56a2c10ecd8be028dd9cc5",
+      "license_files": [
+        "hermes-LICENSE",
+        "hermes-icu-license.txt",
+        "hermes-llvh-LICENSE.txt",
+        "hermes-llvh-Support-LICENSE.TXT",
+        "hermes-Regex-LICENSE.TXT",
+        "hermes-icu_decls-license.html"
+      ],
+      "upstream_ref": "hermes-2023-11-17-RNv0.73.0-21043a3fc062be445e56a2c10ecd8be028dd9cc5",
+      "applicability_note": "Conservative retention of embedded LLVM, Regex and ICU notice collections; inclusion of ICU in this exact Apple prebuilt configuration was not proven."
+    },
+    {
+      "name": "libevent",
+      "version": "2.1.12",
+      "revision": "5df3037d10556bfcb675bc73e516978b75fc7bc7",
+      "source_url": "https://github.com/libevent/libevent/tree/5df3037d10556bfcb675bc73e516978b75fc7bc7",
+      "license_files": [
+        "native-libevent-LICENSE"
+      ],
+      "upstream_ref": "release-2.1.12-stable"
+    },
+    {
+      "name": "libwebp",
+      "version": "1.3.2",
+      "revision": "ca332209cb5567c9b249c86788cb2dbf8847e760",
+      "source_url": "https://github.com/webmproject/libwebp/tree/ca332209cb5567c9b249c86788cb2dbf8847e760",
+      "license_files": [
+        "native-libwebp-COPYING"
+      ],
+      "upstream_ref": "v1.3.2"
+    },
+    {
+      "name": "RCT-Folly",
+      "version": "2022.05.16.00",
+      "revision": "1d196d678392a442851ed4bf5a63dc5edb67cb91",
+      "source_url": "https://github.com/facebook/folly/tree/1d196d678392a442851ed4bf5a63dc5edb67cb91",
+      "license_files": [
+        "native-RCT-Folly-LICENSE"
+      ],
+      "upstream_ref": "v2022.05.16.00"
+    },
+    {
+      "name": "React JavaScript",
+      "version": "18.3.1",
+      "revision": "f1338f8080abd1386454a10bbf93d67bfe37ce85",
+      "source_url": "https://github.com/facebook/react/tree/f1338f8080abd1386454a10bbf93d67bfe37ce85",
+      "license_files": [
+        "reactjs-LICENSE"
+      ]
+    },
+    {
+      "name": "React Native",
+      "version": "0.73.3",
+      "revision": "53061d7b85a98f442f1b652488f9e150563d3c96",
+      "source_url": "https://github.com/facebook/react-native/tree/53061d7b85a98f442f1b652488f9e150563d3c96",
+      "license_files": [
+        "rn-LICENSE"
+      ]
+    },
+    {
+      "name": "react-native-blur",
+      "version": "3.6.1",
+      "revision": "9d2d744a5171f3a77564a43f87c2cfb3fbcf597e",
+      "source_url": "https://github.com/react-native-community/react-native-blur/tree/9d2d744a5171f3a77564a43f87c2cfb3fbcf597e",
+      "license_files": [
+        "native-react-native-blur-LICENSE"
+      ],
+      "upstream_ref": "v3.6.1"
+    },
+    {
+      "name": "react-native-get-random-values",
+      "version": "1.4.0",
+      "revision": "75829b251c5f99b2d6dd3015a5091c7e0e9b4666",
+      "source_url": "https://github.com/LinusU/react-native-get-random-values/tree/75829b251c5f99b2d6dd3015a5091c7e0e9b4666",
+      "license_files": [
+        "native-react-native-get-random-values-LICENSE"
+      ],
+      "upstream_ref": "v1.4.0"
+    },
+    {
+      "name": "react-native-safe-area",
+      "version": "0.5.1",
+      "revision": "9721e26253e59c855ed55df5f9da8b6aaaadd409",
+      "source_url": "https://github.com/miyabi/react-native-safe-area/tree/9721e26253e59c855ed55df5f9da8b6aaaadd409",
+      "license_files": [
+        "native-react-native-safe-area-LICENSE"
+      ],
+      "upstream_ref": "v0.5.1"
+    },
+    {
+      "name": "react-native-safe-area-context",
+      "version": "4.8.2",
+      "revision": "f7e7e20b930c1e414ea34ede5d7aa1c406edc36a",
+      "source_url": "https://github.com/th3rdwave/react-native-safe-area-context/tree/f7e7e20b930c1e414ea34ede5d7aa1c406edc36a",
+      "license_files": [
+        "native-react-native-safe-area-context-LICENSE"
+      ],
+      "upstream_ref": "v4.8.2"
+    },
+    {
+      "name": "react-native-slider",
+      "version": "3.0.2-wp-4",
+      "revision": "ebb8213b20b3582cf09752ac931505ecc3115913",
+      "source_url": "https://github.com/wordpress-mobile/react-native-slider/tree/ebb8213b20b3582cf09752ac931505ecc3115913",
+      "license_files": [
+        "native-react-native-slider-LICENSE.md"
+      ],
+      "upstream_ref": "v3.0.2-wp-4"
+    },
+    {
+      "name": "react-native-video",
+      "version": "5.2.0-wp-6",
+      "revision": "197c644d6d1b86d0ad86831310992e71b776c9b3",
+      "source_url": "https://github.com/wordpress-mobile/react-native-video/tree/197c644d6d1b86d0ad86831310992e71b776c9b3",
+      "license_files": [
+        "native-react-native-video-LICENSE"
+      ],
+      "upstream_ref": "5.2.0-wp-6"
+    },
+    {
+      "name": "react-native-webview",
+      "version": "13.6.1",
+      "revision": "663f256a576d458c50254409e0ede76039929f05",
+      "source_url": "https://github.com/react-native-webview/react-native-webview/tree/663f256a576d458c50254409e0ede76039929f05",
+      "license_files": [
+        "native-react-native-webview-LICENSE"
+      ],
+      "upstream_ref": "v13.6.1"
+    },
+    {
+      "name": "RNCClipboard",
+      "version": "1.11.2",
+      "revision": "c95742cdfaa86a927f98e06da1cdebe3e2887727",
+      "source_url": "https://github.com/react-native-clipboard/clipboard/tree/c95742cdfaa86a927f98e06da1cdebe3e2887727",
+      "license_files": [
+        "native-RNCClipboard-LICENSE"
+      ],
+      "upstream_ref": "v1.11.2"
+    },
+    {
+      "name": "RNCMaskedView",
+      "version": "0.3.0",
+      "revision": "f5bf964bffb9fbb35be34151102b5064fd744696",
+      "source_url": "https://github.com/react-native-masked-view/masked-view/tree/f5bf964bffb9fbb35be34151102b5064fd744696",
+      "license_files": [
+        "native-RNCMaskedView-LICENSE"
+      ],
+      "upstream_ref": "v0.3.0"
+    },
+    {
+      "name": "RNFastImage",
+      "version": "8.5.11",
+      "revision": "4d8c74945df460bd89ad2bb74c86efb6ccf76c48",
+      "source_url": "https://github.com/DylanVann/react-native-fast-image/tree/4d8c74945df460bd89ad2bb74c86efb6ccf76c48",
+      "license_files": [
+        "native-RNFastImage-LICENSE"
+      ],
+      "upstream_ref": "v8.5.11"
+    },
+    {
+      "name": "RNGestureHandler",
+      "version": "2.14.1",
+      "revision": "55007fbd7a8430c22e38d0dc1789ab73648d5130",
+      "source_url": "https://github.com/software-mansion/react-native-gesture-handler/tree/55007fbd7a8430c22e38d0dc1789ab73648d5130",
+      "license_files": [
+        "native-RNGestureHandler-LICENSE"
+      ],
+      "upstream_ref": "2.14.1"
+    },
+    {
+      "name": "RNReanimated",
+      "version": "3.6.2",
+      "revision": "370beae83df674476e6917fe8ac4cea6b0179ad3",
+      "source_url": "https://github.com/wordpress-mobile/react-native-reanimated/tree/370beae83df674476e6917fe8ac4cea6b0179ad3",
+      "license_files": [
+        "native-RNReanimated-LICENSE"
+      ],
+      "upstream_ref": "370beae83df674476e6917fe8ac4cea6b0179ad3"
+    },
+    {
+      "name": "RNScreens",
+      "version": "3.29.0",
+      "revision": "016497940e3276f1e8cbebb157d5d06fb6a8d7fc",
+      "source_url": "https://github.com/software-mansion/react-native-screens/tree/016497940e3276f1e8cbebb157d5d06fb6a8d7fc",
+      "license_files": [
+        "native-RNScreens-LICENSE"
+      ],
+      "upstream_ref": "3.29.0"
+    },
+    {
+      "name": "RNSVG",
+      "version": "14.0.0",
+      "revision": "1868f00f2012488fdc23d1e4adfafebc97e937be",
+      "source_url": "https://github.com/react-native-community/react-native-svg/tree/1868f00f2012488fdc23d1e4adfafebc97e937be",
+      "license_files": [
+        "native-RNSVG-LICENSE"
+      ],
+      "upstream_ref": "v14.0.0"
+    },
+    {
+      "name": "RNTAztecView",
+      "version": "1.121.0",
+      "revision": "0ced152c769c32305b581f240c3871c53e14721e",
+      "source_url": "https://github.com/WordPress/gutenberg/tree/0ced152c769c32305b581f240c3871c53e14721e",
+      "license_files": [
+        "gb-LICENSE.md"
+      ],
+      "license": "GPL-2.0-or-later",
+      "source_subdirectory": "packages/react-native-aztec"
+    },
+    {
+      "name": "SDWebImage",
+      "version": "5.11.1",
+      "revision": "76dd4b49110b8624317fc128e7fa0d8a252018bc",
+      "source_url": "https://github.com/SDWebImage/SDWebImage/tree/76dd4b49110b8624317fc128e7fa0d8a252018bc",
+      "license_files": [
+        "native-SDWebImage-LICENSE"
+      ],
+      "upstream_ref": "5.11.1"
+    },
+    {
+      "name": "SDWebImageWebPCoder",
+      "version": "0.8.5",
+      "revision": "18834cac007c8cc982c57d384b00e7a8a129e9db",
+      "source_url": "https://github.com/SDWebImage/SDWebImageWebPCoder/tree/18834cac007c8cc982c57d384b00e7a8a129e9db",
+      "license_files": [
+        "native-SDWebImageWebPCoder-LICENSE"
+      ],
+      "upstream_ref": "0.8.5"
+    },
+    {
+      "name": "SocketRocket",
+      "version": "0.6.1",
+      "revision": "6fdc5fd0db5c49b1ed050d4033ee6a6ee2ec4d39",
+      "source_url": "https://github.com/facebook/SocketRocket/tree/6fdc5fd0db5c49b1ed050d4033ee6a6ee2ec4d39",
+      "license_files": [
+        "native-SocketRocket-LICENSE"
+      ],
+      "upstream_ref": "0.6.1"
+    },
+    {
+      "name": "Yoga",
+      "version": "legacy pod 1.14.0, vendored with RN 0.73.3",
+      "revision": "53061d7b85a98f442f1b652488f9e150563d3c96",
+      "source_url": "https://github.com/facebook/react-native/tree/53061d7b85a98f442f1b652488f9e150563d3c96",
+      "license_files": [
+        "rn-LICENSE"
+      ],
+      "license": "MIT",
+      "source_subdirectory": "packages/react-native/ReactCommon/yoga"
+    }
+  ],
+  "verification": {
+    "immutable_url_sha256_verified": true,
+    "file_count": 36,
+    "component_count": 33,
+    "native_inventory_count": 26
+  }
+}

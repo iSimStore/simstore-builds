@@ -1,0 +1,5 @@
+description:
+  en: Manage self-hosted WordPress sites, write posts, and upload media. WordPress.com login requires separate OAuth credentials.
+  zh-Hans: 管理自托管 WordPress 站点、撰写文章并上传媒体。WordPress.com 登录需另行配置 OAuth 凭据。
+categories:
+  - productivity
