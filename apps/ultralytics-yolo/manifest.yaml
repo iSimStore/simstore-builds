@@ -1,0 +1,12 @@
+id: ultralytics-yolo
+name: Ultralytics YOLO
+
+source:
+  license: AGPL-3.0-only
+  repository: https://github.com/ultralytics/yolo-ios-app
+  version: "8.9.23"
+  revision: 18cbfea7765401690f1a0e7f5462045d642f52e5
+
+build:
+  script: build.sh
+  deploymentTarget: "16.0"
