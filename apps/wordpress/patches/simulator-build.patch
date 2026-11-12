@@ -1,0 +1,63 @@
+diff --git a/Scripts/BuildPhases/DecryptSecrets.sh b/Scripts/BuildPhases/DecryptSecrets.sh
+index 63113f3..90a93e0 100755
+--- a/Scripts/BuildPhases/DecryptSecrets.sh
++++ b/Scripts/BuildPhases/DecryptSecrets.sh
+@@ -2,6 +2,11 @@
+ 
+ set -euo pipefail
+ 
++# Simulator recipes use only the public credential template, never local private secrets.
++if [[ "${PLATFORM_NAME:-}" == iphonesimulator ]]; then
++  exit 0
++fi
++
+ # Runs from the `Decrypt Secrets` aggregate target so it happens once per build:
+ # `a8c-secrets decrypt` is not safe to run concurrently, and the ten targets that
+ # consume the secrets build in parallel.
+diff --git a/Scripts/BuildPhases/GenerateCredentials.sh b/Scripts/BuildPhases/GenerateCredentials.sh
+index b6872c1..6330cff 100755
+--- a/Scripts/BuildPhases/GenerateCredentials.sh
++++ b/Scripts/BuildPhases/GenerateCredentials.sh
+@@ -2,6 +2,14 @@
+ 
+ set -euo pipefail
+ 
++# The reproducible Simulator build supports self-hosted sites without private OAuth secrets.
++if [[ "${PLATFORM_NAME:-}" == iphonesimulator ]]; then
++  mkdir -p "$(dirname "$SCRIPT_OUTPUT_FILE_0")"
++  cp "$SRCROOT/Credentials/Secrets-example.swift" "$SCRIPT_OUTPUT_FILE_0"
++  echo "Using public credentials for self-hosted WordPress sites; WordPress.com OAuth is unavailable."
++  exit 0
++fi
++
+ # To help the Xcode build system optimize the build, we want to ensure each of
+ # the secrets we want to copy is defined as an input file for the run script
+ # build phase.
+diff --git a/WordPress/Classes/System/WordPressAppDelegate+openURL.swift b/WordPress/Classes/System/WordPressAppDelegate+openURL.swift
+index 112437b..28c798b 100644
+--- a/WordPress/Classes/System/WordPressAppDelegate+openURL.swift
++++ b/WordPress/Classes/System/WordPressAppDelegate+openURL.swift
+@@ -117,7 +117,8 @@ import WordPressShared
+     private func handleDebugging(url: URL) -> Bool {
+         guard let params = url.queryItems,
+             let debugType = params.value(of: "type"),
+-            let debugKey = params.value(of: "key")
++            let debugKey = params.value(of: "key"),
++            !debugKey.isEmpty
+         else {
+             return false
+         }
+diff --git a/WordPress/Classes/Utility/Logging/EventLoggingDelegate.swift b/WordPress/Classes/Utility/Logging/EventLoggingDelegate.swift
+index 37482cb..9b041cc 100644
+--- a/WordPress/Classes/Utility/Logging/EventLoggingDelegate.swift
++++ b/WordPress/Classes/Utility/Logging/EventLoggingDelegate.swift
+@@ -7,7 +7,8 @@ import WordPressData
+ struct EventLoggingDelegate: AutomatticEncryptedLogs.EventLoggingDelegate {
+ 
+     var shouldUploadLogFiles: Bool {
+-        guard BuildSettingsEnvironment.current != .test else {
++        guard BuildSettingsEnvironment.current != .test,
++              !BuildSettings.current.secrets.encryptedLogsKey.isEmpty else {
+             return false
+         }
+ 
