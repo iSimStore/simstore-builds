@@ -22,9 +22,4 @@ python3 "$repo_dir/scripts/check_patch.py" "$source_dir" "$app_dir/patches/simul
 cmp "$app_dir/Package.resolved" "$resolved"
 built_app="$work/derived-data/Build/Products/Release-iphonesimulator/WordPress.app"
 cp "$source_dir/LICENSE" "$built_app/WordPress-LICENSE.txt"
-# Populate the upstream acknowledgement UI without a host-installed Swift tool.
-python3 "$app_dir/prepare_notices.py" "$app_dir/Package.resolved" \
-  "$work/swift-packages/checkouts" "$built_app" \
-  --allow-missing-license automatticabout-swift --allow-missing-license gutenbergkit
-ditto "$app_dir/licenses/gutenberg" "$built_app/ThirdPartyNotices/Gutenberg"
 finish_build "$built_app" WordPress.app

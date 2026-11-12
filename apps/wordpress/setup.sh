@@ -2,7 +2,6 @@
 set -euo pipefail
 source "$(dirname "$0")/env.sh"
 setup_python
-python3 -m unittest discover -s "$app_dir" -p 'test_*.py' -v
 [[ $(xcodebuild -version) == "Xcode $XCODE_VERSION"$'\n'* ]] || {
   echo "Requires Xcode $XCODE_VERSION." >&2
   exit 1

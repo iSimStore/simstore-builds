@@ -1,3 +1,2 @@
-# Preserve exact upstream notice bytes and unified-diff context whitespace.
-licenses/** -text -whitespace
+# Preserve unified-diff context whitespace.
 patches/*.patch -whitespace

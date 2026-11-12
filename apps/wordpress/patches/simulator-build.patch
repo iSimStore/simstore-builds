@@ -14,22 +14,6 @@ index 63113f3..90a93e0 100755
  # Runs from the `Decrypt Secrets` aggregate target so it happens once per build:
  # `a8c-secrets decrypt` is not safe to run concurrently, and the ten targets that
  # consume the secrets build in parallel.
-diff --git a/Scripts/BuildPhases/GenerateAcknowledgementsBundle.sh b/Scripts/BuildPhases/GenerateAcknowledgementsBundle.sh
-index 28494f7..9a00e50 100644
---- a/Scripts/BuildPhases/GenerateAcknowledgementsBundle.sh
-+++ b/Scripts/BuildPhases/GenerateAcknowledgementsBundle.sh
-@@ -2,6 +2,11 @@
- 
- set -euo pipefail
- 
-+# The Simulator recipe generates the acknowledgements from its pinned checkouts after the build.
-+if [[ "${PLATFORM_NAME:-}" == iphonesimulator ]]; then
-+    exit 0
-+fi
-+
- export PATH="$PATH:/opt/homebrew/bin"
- 
- if [ -f /opt/homebrew/bin/swift-package-list ]; then
 diff --git a/Scripts/BuildPhases/GenerateCredentials.sh b/Scripts/BuildPhases/GenerateCredentials.sh
 index b6872c1..6330cff 100755
 --- a/Scripts/BuildPhases/GenerateCredentials.sh
