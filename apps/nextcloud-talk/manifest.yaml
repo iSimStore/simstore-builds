@@ -1,0 +1,12 @@
+id: nextcloud-talk
+name: Nextcloud Talk
+
+source:
+  license: GPL-3.0-or-later
+  repository: https://github.com/nextcloud/talk-ios
+  version: "25.0.2"
+  revision: 0231f1c6b6ce51aa13dd9bde5008ae0839e1f8d1
+
+build:
+  script: build.sh
+  deploymentTarget: "17.0"
