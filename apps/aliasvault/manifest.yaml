@@ -1,0 +1,12 @@
+id: aliasvault
+name: AliasVault
+
+source:
+  license: AGPL-3.0-only
+  repository: https://github.com/aliasvault/aliasvault
+  version: "0.31.3"
+  revision: f7f44fc6efef99646adb842553480824523a3eff
+
+build:
+  script: build.sh
+  deploymentTarget: "17.0"
