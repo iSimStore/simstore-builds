@@ -1,0 +1,5 @@
+description:
+  en: An offline TOTP and HOTP authenticator that stores secrets in the iOS keychain. Manual entry is available without a camera. OTP correctness, HOTP counter persistence, keychain persistence and otpauth URL imports need separate runtime testing; this upstream version has no app-specific passcode or biometric lock.
+  zh-Hans: 离线 TOTP 和 HOTP 验证器，密钥保存在 iOS 钥匙串中。无摄像头时可手动录入。验证码正确性、HOTP 计数器持久化、钥匙串持久化及 otpauth 链接导入需单独运行测试；此上游版本没有应用专用密码或生物识别锁。
+categories:
+  - utilities

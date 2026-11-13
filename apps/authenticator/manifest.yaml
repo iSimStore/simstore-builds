@@ -1,0 +1,12 @@
+id: authenticator
+name: Authenticator
+
+source:
+  license: MIT
+  repository: https://github.com/mattrubin/Authenticator
+  version: "2.1.2"
+  revision: 16373c64ca6b59dabd27b7e9b4f1b9785d126bfd
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"
