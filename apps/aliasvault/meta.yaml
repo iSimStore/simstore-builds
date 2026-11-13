@@ -1,0 +1,5 @@
+description:
+  en: Manage an encrypted password vault and email aliases with AliasVault.com or a compatible self-hosted server. Initial login and sync require an account; shared-keychain access, biometric/PIN persistence, system autofill and passkeys need separate Simulator testing.
+  zh-Hans: 通过 AliasVault.com 或兼容的自托管服务器管理加密密码库和邮箱别名。首次登录与同步需要账户；共享钥匙串、生物识别/PIN 持久化、系统自动填充及通行密钥需单独测试 Simulator 兼容性。
+categories:
+  - utilities
