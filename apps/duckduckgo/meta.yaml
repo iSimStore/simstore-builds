@@ -1,0 +1,5 @@
+description:
+  en: Browse the web with DuckDuckGo search, tracker blocking, private tabs, bookmarks and browsing-data clearing. Public builds use system fonts instead of Duck Sans; VPN and voice search are limited in Simulator.
+  zh-Hans: 使用 DuckDuckGo 搜索浏览网页，支持拦截跟踪器、隐私标签页、书签及清除浏览数据。公开构建使用系统字体替代 Duck Sans；Simulator 中的 VPN 和语音搜索功能受限。
+categories:
+  - utilities

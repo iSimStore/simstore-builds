@@ -1,0 +1,83 @@
+diff --git a/iOS/DuckDuckGo-iOS.xcodeproj/project.pbxproj b/iOS/DuckDuckGo-iOS.xcodeproj/project.pbxproj
+index 388550f6..7b5870a3 100644
+--- a/iOS/DuckDuckGo-iOS.xcodeproj/project.pbxproj
++++ b/iOS/DuckDuckGo-iOS.xcodeproj/project.pbxproj
+@@ -141,7 +141,6 @@
+ 		9FA8A627300EF680000DF5DE /* WebExtensionsTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 9FA8A626300EF680000DF5DE /* WebExtensionsTestSupport */; };
+ 		9FA8A62B300F026F000DF5DE /* WebExtensionsTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 9FA8A62A300F026F000DF5DE /* WebExtensionsTestSupport */; };
+ 		9FA8A62D300F0325000DF5DE /* WebExtensionsTestSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 9FA8A62C300F0325000DF5DE /* WebExtensionsTestSupport */; };
+-		9FADFC4A2F5FC56400CA16F7 /* DuckSansFont in Frameworks */ = {isa = PBXBuildFile; productRef = 9FADFC492F5FC56400CA16F7 /* DuckSansFont */; };
+ 		9FB19C7E2E94A28700B651B1 /* RemoteMessagingTestsUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 9FB19C7D2E94A28700B651B1 /* RemoteMessagingTestsUtils */; };
+ 		9FB6272E2E08251D00CBDEED /* SetDefaultBrowserUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9FB6272D2E08251D00CBDEED /* SetDefaultBrowserUI */; };
+ 		9FB71C982F342B4F000AD042 /* MetricBuilder in Frameworks */ = {isa = PBXBuildFile; productRef = 9FB71C972F342B4F000AD042 /* MetricBuilder */; };
+@@ -726,7 +725,6 @@
+ 				56D7792C2CFF476800B619EF /* StoreKit.framework in Frameworks */,
+ 				BB631D162DE0D9020099977D /* DesignResourcesKitIcons in Frameworks */,
+ 				5B6D65162FB39FA000BDCF4D /* EventKitUI.framework in Frameworks */,
+-				9FADFC4A2F5FC56400CA16F7 /* DuckSansFont in Frameworks */,
+ 				F1D43AFA2B99C1D300BAB743 /* BareBonesBrowserKit in Frameworks */,
+ 				BBD9C3972E9D73610060A6E8 /* SERPSettings in Frameworks */,
+ 				7B2CCBA52D11ABBA00FE5852 /* VPNWidgetSupport in Frameworks */,
+@@ -1229,7 +1227,6 @@
+ 				7B0752D82F21BFDB00ACA559 /* AutomationServer */,
+ 				1EC8B1892F29145C00F18679 /* WebExtensions */,
+ 				9FB71C972F342B4F000AD042 /* MetricBuilder */,
+-				9FADFC492F5FC56400CA16F7 /* DuckSansFont */,
+ 				854D67922F6DDFCA008707A3 /* ScreenTimeDataCleaner */,
+ 				315E39642F86ABEE00D2289D /* DebugServer */,
+ 				3C12C8760D7AF6C888DAD36A /* AIChatDebugServer */,
+@@ -1731,7 +1728,6 @@
+ 				9FDD72032D895D8C0016246B /* XCRemoteSwiftPackageReference "combine-schedulers" */,
+ 				BD0C4D872DC54508001F034F /* XCLocalSwiftPackageReference "LocalPackages/DuckUI" */,
+ 				7B0752DA2F21BFDB00ACA559 /* XCLocalSwiftPackageReference "../SharedPackages/AutomationServer" */,
+-				9FADFC482F5FC56400CA16F7 /* XCRemoteSwiftPackageReference "native-apps-ducksans" */,
+ 				315E39632F86ABE100D2289D /* XCLocalSwiftPackageReference "../SharedPackages/DebugServer" */,
+ 				A7B000022F6A000100000001 /* XCLocalSwiftPackageReference "../SharedPackages/SnapshotTestingSupport" */,
+ 				A91A00013031000100000001 /* XCLocalSwiftPackageReference "../SharedPackages/UITestingSupport" */,
+@@ -4943,14 +4939,6 @@
+ 				version = 4.6.1;
+ 			};
+ 		};
+-		9FADFC482F5FC56400CA16F7 /* XCRemoteSwiftPackageReference "native-apps-ducksans" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "git@github.com:duckduckgo/native-apps-ducksans.git";
+-			requirement = {
+-				kind = exactVersion;
+-				version = 1.0.0;
+-			};
+-		};
+ 		9FDD72032D895D8C0016246B /* XCRemoteSwiftPackageReference "combine-schedulers" */ = {
+ 			isa = XCRemoteSwiftPackageReference;
+ 			repositoryURL = "https://github.com/pointfreeco/combine-schedulers.git";
+@@ -5492,11 +5480,6 @@
+ 			isa = XCSwiftPackageProductDependency;
+ 			productName = WebExtensionsTestSupport;
+ 		};
+-		9FADFC492F5FC56400CA16F7 /* DuckSansFont */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = 9FADFC482F5FC56400CA16F7 /* XCRemoteSwiftPackageReference "native-apps-ducksans" */;
+-			productName = DuckSansFont;
+-		};
+ 		9FB19C7D2E94A28700B651B1 /* RemoteMessagingTestsUtils */ = {
+ 			isa = XCSwiftPackageProductDependency;
+ 			productName = RemoteMessagingTestsUtils;
+diff --git a/iOS/DuckDuckGo-iOS.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved b/iOS/DuckDuckGo-iOS.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+index 15a71d2c..bf4be921 100644
+--- a/iOS/DuckDuckGo-iOS.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
++++ b/iOS/DuckDuckGo-iOS.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+@@ -91,15 +91,6 @@
+         "version" : "4.6.1"
+       }
+     },
+-    {
+-      "identity" : "native-apps-ducksans",
+-      "kind" : "remoteSourceControl",
+-      "location" : "git@github.com:duckduckgo/native-apps-ducksans.git",
+-      "state" : {
+-        "revision" : "2f3e0ec3f028ff0cf4aca459def313607f385c1f",
+-        "version" : "1.0.0"
+-      }
+-    },
+     {
+       "identity" : "ohhttpstubs",
+       "kind" : "remoteSourceControl",
