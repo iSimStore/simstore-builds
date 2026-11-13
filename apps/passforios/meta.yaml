@@ -1,0 +1,5 @@
+description:
+  en: A pass-compatible password manager using OpenPGP encryption and a Git password store. Supply your own keys and repository; Git sync, keychain/passcode persistence and system autofill need separate testing. Hardware-key use requires physical hardware and is not supported by the shared extension decrypt path.
+  zh-Hans: 使用 OpenPGP 加密和 Git 密码仓库、兼容 pass 的密码管理器。需自行配置密钥和仓库；Git 同步、钥匙串/应用密码持久化及系统自动填充需单独测试。硬件密钥需要实体硬件，共享扩展解密路径不支持硬件密钥。
+categories:
+  - utilities

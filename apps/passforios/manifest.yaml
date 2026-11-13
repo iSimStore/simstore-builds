@@ -1,0 +1,12 @@
+id: passforios
+name: Pass
+
+source:
+  license: MIT
+  repository: https://github.com/mssun/passforios
+  version: "0.18.0"
+  revision: 30ff525224d2f6b9e3a87dcb935551e485f3bf82
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"
