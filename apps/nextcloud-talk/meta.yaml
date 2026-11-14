@@ -2,4 +2,4 @@ description:
   en: Chat and make calls through your Nextcloud Talk server. Requires a compatible server and account; self-built apps lack official push delivery, and Simulator video uses an upstream test pattern instead of a real camera.
   zh-Hans: 通过自己的 Nextcloud Talk 服务器聊天和通话。需要兼容的服务器与账户；自行构建版本无官方推送，Simulator 视频使用上游测试图案而非真实摄像头。
 categories:
-  - social-networking
+  - communication
