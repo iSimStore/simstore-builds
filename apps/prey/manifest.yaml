@@ -1,0 +1,10 @@
+id: prey
+name: Prey
+source:
+  license: GPL-3.0-only
+  repository: https://github.com/prey/prey-ios-client
+  version: "2.2.12"
+  revision: ba0f41e4c9b4ea0eb4d079512223f426c9afb89d
+build:
+  script: build.sh
+  deploymentTarget: "15.6"

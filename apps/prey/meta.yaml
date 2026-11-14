@@ -1,0 +1,5 @@
+description:
+  en: Connect this device to a Prey account for device tracking and security management. Uses the upstream public Simulator build without the private Location Push extension. Account linking, remote commands, background tracking and camera features need separate testing.
+  zh-Hans: 将此设备连接到 Prey 账户以跟踪和管理设备安全。采用上游公开的 Simulator 构建方式，不含私有定位推送扩展。账户绑定、远程指令、后台定位和相机功能需单独实测。
+categories:
+  - security

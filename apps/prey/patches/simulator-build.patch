@@ -1,0 +1,148 @@
+diff --git a/Prey.xcodeproj/project.pbxproj b/Prey.xcodeproj/project.pbxproj
+index 1fa06d4..f1f5cab 100644
+--- a/Prey.xcodeproj/project.pbxproj
++++ b/Prey.xcodeproj/project.pbxproj
+@@ -139,7 +139,6 @@
+ 			dstPath = "";
+ 			dstSubfolderSpec = 13;
+ 			files = (
+-				05177C362E5E07A600345E26 /* LocationPushService.appex in Embed Foundation Extensions */,
+ 			);
+ 			name = "Embed Foundation Extensions";
+ 			runOnlyForDeploymentPostprocessing = 0;
+@@ -596,7 +595,6 @@
+ 			buildRules = (
+ 			);
+ 			dependencies = (
+-				0537E01B2E5C89D4008D460F /* PBXTargetDependency */,
+ 			);
+ 			name = Prey;
+ 			productName = Prey;
+diff --git a/Prey.xcodeproj/xcshareddata/xcschemes/Prey.xcscheme b/Prey.xcodeproj/xcshareddata/xcschemes/Prey.xcscheme
+index 22ffa27..b22d8e3 100644
+--- a/Prey.xcodeproj/xcshareddata/xcschemes/Prey.xcscheme
++++ b/Prey.xcodeproj/xcshareddata/xcschemes/Prey.xcscheme
+@@ -20,20 +20,6 @@
+                ReferencedContainer = "container:Prey.xcodeproj">
+             </BuildableReference>
+          </BuildActionEntry>
+-         <BuildActionEntry
+-            buildForTesting = "YES"
+-            buildForRunning = "YES"
+-            buildForProfiling = "YES"
+-            buildForArchiving = "YES"
+-            buildForAnalyzing = "YES">
+-            <BuildableReference
+-               BuildableIdentifier = "primary"
+-               BlueprintIdentifier = "0537E0142E5C89D4008D460F"
+-               BuildableName = "LocationPushService.appex"
+-               BlueprintName = "LocationPushService"
+-               ReferencedContainer = "container:Prey.xcodeproj">
+-            </BuildableReference>
+-         </BuildActionEntry>
+       </BuildActionEntries>
+    </BuildAction>
+    <TestAction
+@@ -67,7 +53,7 @@
+       buildConfiguration = "Release"
+       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+-      enableThreadSanitizer = "YES"
++      enableThreadSanitizer = "NO"
+       launchStyle = "0"
+       useCustomWorkingDirectory = "NO"
+       ignoresPersistentStateOnLaunch = "NO"
+diff --git a/Prey/Classes/AppDelegate.swift b/Prey/Classes/AppDelegate.swift
+index 0835e3b..c1cfefe 100644
+--- a/Prey/Classes/AppDelegate.swift
++++ b/Prey/Classes/AppDelegate.swift
+@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
+
+             // Relaunch viewController
+             let homeIdentifier = StoryboardIdVC.homeWeb.rawValue
+-            self.window = UIWindow(frame: UIScreen.main.bounds)
++            self.window = self.window ?? UIWindow(frame: UIScreen.main.bounds)
+             let mainStoryboard = UIStoryboard(name: StoryboardIdVC.PreyStoryBoard.rawValue, bundle: nil)
+             let rootVC: UINavigationController = mainStoryboard.instantiateViewController(withIdentifier: StoryboardIdVC.navigation.rawValue) as! UINavigationController
+             let controller: UIViewController = mainStoryboard.instantiateViewController(withIdentifier: homeIdentifier)
+@@ -168,8 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
+         // Update current localUserSettings with preview versions
+         PreyConfig.sharedInstance.updateUserSettings()
+
+-        // Config init UIViewController
+-        displayScreen()
++        // SceneDelegate creates the initial window and controller.
+
+         // Config UINavigationBar
+         PreyConfig.sharedInstance.configNavigationBar()
+@@ -1020,3 +1019,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
+         }
+     }
+ }
++
++
++final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
++    var window: UIWindow?
++
++    private var appDelegate: AppDelegate? {
++        UIApplication.shared.delegate as? AppDelegate
++    }
++
++    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
++        guard let windowScene = scene as? UIWindowScene, let delegate = appDelegate else { return }
++        let window = UIWindow(windowScene: windowScene)
++        self.window = window
++        delegate.window = window
++        delegate.displayScreen()
++    }
++
++    func sceneDidBecomeActive(_ scene: UIScene) {
++        appDelegate?.applicationDidBecomeActive(UIApplication.shared)
++    }
++
++    func sceneWillResignActive(_ scene: UIScene) {
++        appDelegate?.applicationWillResignActive(UIApplication.shared)
++    }
++
++    func sceneWillEnterForeground(_ scene: UIScene) {
++        appDelegate?.applicationWillEnterForeground(UIApplication.shared)
++    }
++
++    func sceneDidEnterBackground(_ scene: UIScene) {
++        appDelegate?.applicationDidEnterBackground(UIApplication.shared)
++    }
++}
+diff --git a/Prey/Plist/Info.plist b/Prey/Plist/Info.plist
+index c615bfb..2e6a5e7 100644
+--- a/Prey/Plist/Info.plist
++++ b/Prey/Plist/Info.plist
+@@ -80,11 +80,26 @@
+ 	<true/>
+ 	<key>UILaunchStoryboardName</key>
+ 	<string>LaunchScreen</string>
+-	<key>UIMainStoryboardFile</key>
+-	<string></string>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default Configuration</string>
++					<key>UISceneDelegateClassName</key>
++					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
+ 	<key>UIRequiredDeviceCapabilities</key>
+ 	<array>
+-		<string>armv7</string>
++		<string>arm64</string>
+ 	</array>
+ 	<key>UIRequiresFullScreen</key>
+ 	<true/>
