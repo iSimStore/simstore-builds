@@ -1,0 +1,5 @@
+description:
+  en: An offline HOTP and TOTP authenticator with manual entry, QR image import and keychain storage. Camera scanning requires physical hardware; OTP correctness, keychain persistence and migration import need separate runtime testing.
+  zh-Hans: 离线 HOTP 和 TOTP 验证器，支持手动录入、导入二维码图片，并使用钥匙串存储。摄像头扫码需要实体硬件；验证码正确性、钥匙串持久化及迁移导入需单独运行测试。
+categories:
+  - security

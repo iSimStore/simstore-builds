@@ -1,0 +1,10 @@
+id: tofu
+name: Tofu
+source:
+  license: ISC
+  repository: https://github.com/iKenndac/Tofu
+  version: "2.0.0"
+  revision: 9bf9236c6546b43b81ae9c85caa03f1f48dd2ead
+build:
+  script: build.sh
+  deploymentTarget: "16.0"
