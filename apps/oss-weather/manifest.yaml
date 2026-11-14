@@ -1,0 +1,10 @@
+id: oss-weather
+name: OSS Weather
+source:
+  license: MIT
+  repository: https://github.com/ossappscollective/oss-weather
+  version: "3.0.3"
+  revision: f8c68614d62761287e97d786d6983b2610d9081b
+build:
+  script: build.sh
+  deploymentTarget: "17.0"

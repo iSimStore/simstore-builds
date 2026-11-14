@@ -1,0 +1,93 @@
+PODS:
+  - AFNetworking (4.0.2):
+    - AFNetworking/NSURLSession (= 4.0.2)
+    - AFNetworking/Privacy (= 4.0.2)
+    - AFNetworking/Reachability (= 4.0.2)
+    - AFNetworking/Security (= 4.0.2)
+    - AFNetworking/Serialization (= 4.0.2)
+    - AFNetworking/UIKit (= 4.0.2)
+  - AFNetworking/NSURLSession (4.0.2):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Privacy (4.0.2)
+  - AFNetworking/Reachability (4.0.2):
+    - AFNetworking/Privacy
+  - AFNetworking/Security (4.0.2):
+    - AFNetworking/Privacy
+  - AFNetworking/Serialization (4.0.2):
+    - AFNetworking/Privacy
+  - AFNetworking/UIKit (4.0.2):
+    - AFNetworking/NSURLSession
+  - DTCoreText (1.6.27):
+    - DTCoreText/Core (= 1.6.27)
+    - DTFoundation/Core (~> 1.7.5)
+    - DTFoundation/DTAnimatedGIF (~> 1.7.5)
+    - DTFoundation/DTHTMLParser (~> 1.7.5)
+    - DTFoundation/UIKit (~> 1.7.5)
+  - DTCoreText/Core (1.6.27):
+    - DTFoundation/Core (~> 1.7.5)
+    - DTFoundation/DTAnimatedGIF (~> 1.7.5)
+    - DTFoundation/DTHTMLParser (~> 1.7.5)
+    - DTFoundation/UIKit (~> 1.7.5)
+  - DTFoundation/Core (1.7.19)
+  - DTFoundation/DTAnimatedGIF (1.7.19)
+  - DTFoundation/DTHTMLParser (1.7.19):
+    - DTFoundation/Core
+  - DTFoundation/UIKit (1.7.19):
+    - DTFoundation/Core
+  - IQKeyboardManager (6.5.19)
+  - lottie-ios (4.3.3)
+  - SDWebImage (5.21.7):
+    - SDWebImage/Core (= 5.21.7)
+  - SDWebImage/Core (5.21.7)
+  - SDWebImagePhotosPlugin (1.2.1):
+    - SDWebImage/Core (~> 5.10)
+
+DEPENDENCIES:
+  - AFNetworking (from `https://github.com/nativescript-community/AFNetworking`)
+  - DTCoreText (from `https://github.com/nativescript-community/DTCoreText.git`)
+  - IQKeyboardManager (~> 6.5.19)
+  - lottie-ios (from `https://github.com/farfromrefug/lottie-ios.git`, branch `4.3.3`)
+  - SDWebImage (>= 5.18.5.0)
+  - SDWebImagePhotosPlugin
+
+SPEC REPOS:
+  trunk:
+    - DTFoundation
+    - IQKeyboardManager
+    - SDWebImage
+    - SDWebImagePhotosPlugin
+
+EXTERNAL SOURCES:
+  AFNetworking:
+    :git: https://github.com/nativescript-community/AFNetworking
+  DTCoreText:
+    :git: https://github.com/nativescript-community/DTCoreText.git
+  lottie-ios:
+    :branch: 4.3.3
+    :git: https://github.com/farfromrefug/lottie-ios.git
+
+CHECKOUT OPTIONS:
+  AFNetworking:
+    :commit: 12ee65105d15ac6d6208e4c0ac95538c6c5e66c9
+    :git: https://github.com/nativescript-community/AFNetworking
+  DTCoreText:
+    :commit: fa0d149872535531060ac6453773420fe208bcc0
+    :git: https://github.com/nativescript-community/DTCoreText.git
+  lottie-ios:
+    :commit: c6d953ecfc6262fc3343230845418236cb979355
+    :git: https://github.com/farfromrefug/lottie-ios.git
+
+SPEC CHECKSUMS:
+  AFNetworking: 938645a5b1534a079892ca1b7839cbe542a9c005
+  DTCoreText: ac297b565abd3b12390d33cd6e076d875f0c0a5e
+  DTFoundation: 76b624967cf5bcaae6bb057d622c536c36ef36d0
+  IQKeyboardManager: c8665b3396bd0b79402b4c573eac345a31c7d485
+  lottie-ios: 0ada5e99ea8bab820bebb415bc2425d7a308fb24
+  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
+  SDWebImagePhotosPlugin: aaf5bc35fd49b66876de58c33eeb6e38b50920e5
+
+PODFILE CHECKSUM: cfecb47f8523056c992039affe7ad6d88c8b0416
+
+COCOAPODS: 1.16.2

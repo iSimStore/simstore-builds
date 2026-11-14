@@ -1,0 +1,24 @@
+{
+  "originHash" : "2eb7537a40f57c1a9caf6f0c75199fa83f70a0a365d752c4620d933c5388bdd9",
+  "pins" : [
+    {
+      "identity" : "ios-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/NativeScript/ios-spm.git",
+      "state" : {
+        "revision" : "a8e26efad02d792a62d2d015f0f7a632e336b2d1",
+        "version" : "9.1.0"
+      }
+    },
+    {
+      "identity" : "liquid-toasts",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SimplifyJobs/liquid-toasts.git",
+      "state" : {
+        "revision" : "4897b4a911c2e53e161a028d077e7f419e226191",
+        "version" : "0.8.1"
+      }
+    }
+  ],
+  "version" : 3
+}

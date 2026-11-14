@@ -1,0 +1,17 @@
+--- a/node_modules/@akylas/nativescript-cli/lib/services/ios/spm-service.js
++++ b/node_modules/@akylas/nativescript-cli/lib/services/ios/spm-service.js
+@@ -81,7 +81,13 @@
+             .getXcodeProjectArgs(platformData, projectData)
+             .concat([
+             "-destination",
+-            "generic/platform=iOS",
++            "generic/platform=iOS Simulator",
++            "-derivedDataPath", path.resolve(projectData.projectDir, "../derived-data"),
++            "-clonedSourcePackagesDirPath", path.resolve(projectData.projectDir, "../packages"),
++            "-packageCachePath", path.resolve(projectData.projectDir, "../swift-package-cache"),
++            "-disableAutomaticPackageResolution", "-skipPackageUpdates",
++            "-onlyUsePackageVersionsFromResolvedFile",
++            "-packageAuthorizationProvider", "netrc",
+             "-resolvePackageDependencies",
+         ]);
+         if (!(options === null || options === void 0 ? void 0 : options.showProgress) || this.$logger.isVerbose()) {

@@ -1,0 +1,6 @@
+{
+  "private": true,
+  "dependencies": {
+    "@akylas/nativescript-cli": "9.2.3"
+  }
+}

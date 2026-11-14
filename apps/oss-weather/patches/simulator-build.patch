@@ -1,0 +1,42 @@
+diff --git a/App_Resources/iOS/Info.plist b/App_Resources/iOS/Info.plist
+index 24f5913..d29546a 100644
+--- a/App_Resources/iOS/Info.plist
++++ b/App_Resources/iOS/Info.plist
+@@ -3,9 +3,9 @@
+ <plist version="1.0">
+   <dict>
+     <key>CFBundleShortVersionString</key>
+-    <string>3.00.2</string>
++    <string>3.0.3</string>
+     <key>CFBundleVersion</key>
+-    <string>164</string>
++    <string>165</string>
+     <key>CFBundleDevelopmentRegion</key>
+     <string>en</string>
+     <key>CFBundleDisplayName</key>
+diff --git a/nativescript.config.js b/nativescript.config.js
+index 51da5b0..d61c1bc 100644
+--- a/nativescript.config.js
++++ b/nativescript.config.js
+@@ -4,6 +4,7 @@ const loggingEnabled = !!process.env['NS_LOGGING'];
+ const playstoreBuild = !!process.env['PLAY_STORE_BUILD'];
+ 
+ module.exports = {
++    projectName: 'ossweather',
+     ignoredNativeDependencies: [].concat(sentryEnabled ? [] : ['@nativescript-community/sentry']).concat(playstoreBuild ? [] : ['@akylas/nativescript-inapp-purchase']),
+     id: process.env['APP_ID'],
+     appResourcesPath: 'App_Resources',
+diff --git a/package.json b/package.json
+index ea7eb16..3777497 100644
+--- a/package.json
++++ b/package.json
+@@ -136,8 +136,5 @@
+         "./map",
+         "./plugin-widgets/"
+     ],
+-    "packageManager": "yarn@4.9.4+sha512.7b1cb0b62abba6a537b3a2ce00811a843bea02bcf53138581a6ae5b1bf563f734872bd47de49ce32a9ca9dcaff995aa789577ffb16811da7c603dcf69e73750b",
+-    "resolutions": {
+-        "@nativescript-community/ui-canvas": "portal:../ui-canvas/packages/ui-canvas"
+-    }
++    "packageManager": "yarn@4.9.4+sha512.7b1cb0b62abba6a537b3a2ce00811a843bea02bcf53138581a6ae5b1bf563f734872bd47de49ce32a9ca9dcaff995aa789577ffb16811da7c603dcf69e73750b"
+ }

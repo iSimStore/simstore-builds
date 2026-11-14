@@ -1,0 +1,5 @@
+description:
+  en: View current conditions and forecasts from Open-Meteo and other weather providers. Weather data requires an internet connection; providers and map layers that require API keys need your own credentials.
+  zh-Hans: 查看 Open-Meteo 等气象服务提供的实时天气和预报。天气数据需要联网；需要 API 密钥的数据源和地图图层需自行配置凭据。
+categories:
+  - weather
