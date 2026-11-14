@@ -1,0 +1,10 @@
+id: keybase
+name: Keybase
+source:
+  license: BSD-3-Clause
+  repository: https://github.com/keybase/client
+  version: v6.6.3
+  revision: f60f2ff97e35f2287375d95eafa7cad77d872072
+build:
+  script: build.sh
+  deploymentTarget: "15.1"

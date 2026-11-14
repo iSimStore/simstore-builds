@@ -1,0 +1,202 @@
+diff --git a/rnmodules/react-native-kb/react-native-kb.podspec b/rnmodules/react-native-kb/react-native-kb.podspec
+index fd69e6c..650e83e 100644
+--- a/rnmodules/react-native-kb/react-native-kb.podspec
++++ b/rnmodules/react-native-kb/react-native-kb.podspec
+@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
+   # See https://github.com/facebook/react-native/blob/febf6b7f33fdb4904669f99d795eba4c0f95d7bf/scripts/cocoapods/new_architecture.rb#L79.
+   if respond_to?(:install_modules_dependencies, true)
+       s.pod_target_xcconfig    = {
+-          "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" $(PODS_ROOT)/../../node_modules/msgpack-cxx-6.1.0/include $(PODS_ROOT)/../keybasego.xcframework/ios-arm64/Keybasego.framework/Headers \"$(PODS_CONFIGURATION_BUILD_DIR)/KBCommon\"",
++          "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" $(PODS_ROOT)/../../node_modules/msgpack-cxx-6.1.0/include $(PODS_ROOT)/../keybasego.xcframework/ios-arm64-simulator/Keybasego.framework/Headers \"$(PODS_CONFIGURATION_BUILD_DIR)/KBCommon\"",
+           "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DMSGPACK_NO_BOOST=1",
+           "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
+       }
+@@ -38,7 +38,7 @@ Pod::Spec.new do |s|
+     if ENV['RCT_NEW_ARCH_ENABLED'] == '1' then
+       s.compiler_flags = folly_compiler_flags + " -DRCT_NEW_ARCH_ENABLED=1"
+       s.pod_target_xcconfig    = {
+-          "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" $(PODS_ROOT)/../../node_modules/msgpack-cxx-6.1.0/include $(PODS_ROOT)/../keybasego.xcframework/ios-arm64/Keybasego.framework/Headers \"$(PODS_CONFIGURATION_BUILD_DIR)/KBCommon\"",
++          "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" $(PODS_ROOT)/../../node_modules/msgpack-cxx-6.1.0/include $(PODS_ROOT)/../keybasego.xcframework/ios-arm64-simulator/Keybasego.framework/Headers \"$(PODS_CONFIGURATION_BUILD_DIR)/KBCommon\"",
+           "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DMSGPACK_NO_BOOST=1",
+           "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
+       }
+@@ -49,7 +49,7 @@ Pod::Spec.new do |s|
+       s.dependency "ReactCommon/turbomodule/core"
+     else
+       s.pod_target_xcconfig    = {
+-          "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" $(PODS_ROOT)/../../node_modules/msgpack-cxx-6.1.0/include $(PODS_ROOT)/../keybasego.xcframework/ios-arm64/Keybasego.framework/Headers \"$(PODS_CONFIGURATION_BUILD_DIR)/KBCommon\"",
++          "HEADER_SEARCH_PATHS" => "\"$(PODS_ROOT)/boost\" $(PODS_ROOT)/../../node_modules/msgpack-cxx-6.1.0/include $(PODS_ROOT)/../keybasego.xcframework/ios-arm64-simulator/Keybasego.framework/Headers \"$(PODS_CONFIGURATION_BUILD_DIR)/KBCommon\"",
+           "OTHER_CPLUSPLUSFLAGS" => "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DMSGPACK_NO_BOOST=1",
+           "CLANG_CXX_LANGUAGE_STANDARD" => "c++17"
+       }
+diff --git a/shared/desktop/yarn-helper/index.tsx b/shared/desktop/yarn-helper/index.tsx
+index 181b987..8ab3450 100644
+--- a/shared/desktop/yarn-helper/index.tsx
++++ b/shared/desktop/yarn-helper/index.tsx
+@@ -158,8 +158,7 @@ const getMsgPack = () => {
+ const patchIosKBLib = () => {
+   if (process.platform === 'darwin') {
+     const prefixes = [
+-      'ios/keybasego.xcframework/ios-arm64',
+-      'ios/keybasego.xcframework/ios-arm64_x86_64-simulator',
++      'ios/keybasego.xcframework/ios-arm64-simulator',
+     ]
+     const files = ['Keybase.objc.h', 'Universe.objc.h']
+     for (const prefix of prefixes) {
+diff --git a/shared/ios/Keybase/AppDelegate.swift b/shared/ios/Keybase/AppDelegate.swift
+index 914be6d..73b5133 100644
+--- a/shared/ios/Keybase/AppDelegate.swift
++++ b/shared/ios/Keybase/AppDelegate.swift
+@@ -42,6 +42,7 @@ public class AppDelegate: ExpoAppDelegate, UNUserNotificationCenterDelegate,
+
+   var reactNativeDelegate: ExpoReactNativeFactoryDelegate?
+   var reactNativeFactory: RCTReactNativeFactory?
++  private var initialLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?
+
+   var resignImageView: UIImageView?
+   var fsPaths: [String: String] = [:]
+@@ -89,25 +90,42 @@ public class AppDelegate: ExpoAppDelegate, UNUserNotificationCenterDelegate,
+     reactNativeFactory = factory
+     bindReactNativeFactory(factory)
+
+-    #if os(iOS) || os(tvOS)
+-      window = KeyboardWindow(frame: UIScreen.main.bounds)
+-      factory.startReactNative(
+-        withModuleName: "Keybase",
+-        in: window,
+-        launchOptions: launchOptions)
+-    #endif
++    initialLaunchOptions = launchOptions
++    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
++  }
++
++  func connectScene(_ windowScene: UIWindowScene, options: UIScene.ConnectionOptions) {
++    guard let factory = reactNativeFactory else { return }
++    var launchOptions = initialLaunchOptions ?? [:]
++    if let context = options.urlContexts.first {
++      launchOptions[.url] = context.url
++      launchOptions[.sourceApplication] = context.options.sourceApplication
++    }
++    if let activity = options.userActivities.first {
++      launchOptions[.userActivityDictionary] = [
++        "UIApplicationLaunchOptionsUserActivityTypeKey": activity.activityType,
++        "UIApplicationLaunchOptionsUserActivityKey": activity,
++      ]
++    }
++    if let response = options.notificationResponse {
++      var notification = Dictionary(uniqueKeysWithValues:
++        response.notification.request.content.userInfo.map { (String(describing: $0.key), $0.value) })
++      notification["userInteraction"] = true
++      KbSetInitialNotification(notification)
++    }
++
++    window = KeyboardWindow(windowScene: windowScene)
++    factory.startReactNative(
++      withModuleName: "Keybase", in: window, launchOptions: launchOptions)
++    initialLaunchOptions = nil
+
+     self.writeStartupTimingLog("After RN init")
+     self.closeStartupLogFile()
+
+-    _ = super.application(application, didFinishLaunchingWithOptions: launchOptions)
+-
+     if let rootView = self.window?.rootViewController?.view {
+       self.addDrop(rootView)
+-      self.didLaunchSetupAfter(application: application, rootView: rootView)
++      self.didLaunchSetupAfter(application: UIApplication.shared, rootView: rootView)
+     }
+-
+-    return true
+   }
+
+   // Linking API
+@@ -518,6 +536,52 @@ public class AppDelegate: ExpoAppDelegate, UNUserNotificationCenterDelegate,
+
+ }
+
++class KeybaseSceneDelegate: UIResponder, UIWindowSceneDelegate {
++  var window: UIWindow?
++
++  private var app: AppDelegate? { UIApplication.shared.delegate as? AppDelegate }
++
++  func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
++    options connectionOptions: UIScene.ConnectionOptions)
++  {
++    guard let windowScene = scene as? UIWindowScene, let app else { return }
++    app.connectScene(windowScene, options: connectionOptions)
++    window = app.window
++  }
++
++  func sceneWillEnterForeground(_ scene: UIScene) {
++    app?.applicationWillEnterForeground(UIApplication.shared)
++  }
++
++  func sceneDidBecomeActive(_ scene: UIScene) {
++    app?.applicationDidBecomeActive(UIApplication.shared)
++  }
++
++  func sceneWillResignActive(_ scene: UIScene) {
++    app?.applicationWillResignActive(UIApplication.shared)
++  }
++
++  func sceneDidEnterBackground(_ scene: UIScene) {
++    app?.applicationDidEnterBackground(UIApplication.shared)
++  }
++
++  func scene(_ scene: UIScene, openURLContexts contexts: Set<UIOpenURLContext>) {
++    for context in contexts {
++      var options: [UIApplication.OpenURLOptionsKey: Any] = [
++        .openInPlace: context.options.openInPlace,
++      ]
++      options[.sourceApplication] = context.options.sourceApplication
++      options[.annotation] = context.options.annotation
++      _ = app?.application(UIApplication.shared, open: context.url, options: options)
++    }
++  }
++
++  func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
++    _ = app?.application(UIApplication.shared, continue: userActivity,
++      restorationHandler: { _ in })
++  }
++}
++
+ class ReactNativeDelegate: ExpoReactNativeFactoryDelegate {
+   // Extension point for config-plugins
+
+diff --git a/shared/ios/Keybase/Info.plist b/shared/ios/Keybase/Info.plist
+index d418a73..bd2a88c 100644
+--- a/shared/ios/Keybase/Info.plist
++++ b/shared/ios/Keybase/Info.plist
+@@ -121,2 +121,19 @@
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default Configuration</string>
++					<key>UISceneDelegateClassName</key>
++					<string>$(PRODUCT_MODULE_NAME).KeybaseSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
+ </dict>
+ </plist>
+diff --git a/shared/ios/Podfile.lock b/shared/ios/Podfile.lock
+index 53abe59..46cdf8c 100644
+--- a/shared/ios/Podfile.lock
++++ b/shared/ios/Podfile.lock
+@@ -3384,7 +3384,7 @@ SPEC CHECKSUMS:
+   React-logger: a913317214a26565cd4c045347edf1bcacb80a3f
+   React-Mapbuffer: 017336879e2e0fb7537bbc08c24f34e2384c9260
+   React-microtasksnativemodule: 63ee6730cec233feab9cdcc0c100dc28a12e4165
+-  react-native-kb: 078843e8c52d210aff0c50cbb4c4abe888c28ee2
++  react-native-kb: a3dd05070f975f516b05b4408b3e9a572c6123f1
+   react-native-keyboard-controller: 40b005f1202d68566a2d058ddc148a3ea8d73288
+   react-native-netinfo: 64f05e94821ee3f3adcd9b67b35c1480e5564915
+   react-native-safe-area-context: 0a3b034bb63a5b684dd2f5fffd3c90ef6ed41ee8
