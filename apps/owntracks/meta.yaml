@@ -1,0 +1,5 @@
+description:
+  en: View and share location updates with your own MQTT or HTTP server, manage regions, and track friends on a map. Requires server configuration and location permission; background tracking and geofencing need separate runtime testing.
+  zh-Hans: 通过自己的 MQTT 或 HTTP 服务器查看和分享位置，管理区域并在地图上查看好友。需要配置服务器并授予定位权限；后台跟踪和地理围栏需单独实测。
+categories:
+  - maps

@@ -1,0 +1,10 @@
+id: owntracks
+name: OwnTracks
+source:
+  license: MIT
+  repository: https://github.com/owntracks/ios
+  version: "27.1.2"
+  revision: bbb7b76220ff5e62b46ddaf76ac47b72cfd21c95
+build:
+  script: build.sh
+  deploymentTarget: "18.6"

@@ -1,0 +1,60 @@
+diff --git a/OwnTracks/OwnTracks.xcodeproj/project.pbxproj b/OwnTracks/OwnTracks.xcodeproj/project.pbxproj
+index 3ad66e6..f88231b 100644
+--- a/OwnTracks/OwnTracks.xcodeproj/project.pbxproj
++++ b/OwnTracks/OwnTracks.xcodeproj/project.pbxproj
+@@ -1597,10 +1597,10 @@
+ /* Begin XCRemoteSwiftPackageReference section */
+ 		84C2E5E22F8ABA0400D5FFD5 /* XCRemoteSwiftPackageReference "MQTTClient" */ = {
+ 			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "git@github.com:ckrey/MQTTClient.git";
++			repositoryURL = "https://github.com/ckrey/MQTTClient.git";
+ 			requirement = {
+-				branch = main;
+-				kind = branch;
++				kind = revision;
++				revision = d99ab3ebfcfac4a24042427e3a73a0c734d11563;
+ 			};
+ 		};
+ 		84ED67842F1E95110013A265 /* XCRemoteSwiftPackageReference "swift-sodium" */ = {
+diff --git a/OwnTracks/OwnTracks.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved b/OwnTracks/OwnTracks.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+index d2f98ed..3a7b5f6 100644
+--- a/OwnTracks/OwnTracks.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
++++ b/OwnTracks/OwnTracks.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+@@ -13,9 +13,8 @@
+     {
+       "identity" : "mqttclient",
+       "kind" : "remoteSourceControl",
+-      "location" : "git@github.com:ckrey/MQTTClient.git",
++      "location" : "https://github.com/ckrey/MQTTClient.git",
+       "state" : {
+-        "branch" : "main",
+         "revision" : "d99ab3ebfcfac4a24042427e3a73a0c734d11563"
+       }
+     },
+diff --git a/OwnTracks/OwnTracks/Base.lproj/OwnTracks-Info.plist b/OwnTracks/OwnTracks/Base.lproj/OwnTracks-Info.plist
+index f0c1f74..55d2250 100644
+--- a/OwnTracks/OwnTracks/Base.lproj/OwnTracks-Info.plist
++++ b/OwnTracks/OwnTracks/Base.lproj/OwnTracks-Info.plist
+@@ -172,7 +172,7 @@ No information of your address book will be uploaded to any server.</string>
+ 	<string>Storyboard</string>
+ 	<key>UIRequiredDeviceCapabilities</key>
+ 	<array>
+-		<string>armv7</string>
++		<string>arm64</string>
+ 	</array>
+ 	<key>UISupportedInterfaceOrientations</key>
+ 	<array>
+diff --git a/OwnTracks/OwnTracksIntents/Info.plist b/OwnTracks/OwnTracksIntents/Info.plist
+index 26da27e..e057b89 100644
+--- a/OwnTracks/OwnTracksIntents/Info.plist
++++ b/OwnTracks/OwnTracksIntents/Info.plist
+@@ -41,5 +41,9 @@
+ 		<key>NSExtensionPrincipalClass</key>
+ 		<string>IntentHandler</string>
+ 	</dict>
++	<key>UIRequiredDeviceCapabilities</key>
++	<array>
++		<string>arm64</string>
++	</array>
+ </dict>
+ </plist>
