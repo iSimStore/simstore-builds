@@ -1,0 +1,41 @@
+{
+  "originHash" : "1822aad473b32134ac1b9ac244dd421771a3554c250d0f6c70f6805b727fec3d",
+  "pins" : [
+    {
+      "identity" : "defaults",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/sindresorhus/Defaults",
+      "state" : {
+        "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa",
+        "version" : "8.2.0"
+      }
+    },
+    {
+      "identity" : "stripe-apple-pay",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CodeLikeW/stripe-apple-pay",
+      "state" : {
+        "revision" : "f88ad4685e09c154370a441fa7bafd48f553a3bb",
+        "version" : "25.7.2"
+      }
+    },
+    {
+      "identity" : "stripe-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CodeLikeW/stripe-core",
+      "state" : {
+        "revision" : "ef6d95d4a74796bb739df49dc41d24f1d58a6d2a",
+        "version" : "25.7.2"
+      }
+    },
+    {
+      "identity" : "swift-system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-system",
+      "state" : {
+        "revision" : "b083113aef646d9d35403ca17e9789b750e42d1d"
+      }
+    }
+  ],
+  "version" : 3
+}

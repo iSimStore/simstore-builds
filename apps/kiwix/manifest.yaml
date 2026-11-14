@@ -1,0 +1,10 @@
+id: kiwix
+name: Kiwix
+source:
+  license: GPL-3.0-or-later
+  repository: https://github.com/kiwix/kiwix-apple
+  version: "3.18.0"
+  revision: 09a5ff1c9c3ffeda258ad593bbe16da612cfb149
+build:
+  script: build.sh
+  deploymentTarget: "17.6"
