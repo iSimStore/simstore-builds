@@ -2,4 +2,4 @@ description:
   en: A KeePass-compatible password manager for local KDB/KDBX files. Local use requires no server account; cloud sync, system autofill, passkeys, biometric protection, hardware keys and in-app purchases require separate testing or services.
   zh-Hans: 兼容 KeePass 的本地 KDB/KDBX 密码库管理器。本地使用无需服务器账户；云盘同步、系统自动填充、通行密钥、生物识别保护、硬件密钥及应用内购买需单独测试或相应服务。
 categories:
-  - utilities
+  - security
