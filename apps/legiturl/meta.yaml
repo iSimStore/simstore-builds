@@ -1,0 +1,5 @@
+description:
+  en: Inspect URL structure, TLS certificates, redirects, HTTP headers and tracking signals with local heuristics. Live website checks require an internet connection; camera scanning requires physical hardware, and share-extension handoff needs separate testing.
+  zh-Hans: 使用本地规则检查网址结构、TLS 证书、重定向、HTTP 响应头和跟踪信号。实时网站检查需要联网；摄像头扫码需要实体硬件，分享扩展的链接传递需单独测试。
+categories:
+  - security

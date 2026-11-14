@@ -1,0 +1,10 @@
+id: legiturl
+name: LegitURL
+source:
+  license: AGPL-3.0-or-later
+  repository: https://github.com/sigfault-byte/LegitURL
+  version: v1.1.6
+  revision: cc85d07046e324d698c23cb9403da231d50cb2a0
+build:
+  script: build.sh
+  deploymentTarget: "18.4"
