@@ -1,0 +1,10 @@
+id: blear
+name: Blear
+source:
+  license: MIT
+  repository: https://github.com/sindresorhus/Blear
+  version: "2.8.0"
+  revision: 2cf4083bf6c79aff11e8b723e39fbb7addb30c4a
+build:
+  script: build.sh
+  deploymentTarget: "26.0"

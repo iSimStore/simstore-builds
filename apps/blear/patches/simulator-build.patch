@@ -1,0 +1,17 @@
+diff --git a/Blear.xcodeproj/project.pbxproj b/Blear.xcodeproj/project.pbxproj
+index 9578eef..aaa7a97 100644
+--- a/Blear.xcodeproj/project.pbxproj
++++ b/Blear.xcodeproj/project.pbxproj
+@@ -273,11 +273,7 @@
+ 			alwaysOutOfDate = 1;
+ 			name = SwiftLint;
+ 			shellPath = /bin/sh;
+-			shellScript = (
+-				"PATH=\"/opt/homebrew/bin/:${PATH}\"",
+-				"swiftlint",
+-				"",
+-			);
++			shellScript = "true";
+ 			showEnvVarsInLog = 0;
+ 		};
+ /* End PBXShellScriptBuildPhase section */
