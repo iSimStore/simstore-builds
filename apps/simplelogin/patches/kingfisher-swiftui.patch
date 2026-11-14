@@ -1,0 +1,15 @@
+diff --git a/Sources/SwiftUI/KFImageRenderer.swift b/Sources/SwiftUI/KFImageRenderer.swift
+index 599376ba..70ae5e87 100644
+--- a/Sources/SwiftUI/KFImageRenderer.swift
++++ b/Sources/SwiftUI/KFImageRenderer.swift
+@@ -45,8 +45,8 @@ struct KFImageRenderer<HoldingView> : View where HoldingView: KFImageHoldingView
+                 .opacity(binder.loaded ? 1.0 : 0.0)
+             if binder.loadedImage == nil {
+                 ZStack {
+-                    if let placeholder = context.placeholder, let view = placeholder(binder.progress) {
+-                        view
++                    if let placeholder = context.placeholder {
++                        placeholder(binder.progress)
+                     } else {
+                         Color.clear
+                     }

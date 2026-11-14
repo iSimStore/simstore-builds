@@ -1,0 +1,10 @@
+id: simplelogin
+name: SimpleLogin
+source:
+  license: MIT
+  repository: https://github.com/simple-login/Simple-Login-iOS
+  version: "2.4.2"
+  revision: 2ffab0ccf173ef7f5c2a2428623351d6c05ae73e
+build:
+  script: build.sh
+  deploymentTarget: "15.0"

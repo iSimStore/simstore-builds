@@ -1,0 +1,5 @@
+description:
+  en: Create and manage email aliases with SimpleLogin or a compatible self-hosted server. Requires an account; login persistence, shared-keychain access, keyboard and share extensions, biometrics and in-app purchases need separate testing or services.
+  zh-Hans: 使用 SimpleLogin 或兼容的自托管服务器创建和管理邮箱别名。需要账户；登录持久化、共享钥匙串、键盘与分享扩展、生物识别及应用内购买需单独测试或相应服务。
+categories:
+  - security

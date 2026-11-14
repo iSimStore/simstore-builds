@@ -1,0 +1,66 @@
+diff --git a/SimpleLogin/SimpleLogin.xcodeproj/project.pbxproj b/SimpleLogin/SimpleLogin.xcodeproj/project.pbxproj
+index 130e4b7..4d25e4c 100644
+--- a/SimpleLogin/SimpleLogin.xcodeproj/project.pbxproj
++++ b/SimpleLogin/SimpleLogin.xcodeproj/project.pbxproj
+@@ -802,7 +802,6 @@
+ 				C0348886268A6F29008D9629 /* Sources */,
+ 				C0348887268A6F29008D9629 /* Frameworks */,
+ 				C0348888268A6F29008D9629 /* Resources */,
+-				C043D41726E01EE90051B282 /* ShellScript */,
+ 				C03E201527A1F436000D82F6 /* Embed App Extensions */,
+ 			);
+ 			buildRules = (
+diff --git a/SimpleLogin/SimpleLogin/Info.plist b/SimpleLogin/SimpleLogin/Info.plist
+index 51fa6d3..7fe87f2 100644
+--- a/SimpleLogin/SimpleLogin/Info.plist
++++ b/SimpleLogin/SimpleLogin/Info.plist
+@@ -48,7 +48,7 @@
+ 	<dict/>
+ 	<key>UIRequiredDeviceCapabilities</key>
+ 	<array>
+-		<string>armv7</string>
++		<string>arm64</string>
+ 	</array>
+ 	<key>UISupportedInterfaceOrientations</key>
+ 	<array>
+diff --git a/SimpleLogin/SimpleLogin/Modules/Log in/LogInView.swift b/SimpleLogin/SimpleLogin/Modules/Log in/LogInView.swift
+index 3851a6f..c1b01eb 100644
+--- a/SimpleLogin/SimpleLogin/Modules/Log in/LogInView.swift	
++++ b/SimpleLogin/SimpleLogin/Modules/Log in/LogInView.swift	
+@@ -110,13 +110,11 @@ struct LogInView: View {
+                     .fixedSize(horizontal: false, vertical: true)
+                     .opacity(viewModel.isShowingKeyboard ? 0 : 1)
+                     .fullScreenCover(isPresented: $showingSignUpView) {
+-                        if let apiService = viewModel.apiService {
+-                            SignUpView(apiService: apiService) { email, password in
+-                                Task {
+-                                    viewModel.email = email
+-                                    viewModel.password = password
+-                                    await viewModel.logIn()
+-                                }
++                        SignUpView(apiService: viewModel.apiService) { email, password in
++                            Task {
++                                viewModel.email = email
++                                viewModel.password = password
++                                await viewModel.logIn()
+                             }
+                         }
+                     }
+diff --git a/SimpleLogin/SimpleLogin/Modules/Main/Create/CreateAliasView.swift b/SimpleLogin/SimpleLogin/Modules/Main/Create/CreateAliasView.swift
+index e6ab85f..cc7a91d 100644
+--- a/SimpleLogin/SimpleLogin/Modules/Main/Create/CreateAliasView.swift
++++ b/SimpleLogin/SimpleLogin/Modules/Main/Create/CreateAliasView.swift
+@@ -39,11 +39,10 @@ struct CreateAliasView: View {
+     var body: some View {
+         NavigationView {
+             Group {
+-                if let options = viewModel.options,
+-                   let mailboxes = viewModel.mailboxes {
++                if let options = viewModel.options {
+                     ContentView(viewModel: viewModel,
+                                 options: options,
+-                                mailboxes: mailboxes)
++                                mailboxes: viewModel.mailboxes)
+                 } else if !viewModel.isLoading {
+                     Button(action: viewModel.fetchOptionsAndMailboxes) {
+                         Label("Retry", systemImage: "gobackward")
