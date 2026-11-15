@@ -1,0 +1,256 @@
+diff --git a/apps/mobile/ios/Notesnook.xcodeproj/project.pbxproj b/apps/mobile/ios/Notesnook.xcodeproj/project.pbxproj
+index 9069a7f..01d2ba0 100644
+--- a/apps/mobile/ios/Notesnook.xcodeproj/project.pbxproj
++++ b/apps/mobile/ios/Notesnook.xcodeproj/project.pbxproj
+@@ -1377,2 +1377,3 @@
+ 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
++				CODE_SIGN_ENTITLEMENTS = NotesWidgetExtensionDebug.entitlements;
+ 				CODE_SIGN_IDENTITY = "Apple Development";
+diff --git a/apps/mobile/ios/Notesnook/AppDelegate.mm b/apps/mobile/ios/Notesnook/AppDelegate.mm
+index b6623c2..cf52e9c 100644
+--- a/apps/mobile/ios/Notesnook/AppDelegate.mm
++++ b/apps/mobile/ios/Notesnook/AppDelegate.mm
+@@ -13,2 +13,8 @@ @implementation ReactNativeDelegate
+
++// Simulator recipe: initialize the existing splash through the factory delegate.
++- (void)customizeRootView:(UIView *)rootView
++{
++  [RNBootSplash initWithStoryboard:@"BootSplash" rootView:rootView];
++}
++
+ - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
+@@ -31,2 +37,4 @@ @interface AppDelegate ()
+ @property (nonatomic, strong) ReactNativeDelegate *reactNativeDelegate;
++@property (nonatomic, copy) NSDictionary *initialLaunchOptions;
++- (void)connectWindowScene:(UIWindowScene *)scene options:(UISceneConnectionOptions *)options;
+ @end
+@@ -44,9 +52,32 @@ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
+   self.reactNativeFactory = factory;
+-  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+-  [factory startReactNativeWithModuleName: @"Notesnook"
+-                                      inWindow:self.window
+-                           launchOptions:launchOptions];
++  self.initialLaunchOptions = launchOptions;
++  if (application.applicationState == UIApplicationStateBackground) {
++    [factory startReactNativeWithModuleName:@"Notesnook" inWindow:nil launchOptions:launchOptions];
++  }
++  return YES;
++}
+
++// Simulator recipe: create the React Native window when its scene connects.
++- (void)connectWindowScene:(UIWindowScene *)scene options:(UISceneConnectionOptions *)options
++{
++  NSMutableDictionary *launchOptions = [self.initialLaunchOptions mutableCopy] ?: [NSMutableDictionary new];
++  UIOpenURLContext *urlContext = options.URLContexts.anyObject;
++  if (urlContext) {
++    launchOptions[UIApplicationLaunchOptionsURLKey] = urlContext.URL;
++  }
++  NSUserActivity *activity = options.userActivities.anyObject;
++  if (activity) {
++    launchOptions[UIApplicationLaunchOptionsUserActivityDictionaryKey] = @{
++      UIApplicationLaunchOptionsUserActivityTypeKey: activity.activityType,
++      @"UIApplicationLaunchOptionsUserActivityKey": activity
++    };
++  }
++  if (options.shortcutItem) {
++    launchOptions[UIApplicationLaunchOptionsShortcutItemKey] = options.shortcutItem;
++  }
++  self.window = [[UIWindow alloc] initWithWindowScene:scene];
++  [self.reactNativeFactory startReactNativeWithModuleName:@"Notesnook"
++                                               inWindow:self.window
++                                          launchOptions:launchOptions];
+   [self.window makeKeyAndVisible];
+-  return YES;
+ }
+@@ -87 +118,40 @@ - (void)application:(UIApplication *)application handleEventsForBackgroundURLSes
+ @end
++
++// Simulator recipe: preserve links and shortcuts with the scene lifecycle.
++@interface NotesnookSceneDelegate : UIResponder <UIWindowSceneDelegate>
++@property (nonatomic, strong) UIWindow *window;
++@end
++
++@implementation NotesnookSceneDelegate
++
++- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)options
++{
++  if (![scene isKindOfClass:UIWindowScene.class]) return;
++  AppDelegate *delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
++  [delegate connectWindowScene:(UIWindowScene *)scene options:options];
++  self.window = delegate.window;
++}
++
++- (void)scene:(UIScene *)scene openURLContexts:(NSSet<UIOpenURLContext *> *)contexts
++{
++  for (UIOpenURLContext *context in contexts) {
++    NSMutableDictionary *options = [NSMutableDictionary new];
++    if (context.options.sourceApplication) options[UIApplicationOpenURLOptionsSourceApplicationKey] = context.options.sourceApplication;
++    if (context.options.annotation) options[UIApplicationOpenURLOptionsAnnotationKey] = context.options.annotation;
++    options[UIApplicationOpenURLOptionsOpenInPlaceKey] = @(context.options.openInPlace);
++    [RCTLinkingManager application:UIApplication.sharedApplication openURL:context.URL options:options];
++  }
++}
++
++- (void)scene:(UIScene *)scene continueUserActivity:(NSUserActivity *)activity
++{
++  [RCTLinkingManager application:UIApplication.sharedApplication continueUserActivity:activity restorationHandler:^(NSArray *objects) {}];
++}
++
++- (void)windowScene:(UIWindowScene *)scene performActionForShortcutItem:(UIApplicationShortcutItem *)item completionHandler:(void (^)(BOOL))completion
++{
++  AppDelegate *delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
++  [delegate application:UIApplication.sharedApplication performActionForShortcutItem:item completionHandler:completion];
++}
++
++@end
+diff --git a/apps/mobile/ios/Notesnook/Info.plist b/apps/mobile/ios/Notesnook/Info.plist
+index 1ae1ca2..8311b03 100644
+--- a/apps/mobile/ios/Notesnook/Info.plist
++++ b/apps/mobile/ios/Notesnook/Info.plist
+@@ -106,2 +106,14 @@
+ 		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default Configuration</string>
++					<key>UISceneDelegateClassName</key>
++					<string>NotesnookSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
+ 	</dict>
+@@ -116,4 +128,2 @@
+ 	<string>BootSplash</string>
+-	<key>UIMainStoryboardFile</key>
+-	<string>BootSplash</string>
+ 	<key>UIRequiredDeviceCapabilities</key>
+diff --git a/apps/mobile/ios/Podfile.lock b/apps/mobile/ios/Podfile.lock
+index 4933ea9..2160860 100644
+--- a/apps/mobile/ios/Podfile.lock
++++ b/apps/mobile/ios/Podfile.lock
+@@ -2697,4 +2697,4 @@ DEPENDENCIES:
+   - MMKV
+-  - NitroCloudUploader (from `.prebuilt-xcframeworks/.cache/NitroCloudUploader`)
+-  - NitroModules (from `.prebuilt-xcframeworks/.cache/NitroModules`)
++  - NitroCloudUploader (from `../node_modules/react-native-nitro-cloud-uploader`)
++  - NitroModules (from `../node_modules/react-native-nitro-modules`)
+   - RCT-Folly (from `.prebuilt-xcframeworks/.cache/RCT-Folly`)
+@@ -2742,3 +2742,3 @@ DEPENDENCIES:
+   - "react-native-document-picker (from `../node_modules/@react-native-documents/picker`)"
+-  - react-native-fast-openpgp (from `.prebuilt-xcframeworks/.cache/react-native-fast-openpgp`)
++  - react-native-fast-openpgp (from `../node_modules/react-native-fast-openpgp`)
+   - "react-native-fingerprint-scanner (from `../node_modules/@ammarahmed/react-native-fingerprint-scanner`)"
+@@ -2750,3 +2750,3 @@ DEPENDENCIES:
+   - "react-native-keep-awake (from `../node_modules/@sayem314/react-native-keep-awake`)"
+-  - react-native-mmkv-storage (from `.prebuilt-xcframeworks/.cache/react-native-mmkv-storage`)
++  - react-native-mmkv-storage (from `../node_modules/react-native-mmkv-storage`)
+   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
+@@ -2755,3 +2755,3 @@ DEPENDENCIES:
+   - react-native-pdf (from `../node_modules/react-native-pdf`)
+-  - react-native-quick-sqlite (from `.prebuilt-xcframeworks/.cache/react-native-quick-sqlite`)
++  - react-native-quick-sqlite (from `../node_modules/react-native-quick-sqlite`)
+   - react-native-restart (from `../node_modules/react-native-restart`)
+@@ -2807,3 +2807,3 @@ DEPENDENCIES:
+   - RNFileViewer (from `../node_modules/react-native-file-viewer`)
+-  - RNGestureHandler (from `.prebuilt-xcframeworks/.cache/RNGestureHandler`)
++  - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+   - RNIap (from `../node_modules/react-native-iap`)
+@@ -2813,4 +2813,4 @@ DEPENDENCIES:
+   - "RNNotifee (from `../node_modules/@ammarahmed/notifee-react-native`)"
+-  - RNReanimated (from `.prebuilt-xcframeworks/.cache/RNReanimated`)
+-  - RNScreens (from `.prebuilt-xcframeworks/.cache/RNScreens`)
++  - RNReanimated (from `../node_modules/react-native-reanimated`)
++  - RNScreens (from `../node_modules/react-native-screens`)
+   - RNSecureRandom (from `../node_modules/react-native-securerandom`)
+@@ -2819,3 +2819,3 @@ DEPENDENCIES:
+   - RNTooltips (from `../node_modules/react-native-tooltips`)
+-  - RNWorklets (from `.prebuilt-xcframeworks/.cache/RNWorklets`)
++  - RNWorklets (from `../node_modules/react-native-worklets`)
+   - RNZipArchive (from `../node_modules/react-native-zip-archive`)
+@@ -2849,5 +2849,5 @@ EXTERNAL SOURCES:
+   NitroCloudUploader:
+-    :path: ".prebuilt-xcframeworks/.cache/NitroCloudUploader"
++    :path: "../node_modules/react-native-nitro-cloud-uploader"
+   NitroModules:
+-    :path: ".prebuilt-xcframeworks/.cache/NitroModules"
++    :path: "../node_modules/react-native-nitro-modules"
+   RCT-Folly:
+@@ -2937,3 +2937,3 @@ EXTERNAL SOURCES:
+   react-native-fast-openpgp:
+-    :path: ".prebuilt-xcframeworks/.cache/react-native-fast-openpgp"
++    :path: "../node_modules/react-native-fast-openpgp"
+   react-native-fingerprint-scanner:
+@@ -2953,3 +2953,3 @@ EXTERNAL SOURCES:
+   react-native-mmkv-storage:
+-    :path: ".prebuilt-xcframeworks/.cache/react-native-mmkv-storage"
++    :path: "../node_modules/react-native-mmkv-storage"
+   react-native-netinfo:
+@@ -2963,3 +2963,3 @@ EXTERNAL SOURCES:
+   react-native-quick-sqlite:
+-    :path: ".prebuilt-xcframeworks/.cache/react-native-quick-sqlite"
++    :path: "../node_modules/react-native-quick-sqlite"
+   react-native-restart:
+@@ -3067,3 +3067,3 @@ EXTERNAL SOURCES:
+   RNGestureHandler:
+-    :path: ".prebuilt-xcframeworks/.cache/RNGestureHandler"
++    :path: "../node_modules/react-native-gesture-handler"
+   RNIap:
+@@ -3079,5 +3079,5 @@ EXTERNAL SOURCES:
+   RNReanimated:
+-    :path: ".prebuilt-xcframeworks/.cache/RNReanimated"
++    :path: "../node_modules/react-native-reanimated"
+   RNScreens:
+-    :path: ".prebuilt-xcframeworks/.cache/RNScreens"
++    :path: "../node_modules/react-native-screens"
+   RNSecureRandom:
+@@ -3091,3 +3091,3 @@ EXTERNAL SOURCES:
+   RNWorklets:
+-    :path: ".prebuilt-xcframeworks/.cache/RNWorklets"
++    :path: "../node_modules/react-native-worklets"
+   RNZipArchive:
+@@ -3116,4 +3116,4 @@ SPEC CHECKSUMS:
+   MMKVCore: 3f40b896e9ab522452df9df3ce983471aa2449ba
+-  NitroCloudUploader: 25531d66b7d3b681459118fdd9f5e4516ea5eebc
+-  NitroModules: 91d3a502cd4a2cbc1aa541ea2eb0922b9dbeb58e
++  NitroCloudUploader: 4e572f722f8a409bcfa63b7edfeea093acc8260d
++  NitroModules: 948745c245b2b3c3689dab3faf5a59e6b8903c64
+   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
+@@ -3162,3 +3162,3 @@ SPEC CHECKSUMS:
+   react-native-document-picker: 936a9aa901feaaa7946c4ff10bbfe1ffc991be43
+-  react-native-fast-openpgp: 73247d6987c45d8466e0f2c9cbe23d1f4193e4f3
++  react-native-fast-openpgp: be7c8b96c2b4c04a7c6539579378efa1bb84819e
+   react-native-fingerprint-scanner: d5e143a361f3f01858e9c45141ddcabc4fd57055
+@@ -3170,3 +3170,3 @@ SPEC CHECKSUMS:
+   react-native-keep-awake: a351e6f67006b47f316ae2b17ee8ee69386167f4
+-  react-native-mmkv-storage: 95c8e88dff78ea796797e17eb6ff9eae8100b9f3
++  react-native-mmkv-storage: 8aad1f9fd2bef57e46915a9da69d60435476d9cc
+   react-native-netinfo: cec9c4e86083cb5b6aba0e0711f563e2fbbff187
+@@ -3175,3 +3175,3 @@ SPEC CHECKSUMS:
+   react-native-pdf: 70836b3b48595c7f85a3aa2b5d122b175c455733
+-  react-native-quick-sqlite: 41588741c066601d29ee2fb7a295e5cf46f62d23
++  react-native-quick-sqlite: 75a3918a579006b1cebec3b84d986003630889a5
+   react-native-restart: f2a57ccec2e6481deb1f19958ac60c0813313784
+@@ -3227,3 +3227,3 @@ SPEC CHECKSUMS:
+   RNFileViewer: 4b5d83358214347e4ab2d4ca8d5c1c90d869e251
+-  RNGestureHandler: 54bdb31ffda9118419f6f94f0f5733e7c42c4177
++  RNGestureHandler: 338509367237221ad9c06e5e44d119425bb88326
+   RNIap: 61f183ac917792fae42b0326b1bef33598c1adf6
+@@ -3233,4 +3233,4 @@ SPEC CHECKSUMS:
+   RNNotifee: dea82c9ec44684eeeac9da85deb5eeb8ebe5937f
+-  RNReanimated: 24978f1215c0b226ebd0b229418ff2be84b92f80
+-  RNScreens: 7ca1174fd30828f7877cd993f8f0bfae66fe5c01
++  RNReanimated: b57b6b6f059392904afb8297ec902327a76efce5
++  RNScreens: 6f7a6128b0d33ce66e60309b6c998a2235abe1f3
+   RNSecureRandom: b64d263529492a6897e236a22a2c4249aa1b53dc
+@@ -3239,3 +3239,3 @@ SPEC CHECKSUMS:
+   RNTooltips: 50ff94bd2bff84ef74279c9532d008f5fdcddb95
+-  RNWorklets: 074d6a98ae7e40284344b58645882ed0a70d9a0b
++  RNWorklets: 26ab97114df411e404cdf5432068dff7e5414881
+   RNZipArchive: 71befbdc20e7fbd4b64552a0b324ad0e8d0efefb
+@@ -3251,2 +3251,2 @@ PODFILE CHECKSUM: 7aef99144f8ea221cbcbcde244b6bbb6ed476cc5
+
+-COCOAPODS: 1.16.2
++COCOAPODS: 1.17.0

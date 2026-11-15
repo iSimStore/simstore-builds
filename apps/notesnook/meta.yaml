@@ -1,0 +1,6 @@
+description:
+  en: Write and organize encrypted notes with notebooks, tags, rich text, and attachments, and sync them across devices. Cloud sync requires an account; editing, encryption, backup, sharing, widgets, and background sync need separate testing in Simulator.
+  zh-Hans: 使用笔记本、标签、富文本和附件编写与整理加密笔记，并在设备间同步。云同步需要账户；编辑、加密、备份、分享、Widget 和后台同步需在 Simulator 中单独实测。
+categories:
+  - productivity
+  - cloud

@@ -1,0 +1,10 @@
+id: notesnook
+name: Notesnook
+source:
+  license: GPL-3.0-or-later
+  repository: https://github.com/streetwriters/notesnook
+  version: "3.4.15"
+  revision: ffebe66276c17340161fbcbc4d1e0f20e8358c14
+build:
+  script: build.sh
+  deploymentTarget: "15.6"
