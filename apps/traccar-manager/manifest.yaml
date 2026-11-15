@@ -1,0 +1,10 @@
+id: traccar-manager
+name: Traccar Manager
+source:
+  license: Apache-2.0
+  repository: https://github.com/traccar/traccar-manager
+  version: "6.2.4"
+  revision: c79aa82c3d32590b34b539fe88e6503b39c9bee9
+build:
+  script: build.sh
+  deploymentTarget: "15.0"

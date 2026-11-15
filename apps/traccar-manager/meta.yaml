@@ -1,0 +1,5 @@
+description:
+  en: Connect to your Traccar server to view devices on a map, manage tracking devices, and review routes, events, and reports. Requires a compatible server and account; login, push notifications, location access, and report sharing need separate testing. Built without the non-open-source Firebase Analytics dependency.
+  zh-Hans: 连接自己的 Traccar 服务器，在地图上查看和管理跟踪设备，并查看路线、事件和报告。需要兼容的服务器和账户；登录、推送通知、定位权限和报告分享需单独实测。构建时移除了非开源的 Firebase Analytics 依赖。
+categories:
+  - maps
