@@ -1,0 +1,10 @@
+id: xfonts
+name: Fontcase
+source:
+  license: MIT
+  repository: https://github.com/manolosavi/xFonts
+  version: "2.0.1"
+  revision: b0d4ee312718b3a78945b06b0215d117904c2006
+build:
+  script: build.sh
+  deploymentTarget: "15.0"

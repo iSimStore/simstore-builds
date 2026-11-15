@@ -1,0 +1,86 @@
+diff --git a/xFonts.xcodeproj/project.pbxproj b/xFonts.xcodeproj/project.pbxproj
+index c64ea2b..1ce7e52 100644
+--- a/xFonts.xcodeproj/project.pbxproj
++++ b/xFonts.xcodeproj/project.pbxproj
+@@ -468,3 +468,2 @@
+ 			dependencies = (
+-				443576CF244CDD7800669EEB /* PBXTargetDependency */,
+ 			);
+diff --git a/xFonts/AppDelegate.m b/xFonts/AppDelegate.m
+index c3b7f74..33adf66 100644
+--- a/xFonts/AppDelegate.m
++++ b/xFonts/AppDelegate.m
+@@ -19 +19,22 @@ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
+ @end
++
++// Simulator recipe: attach the original storyboard to a window scene.
++@interface FontcaseSceneDelegate : UIResponder <UIWindowSceneDelegate>
++@property (strong, nonatomic) UIWindow *window;
++@end
++
++@implementation FontcaseSceneDelegate
++
++- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions
++{
++    if (![scene isKindOfClass:UIWindowScene.class]) {
++        return;
++    }
++    self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
++    self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateInitialViewController];
++    AppDelegate *delegate = (AppDelegate *)UIApplication.sharedApplication.delegate;
++    delegate.window = self.window;
++    [self.window makeKeyAndVisible];
++}
++
++@end
+diff --git a/xFonts/Info.plist b/xFonts/Info.plist
+index 6e16943..9ed66bb 100644
+--- a/xFonts/Info.plist
++++ b/xFonts/Info.plist
+@@ -50,7 +50,22 @@
+ 	<string>Launch Screen</string>
+-	<key>UIMainStoryboardFile</key>
+-	<string>Main</string>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default Configuration</string>
++					<key>UISceneDelegateClassName</key>
++					<string>FontcaseSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
+ 	<key>UIRequiredDeviceCapabilities</key>
+ 	<array>
+-		<string>armv7</string>
++		<string>arm64</string>
+ 	</array>
+diff --git a/xFonts/ViewController.m b/xFonts/ViewController.m
+index 31d1af7..963e3f7 100644
+--- a/xFonts/ViewController.m
++++ b/xFonts/ViewController.m
+@@ -39,4 +39,4 @@ - (void)viewDidLoad
+ 	NSNotificationCenter *notificationCenter = NSNotificationCenter.defaultCenter;
+-	[notificationCenter addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+-	[notificationCenter addObserver:self selector:@selector(applicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
++	[notificationCenter addObserver:self selector:@selector(applicationDidEnterBackground:) name:UISceneDidEnterBackgroundNotification object:nil];
++	[notificationCenter addObserver:self selector:@selector(applicationDidBecomeActive:) name:UISceneDidActivateNotification object:nil];
+
+@@ -456,3 +456,3 @@ - (void)showHelpOverlay
+
+-- (void)applicationDidEnterBackground:(UIApplication *)application
++- (void)applicationDidEnterBackground:(NSNotification *)notification
+ {
+@@ -464,3 +464,3 @@ - (void)applicationDidEnterBackground:(UIApplication *)application
+
+-- (void)applicationDidBecomeActive:(UIApplication *)application
++- (void)applicationDidBecomeActive:(NSNotification *)notification
+ {
