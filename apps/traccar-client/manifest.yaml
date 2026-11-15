@@ -1,0 +1,10 @@
+id: traccar-client
+name: Traccar Client
+source:
+  license: Apache-2.0
+  repository: https://github.com/traccar/traccar-client
+  version: "10.2.4"
+  revision: 8242ee4a918f2e98f6f219927a7c9a7cd3bd5dd4
+build:
+  script: build.sh
+  deploymentTarget: "15.0"
