@@ -1,0 +1,10 @@
+id: fsnotes
+name: FSNotes
+source:
+  license: MIT
+  repository: https://github.com/glushchenko/fsnotes
+  version: "7.6.0"
+  revision: d5ed3e8120b4f92312fad00f3ea206e80c2dbdca
+build:
+  script: build.sh
+  deploymentTarget: "18.0"

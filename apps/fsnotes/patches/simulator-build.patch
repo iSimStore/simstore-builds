@@ -1,0 +1,37 @@
+diff --git a/FSNotes.xcodeproj/project.pbxproj b/FSNotes.xcodeproj/project.pbxproj
+index 9cf4f39..8a114fc 100644
+--- a/FSNotes.xcodeproj/project.pbxproj
++++ b/FSNotes.xcodeproj/project.pbxproj
+@@ -2466,6 +2466,2 @@
+ 				11F43F3C2F127EE300652350 /* Meet FSNotes 7.textbundle in Resources */,
+-				D7F2F1AE21C503F000E41811 /* AvenirNext-Light.ttf in Resources */,
+-				D7F2F1B121C503F000E41811 /* AvenirNext-Demi.ttf in Resources */,
+-				D7F2F1AB21C503F000E41811 /* AvenirNext-Regular.ttf in Resources */,
+-				D7F2F19C21C503F000E41811 /* AvenirNext-UltraLight.ttf in Resources */,
+ 				D75F1DF1206D660D00F70B28 /* MPreview.bundle in Resources */,
+@@ -2473,3 +2469,2 @@
+ 				D7FA916620555067002BB0AB /* SourceCodePro-Bold.ttf in Resources */,
+-				D7F2F1BD21C503F000E41811 /* AvenirNext-Thin.ttf in Resources */,
+ 				D7FA916720555067002BB0AB /* SourceCodePro-BoldIt.ttf in Resources */,
+@@ -2478,12 +2473,5 @@
+ 				D7FA916820555067002BB0AB /* SourceCodePro-It.ttf in Resources */,
+-				D7F2F1B421C503F000E41811 /* AvenirNext-HeavyItalic.ttf in Resources */,
+ 				D7FA916920555067002BB0AB /* SourceCodePro-Regular.ttf in Resources */,
+-				D7F2F19F21C503F000E41811 /* AvenirNext-Medium.ttf in Resources */,
+-				D7F2F1C621C503F000E41811 /* AvenirNext-UltraLightIt.ttf in Resources */,
+ 				D7163D2F24E81B5C00B1FC05 /* Main.storyboard in Resources */,
+ 				11BD71662EDC87B700541BF9 /* classic-2025.icon in Resources */,
+-				D7F2F1C321C503F000E41811 /* AvenirNext-LightItalic.ttf in Resources */,
+-				D7F2F1C021C503F000E41811 /* AvenirNext-Italic.ttf in Resources */,
+-				D7F2F1BA21C503F000E41811 /* AvenirNext-Bold.ttf in Resources */,
+-				D7F2F1B721C503F000E41811 /* AvenirNext-ThinItalic.ttf in Resources */,
+ 				42E001CF2ADAC2930099E7AD /* Localizable.xcstrings in Resources */,
+@@ -2491,8 +2479,4 @@
+ 				D77F41B32A0D48F500E2B7A2 /* LaunchScreen.storyboard in Resources */,
+-				D7F2F1A521C503F000E41811 /* AvenirNext-DemiItalic.ttf in Resources */,
+-				D7F2F19921C503F000E41811 /* AvenirNext-MediumItalic.ttf in Resources */,
+-				D7F2F1A821C503F000E41811 /* AvenirNext-BoldItalic.ttf in Resources */,
+ 				42E001CC2ADAC2930099E7AD /* InfoPlist.xcstrings in Resources */,
+ 				113EEBD72EDBA63D00A94F29 /* Assets.xcassets in Resources */,
+-				D7F2F1A221C503F000E41811 /* AvenirNext-Heavy.ttf in Resources */,
+ 			);
