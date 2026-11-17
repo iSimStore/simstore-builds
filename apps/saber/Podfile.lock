@@ -1,0 +1,28 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_sharing_intent (1.0.1):
+    - Flutter
+  - printing (1.0.0):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_sharing_intent (from `.symlinks/plugins/flutter_sharing_intent/ios`)
+  - printing (from `.symlinks/plugins/printing/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_sharing_intent:
+    :path: ".symlinks/plugins/flutter_sharing_intent/ios"
+  printing:
+    :path: ".symlinks/plugins/printing/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
+  flutter_sharing_intent: 0c1e53949f09fa8df8ac2268505687bde8ff264c
+  printing: 54ff03f28fe9ba3aa93358afb80a8595a071dd07
+
+PODFILE CHECKSUM: 3ba3a73b1b12adcf321a227a745625fe0888cc82
+
+COCOAPODS: 1.17.0

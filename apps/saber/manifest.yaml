@@ -1,0 +1,10 @@
+id: saber
+name: Saber
+source:
+  license: GPL-3.0-only
+  repository: https://github.com/saber-notes/saber
+  version: "1.37.0"
+  revision: 57e62dca69e86a8f2248ad10318cdf3a94f9406d
+build:
+  script: build.sh
+  deploymentTarget: "15.0"

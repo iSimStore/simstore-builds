@@ -1,0 +1,6 @@
+description:
+  en: Write handwritten notes, annotate PDFs and images, organize notebooks, and sync encrypted notes through Nextcloud. Stylus input, palm rejection, PDF import and export, sharing, and sync need separate Simulator testing.
+  zh-Hans: 手写笔记、批注 PDF 和图片、整理笔记本，并通过 Nextcloud 同步加密笔记。触控笔输入、手掌防误触、PDF 导入导出、分享和同步需在 Simulator 中单独实测。
+categories:
+  - productivity
+  - cloud

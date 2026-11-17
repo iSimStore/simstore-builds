@@ -1,0 +1,103 @@
+diff --git a/ios/Flutter/AppFrameworkInfo.plist b/ios/Flutter/AppFrameworkInfo.plist
+index 1dc6cf7..391a902 100644
+--- a/ios/Flutter/AppFrameworkInfo.plist
++++ b/ios/Flutter/AppFrameworkInfo.plist
+@@ -22,4 +22,2 @@
+   <string>1.0</string>
+-  <key>MinimumOSVersion</key>
+-  <string>13.0</string>
+ </dict>
+diff --git a/ios/Runner.xcodeproj/project.pbxproj b/ios/Runner.xcodeproj/project.pbxproj
+index 7591fc0..04757bc 100644
+--- a/ios/Runner.xcodeproj/project.pbxproj
++++ b/ios/Runner.xcodeproj/project.pbxproj
+@@ -13,2 +13,3 @@
+ 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
++		78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */; };
+ 		87C70A672C19F9861FBA0110 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FD403A396B5C60236166802 /* Pods_Runner.framework */; };
+@@ -59,2 +60,3 @@
+ 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
++		78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FlutterGeneratedPluginSwiftPackage; path = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage; sourceTree = "<group>"; };
+ 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
+@@ -76,2 +78,3 @@
+ 			files = (
++				78A318202AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage in Frameworks */,
+ 				87C70A672C19F9861FBA0110 /* Pods_Runner.framework in Frameworks */,
+@@ -115,2 +118,3 @@
+ 			children = (
++				78E0A7A72DC9AD7400C4905E /* FlutterGeneratedPluginSwiftPackage */,
+ 				3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */,
+@@ -210,2 +214,5 @@
+ 			name = Runner;
++			packageProductDependencies = (
++				78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */,
++			);
+ 			productName = Runner;
+@@ -243,2 +250,5 @@
+ 			mainGroup = 97C146E51CF9000F007C117D;
++			packageReferences = (
++				781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "FlutterGeneratedPluginSwiftPackage" */,
++			);
+ 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
+@@ -300,4 +310,2 @@
+ 			);
+-			inputPaths = (
+-			);
+ 			name = "[CP] Embed Pods Frameworks";
+@@ -306,4 +314,2 @@
+ 			);
+-			outputPaths = (
+-			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+@@ -343,4 +349,2 @@
+ 			);
+-			inputPaths = (
+-			);
+ 			name = "[CP] Copy Pods Resources";
+@@ -349,4 +353,2 @@
+ 			);
+-			outputPaths = (
+-			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+@@ -766,2 +768,16 @@
+ /* End XCConfigurationList section */
++
++/* Begin XCLocalSwiftPackageReference section */
++		781AD8BC2B33823900A9FFBB /* XCLocalSwiftPackageReference "FlutterGeneratedPluginSwiftPackage" */ = {
++			isa = XCLocalSwiftPackageReference;
++			relativePath = Flutter/ephemeral/Packages/FlutterGeneratedPluginSwiftPackage;
++		};
++/* End XCLocalSwiftPackageReference section */
++
++/* Begin XCSwiftPackageProductDependency section */
++		78A3181F2AECB46A00862997 /* FlutterGeneratedPluginSwiftPackage */ = {
++			isa = XCSwiftPackageProductDependency;
++			productName = FlutterGeneratedPluginSwiftPackage;
++		};
++/* End XCSwiftPackageProductDependency section */
+ 	};
+diff --git a/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme b/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+index e3773d4..c3fedb2 100644
+--- a/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
++++ b/ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme
+@@ -7,2 +7,20 @@
+       buildImplicitDependencies = "YES">
++      <PreActions>
++         <ExecutionAction
++            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
++            <ActionContent
++               title = "Run Prepare Flutter Framework Script"
++               scriptText = "/bin/sh &quot;$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh&quot; prepare&#10;">
++               <EnvironmentBuildable>
++                  <BuildableReference
++                     BuildableIdentifier = "primary"
++                     BlueprintIdentifier = "97C146ED1CF9000F007C117D"
++                     BuildableName = "Runner.app"
++                     BlueprintName = "Runner"
++                     ReferencedContainer = "container:Runner.xcodeproj">
++                  </BuildableReference>
++               </EnvironmentBuildable>
++            </ActionContent>
++         </ExecutionAction>
++      </PreActions>
+       <BuildActionEntries>
