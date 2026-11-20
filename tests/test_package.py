@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+from catalog import validate_index
 from package import package
 from test_icons import write_png
 from validate import InvalidBundle, run, validate
@@ -83,6 +84,7 @@ class PackageTests(unittest.TestCase):
         self.assertNotIn('description', record)
         self.assertNotIn('categories', record)
         self.assertNotIn('time', record)
+        self.assertNotIn('supportsIPhone', record)
         archive = self.output / 'example.app.tar.bz2'
         self.assertNotIn('downloadURL', record)
         self.assertNotIn('buildNumber', record)
@@ -114,6 +116,42 @@ class PackageTests(unittest.TestCase):
         self.assertEqual((app / 'assets/data').stat().st_mode & 0o777, 0o664)
         self.assertEqual(validate(app)[2], (17, 0, 0))
         subprocess.run(['codesign', '--verify', '--deep', '--strict', str(app)], check=True)
+
+    def test_only_bundles_without_iphone_support_emit_the_restriction(self) -> None:
+        for families, restricted in (([1], False), ([1, 2], False), ([2], True)):
+            with self.subTest(families=families):
+                info_path = self.app / 'Info.plist'
+                info = plistlib.loads(info_path.read_bytes())
+                info['UIDeviceFamily'] = families
+                info_path.write_bytes(plistlib.dumps(info))
+                subprocess.run(['codesign', '--force', '--sign', '-', '--timestamp=none', str(self.app)],
+                               check=True, capture_output=True)
+                index = package(self.manifest, self.app, self.output, 'b' * 40)
+                self.assertEqual(validate_index(index), index)
+                record = json.loads((self.output / 'index.json').read_text())['apps'][0]['versions'][0]
+                if restricted:
+                    self.assertIs(record['supportsIPhone'], False)
+                else:
+                    self.assertNotIn('supportsIPhone', record)
+
+    def test_invalid_device_families_do_not_produce_artifacts(self) -> None:
+        value: object
+        for value in (True, '2', [], {}, [True], ['2'], [0], [-1]):
+            with self.subTest(value=value):
+                info_path = self.app / 'Info.plist'
+                info = plistlib.loads(info_path.read_bytes())
+                info['UIDeviceFamily'] = value
+                info_path.write_bytes(plistlib.dumps(info))
+                with self.assertRaisesRegex(InvalidBundle, 'UIDeviceFamily'):
+                    package(self.manifest, self.app, self.output, 'b' * 40)
+                self.assertFalse(self.output.exists())
+
+    def test_recipe_iphone_restriction_is_included_in_the_fragment(self) -> None:
+        self.data['supportsIPhone'] = False
+        self.manifest.write_text(json.dumps(self.data))
+        index = package(self.manifest, self.app, self.output, 'b' * 40)
+        self.assertEqual(validate_index(index), index)
+        self.assertIs(index['apps'][0]['versions'][0]['supportsIPhone'], False)
 
     def test_version_drift_does_not_produce_artifacts(self) -> None:
         self.data['source']['version'] = '2.0.0'

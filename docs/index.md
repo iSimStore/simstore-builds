@@ -28,6 +28,7 @@ The main catalog uses this structure. Release fragments omit the app-level `desc
           "version": "1.2.3",
           "time": 1793503193,
           "minSimulatorOS": "17.0",
+          "supportsIPhone": false,
           "sha256": "<archive SHA-256>",
           "size": 123456,
           "revision": "<full upstream commit>",
@@ -44,6 +45,12 @@ A fragment contains one app and one version. Merge apps by `id` and versions by 
 `time` is the nonnegative integer Unix timestamp in seconds of the commit referenced by the app's release tag in the builds repository. Collection reads the commit's committer date through the GitHub API, resolving either lightweight or annotated tags. It does not use the upstream source commit date, tag annotation date, or Release publication date. Every version in the merged catalog requires `time`; build fragments omit it.
 
 `minSimulatorOS` is the highest requirement from the built app and its embedded binaries, unless the manifest declares a higher minimum. `sha256` describes the compressed archive and `size` is its size in bytes.
+
+`supportsIPhone` is optional and belongs to each version. Omit it when both iPhone and iPad are supported by default. Its only permitted explicit value is the JSON boolean `false`, which marks a version as unavailable on iPhone; iPad support remains implicit. Both device families must still meet `minSimulatorOS`. The example above includes an iPad-only version. The schema version remains `1`; clients must implement this field to enforce the iPhone restriction.
+
+Packaging derives `supportsIPhone` from the built app's `UIDeviceFamily` in `Info.plist`: if iPhone family `1` is absent, it writes `false`; otherwise it omits the field. A missing `UIDeviceFamily` defaults to both families. For an existing release, edit the version record in that release's `index.json` fragment; catalog collection preserves the field when regenerating the merged catalog, without changing the app archive.
+
+A recipe may also set top-level `supportsIPhone: false` in its `manifest.yaml` to declare an explicit iPhone restriction. Packaging carries that restriction into the version record even when the bundle lists iPhone support. Omit the recipe field for the default behavior; its only accepted explicit value is boolean `false`.
 
 `repository` and `license` belong to the app; the newest published version supplies both values for the whole app. `license` is required and contains the upstream repository's primary SPDX identifier for display; validation only requires a nonempty string. Each version's `revision` identifies its upstream source commit. These fields use the same validation rules as the recipe manifest's `source` fields.
 

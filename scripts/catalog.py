@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import re
-from typing import TypedDict
+from typing import Literal, TypedDict
 
 from schema import (
     METADATA_FIELDS,
@@ -26,6 +26,7 @@ CatalogError = ValidationError
 
 class VersionMetadata(TypedDict, total=False):
     time: int
+    supportsIPhone: Literal[False]
 
 
 class AppVersion(VersionMetadata):
@@ -80,7 +81,8 @@ def validate_index(value: object, *, require_complete: bool = False) -> Index:
         versions: list[AppVersion] = []
         for raw_version in raw_versions:
             record = mapping(raw_version, f'{identifier} version',
-                             ('version', 'minSimulatorOS', 'sha256', 'size', 'revision', 'recipeRevision'), ('time',))
+                             ('version', 'minSimulatorOS', 'sha256', 'size', 'revision', 'recipeRevision'),
+                             ('time', 'supportsIPhone'))
             version = release_version(record.get('version'), 'version')
             minimum = string(record.get('minSimulatorOS'), 'minSimulatorOS')
             os_version(minimum, 'minSimulatorOS')
@@ -95,6 +97,10 @@ def validate_index(value: object, *, require_complete: bool = False) -> Index:
             versions.append({'version': version, 'minSimulatorOS': minimum, 'sha256': digest,
                              'size': size, 'revision': revision,
                              'recipeRevision': recipe})
+            if 'supportsIPhone' in record:
+                if record['supportsIPhone'] is not False:
+                    raise CatalogError('supportsIPhone must be false when present')
+                versions[-1]['supportsIPhone'] = False
             if 'time' in record:
                 versions[-1]['time'] = unix_timestamp(record['time'], f'{identifier}/{version}.time')
         normalized: App = {'id': identifier, 'name': name, 'bundleID': bundle,

@@ -6,7 +6,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import TypedDict, cast
+from typing import Literal, TypedDict, cast
 
 from schema import (
     SOURCE_FIELDS,
@@ -47,14 +47,18 @@ class RequiredManifest(TypedDict):
 
 class Manifest(RequiredManifest, total=False):
     compatibility: Compatibility
+    supportsIPhone: Literal[False]
 
 
 def load_manifest(path: str | Path) -> Manifest:
     path = Path(path).absolute()
-    data = mapping(load_yaml(path), 'manifest', ('id', 'name', 'source', 'build'), ('compatibility',))
+    data = mapping(load_yaml(path), 'manifest', ('id', 'name', 'source', 'build'),
+                   ('compatibility', 'supportsIPhone'))
     if app_id(data['id'], 'id') != path.parent.name:
         raise ManifestError('id must match the application directory')
     string(data['name'], 'name')
+    if 'supportsIPhone' in data and data['supportsIPhone'] is not False:
+        raise ManifestError('supportsIPhone must be false when present')
 
     source = mapping(data['source'], 'source', SOURCE_FIELDS + ('version',))
     validate_source(source)

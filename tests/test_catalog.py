@@ -27,6 +27,32 @@ class CatalogTests(unittest.TestCase):
         data = fragment()
         self.assertEqual(validate_index(json.loads(json.dumps(data))), data)
 
+    def test_iphone_restriction_is_preserved_per_version(self) -> None:
+        restricted = fragment(version='2.0.0')
+        restricted['apps'][0]['versions'][0]['supportsIPhone'] = False
+        default = fragment(version='1.0.0')
+        merged = merge_indexes([validate_index(restricted), validate_index(default)])
+        self.assertEqual(validate_index(json.loads(json.dumps(merged))), merged)
+        versions = merged['apps'][0]['versions']
+        self.assertIs(versions[0]['supportsIPhone'], False)
+        self.assertNotIn('supportsIPhone', versions[1])
+        self.assertEqual(merged, merge_indexes([default, restricted]))
+
+    def test_iphone_restriction_only_accepts_boolean_false(self) -> None:
+        value: object
+        for value in (True, None, 0, 1, 'false', [], {}):
+            with self.subTest(value=value):
+                data = json.loads(json.dumps(fragment()))
+                data['apps'][0]['versions'][0]['supportsIPhone'] = value
+                with self.assertRaisesRegex(CatalogError, 'supportsIPhone'):
+                    validate_index(data)
+
+    def test_conflicting_iphone_support_for_the_same_version_fails(self) -> None:
+        restricted = fragment()
+        restricted['apps'][0]['versions'][0]['supportsIPhone'] = False
+        with self.assertRaisesRegex(CatalogError, 'conflicting version records'):
+            merge_indexes([fragment(), restricted])
+
     def test_unknown_fields_are_rejected(self) -> None:
         for level in ('index', 'app', 'version'):
             with self.subTest(level=level):

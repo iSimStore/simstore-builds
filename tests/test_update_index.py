@@ -14,7 +14,7 @@ from uuid import UUID
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 import update_index as updater
-from catalog import CatalogError, Index
+from catalog import CatalogError, Index, validate_index
 from test_catalog import fragment
 
 COMMIT_TIME = 1793503193
@@ -84,6 +84,16 @@ class CollectionTests(unittest.TestCase):
         with patch.object(updater, 'api_json', return_value=invalid), \
              self.assertRaisesRegex(CatalogError, 'license'):
             updater.collect_index([release()])
+
+    def test_collection_preserves_an_edited_iphone_restriction(self) -> None:
+        edited = fragment()
+        edited['apps'][0]['versions'][0]['supportsIPhone'] = False
+        with patch.object(updater, 'api_json', return_value=edited):
+            collected = updater.collect_index([release()])
+        record = collected['apps'][0]['versions'][0]
+        self.assertIs(record['supportsIPhone'], False)
+        self.assertEqual(record['time'], COMMIT_TIME)
+        self.assertEqual(updater.index_bytes(collected), updater.index_bytes(validate_index(collected, require_complete=True)))
 
     def test_pagination_keeps_releases_beyond_first_page(self) -> None:
         releases = [release(f'example/1.0.{patch_number}') for patch_number in range(101)]
