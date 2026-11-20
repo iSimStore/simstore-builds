@@ -1,5 +1,6 @@
 id: loose-leaf
 name: Loose Leaf
+supportsIPhone: false
 source:
   license: MIT
   repository: https://github.com/adamwulf/loose-leaf

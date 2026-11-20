@@ -146,6 +146,13 @@ class PackageTests(unittest.TestCase):
                     package(self.manifest, self.app, self.output, 'b' * 40)
                 self.assertFalse(self.output.exists())
 
+    def test_recipe_iphone_restriction_is_included_in_the_fragment(self) -> None:
+        self.data['supportsIPhone'] = False
+        self.manifest.write_text(json.dumps(self.data))
+        index = package(self.manifest, self.app, self.output, 'b' * 40)
+        self.assertEqual(validate_index(index), index)
+        self.assertIs(index['apps'][0]['versions'][0]['supportsIPhone'], False)
+
     def test_version_drift_does_not_produce_artifacts(self) -> None:
         self.data['source']['version'] = '2.0.0'
         self.manifest.write_text(json.dumps(self.data))

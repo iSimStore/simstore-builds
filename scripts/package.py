@@ -56,7 +56,7 @@ def package(manifest_path: Path, app: Path, output: Path, recipe_revision: str) 
         'revision': manifest['source']['revision'],
         'recipeRevision': recipe_revision,
     }
-    if 1 not in families:
+    if manifest.get('supportsIPhone') is False or 1 not in families:
         record['supportsIPhone'] = False
     index: Index = {
         'schemaVersion': 1,

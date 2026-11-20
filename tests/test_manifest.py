@@ -53,6 +53,22 @@ class ManifestTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(result.stdout, 'true\n')
 
+    def test_explicit_iphone_restriction_round_trips(self) -> None:
+        self.data['supportsIPhone'] = False
+        result = self.read()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIs(json.loads(result.stdout)['supportsIPhone'], False)
+        result = self.read(field='supportsIPhone')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout, 'false\n')
+
+    def test_iphone_restriction_only_accepts_false(self) -> None:
+        value: object
+        for value in (True, None, 0, 1, 'false', [], {}):
+            with self.subTest(value=value):
+                self.data['supportsIPhone'] = value
+                self.assert_rejected('supportsIPhone must be false when present')
+
     def test_strip_symbols_can_be_enabled_or_disabled(self) -> None:
         for enabled in (True, False):
             with self.subTest(enabled=enabled):
