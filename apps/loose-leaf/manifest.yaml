@@ -1,0 +1,10 @@
+id: loose-leaf
+name: Loose Leaf
+source:
+  license: MIT
+  repository: https://github.com/adamwulf/loose-leaf
+  version: "3.3.4"
+  revision: 0a55cc2fe4ae7d2ebc30a1c6bbd22dd96f8229aa
+build:
+  script: build.sh
+  deploymentTarget: "15.0"

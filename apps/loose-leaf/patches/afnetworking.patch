@@ -1,0 +1,16 @@
+diff --git a/AFNetworking/AFHTTPSessionManager.m b/AFNetworking/AFHTTPSessionManager.m
+index ed46b26..4bcd2f3 100644
+--- a/AFNetworking/AFHTTPSessionManager.m
++++ b/AFNetworking/AFHTTPSessionManager.m
+@@ -33,3 +33,2 @@
+ #import <netinet/in.h>
+-#import <netinet6/in6.h>
+ #import <arpa/inet.h>
+diff --git a/AFNetworking/AFNetworkReachabilityManager.m b/AFNetworking/AFNetworkReachabilityManager.m
+index fe67781..52c0ff2 100644
+--- a/AFNetworking/AFNetworkReachabilityManager.m
++++ b/AFNetworking/AFNetworkReachabilityManager.m
+@@ -25,3 +25,2 @@
+ #import <netinet/in.h>
+-#import <netinet6/in6.h>
+ #import <arpa/inet.h>

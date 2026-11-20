@@ -1,0 +1,8 @@
+diff --git a/.gitmodules b/.gitmodules
+index c44ca2a..1a12989 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -2,2 +2,2 @@
+ 	path = Submodules/PerformanceBezier
+-	url = git@github.com:adamwulf/PerformanceBezier.git
++	url = https://github.com/adamwulf/PerformanceBezier.git

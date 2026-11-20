@@ -1,0 +1,8 @@
+diff --git a/Mixpanel/Mixpanel.m b/Mixpanel/Mixpanel.m
+index c62c2e2..153837e 100755
+--- a/Mixpanel/Mixpanel.m
++++ b/Mixpanel/Mixpanel.m
+@@ -78,3 +78,2 @@ + (nullable Mixpanel *)sharedInstance
+     if (instances.count == 0) {
+-        MPLogWarning(@"sharedInstance called before creating a Mixpanel instance");
+         return nil;

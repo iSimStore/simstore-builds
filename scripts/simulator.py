@@ -25,14 +25,25 @@ class Device(TypedDict):
     udid: str
     state: str
     isAvailable: bool
+    deviceTypeIdentifier: str
+
+
+class DeviceType(TypedDict):
+    identifier: str
+    productFamily: str
 
 
 class Simulators(TypedDict):
+    devicetypes: list[DeviceType]
     runtimes: list[Runtime]
     devices: dict[str, list[Device]]
 
 
-def select_device(simulators: Simulators, minimum: OSVersion) -> tuple[str, bool]:
+def select_device(simulators: Simulators, minimum: OSVersion, families: set[int]) -> tuple[str, bool]:
+    family_names = {1: 'iPhone', 2: 'iPad'}
+    allowed_names = {family_names[family] for family in families if family in family_names}
+    compatible_types = {device['identifier'] for device in simulators['devicetypes']
+                        if device['productFamily'] in allowed_names}
     candidates: list[tuple[OSVersion, bool, str]] = []
     for runtime in simulators['runtimes']:
         if not runtime['isAvailable'] or '.iOS-' not in runtime['identifier']:
@@ -41,10 +52,10 @@ def select_device(simulators: Simulators, minimum: OSVersion) -> tuple[str, bool
         if runtime_version < minimum:
             continue
         for device in simulators['devices'].get(runtime['identifier'], []):
-            if device['isAvailable']:
+            if device['isAvailable'] and device['deviceTypeIdentifier'] in compatible_types:
                 candidates.append((runtime_version, device['state'] == 'Booted', device['udid']))
     if not candidates:
-        raise ValueError('No available iOS Simulator meets the app minimum')
+        raise ValueError('No available iOS Simulator meets the app minimum and device family')
     _, booted, udid = max(candidates)
     return udid, booted
 
@@ -63,9 +74,12 @@ def smoke_test(app: Path, manifest_path: Path | None = None, target: str | None 
         minimum = version(check_manifest(manifest_path, info, minimum))
     udid = target
     if udid is None:
+        families = info.get('UIDeviceFamily', [1, 2])
+        if not isinstance(families, list) or any(not isinstance(family, int) for family in families):
+            raise ValueError('UIDeviceFamily must be a list of integer device families')
         simulators: Simulators = json.loads(subprocess.check_output(
             ['xcrun', 'simctl', 'list', '--json'], text=True, timeout=60))
-        udid, booted = select_device(simulators, minimum)
+        udid, booted = select_device(simulators, minimum, set(families))
         print(f'Selected iOS Simulator: {udid}', flush=True)
         if not booted:
             subprocess.run(['xcrun', 'simctl', 'boot', udid], check=True, timeout=180)

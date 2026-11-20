@@ -1,0 +1,532 @@
+diff --git a/.gitmodules b/.gitmodules
+index 2aec5b7..3791451 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -2,47 +2,47 @@
+ 	path = Submodules/JotUI
+-	url = git@github.com:adamwulf/JotUI.git
++	url = https://github.com/adamwulf/JotUI.git
+ [submodule "Submodules/ColorWithHex"]
+ 	path = Submodules/ColorWithHex
+-	url = git@github.com:anjerodesu/UIColor-ColorWithHex.git
++	url = https://github.com/anjerodesu/UIColor-ColorWithHex.git
+ [submodule "Submodules/touch-chart"]
+ 	path = Submodules/touch-chart
+-	url = git@github.com:adamwulf/touch-chart.git
++	url = https://github.com/adamwulf/touch-chart.git
+ [submodule "Submodules/fishhook"]
+ 	path = Submodules/fishhook
+-	url = git@github.com:facebook/fishhook.git
++	url = https://github.com/facebook/fishhook.git
+ [submodule "Submodules/vectorboolean"]
+ 	path = Submodules/vectorboolean
+-	url = git@github.com:adamwulf/vectorboolean.git
++	url = https://github.com/adamwulf/vectorboolean.git
+ [submodule "Submodules/mixpanel"]
+ 	path = Submodules/mixpanel
+-	url = git@github.com:adamwulf/mixpanel-iphone.git
++	url = https://github.com/adamwulf/mixpanel-iphone.git
+ [submodule "Submodules/sskeychain"]
+ 	path = Submodules/sskeychain
+-	url = git@github.com:adamwulf/sskeychain.git
++	url = https://github.com/adamwulf/sskeychain.git
+ [submodule "Submodules/FXBlurView"]
+ 	path = Submodules/FXBlurView
+-	url = git@github.com:adamwulf/FXBlurView.git
++	url = https://github.com/adamwulf/FXBlurView.git
+ [submodule "Submodules/AFNetworking"]
+ 	path = Submodules/AFNetworking
+-	url = git@github.com:AFNetworking/AFNetworking.git
++	url = https://github.com/AFNetworking/AFNetworking.git
+ [submodule "Submodules/eppz-kit"]
+ 	path = Submodules/eppz-kit
+-	url = git@github.com:eppz/eppz.kit.git
++	url = https://github.com/eppz/eppz.kit.git
+ [submodule "Submodules/zip-archive"]
+ 	path = Submodules/zip-archive
+-	url = git@github.com:adamwulf/ZipArchive.git
++	url = https://github.com/adamwulf/ZipArchive.git
+ [submodule "Submodules/ClippingBezier"]
+ 	path = Submodules/ClippingBezier
+-	url = git@github.com:adamwulf/ClippingBezier.git
++	url = https://github.com/adamwulf/ClippingBezier.git
+ [submodule "Submodules/MMStretchGestureRecognizers"]
+ 	path = Submodules/MMStretchGestureRecognizers
+-	url = git@github.com:adamwulf/MMStretchGestureRecognizers.git
++	url = https://github.com/adamwulf/MMStretchGestureRecognizers.git
+ [submodule "Submodules/NSString-MD5"]
+ 	path = Submodules/NSString-MD5
+-	url = git@github.com:H2CO3/NSString-MD5.git
++	url = https://github.com/H2CO3/NSString-MD5.git
+ [submodule "Submodules/MMMarkdown"]
+ 	path = Submodules/MMMarkdown
+-	url = git@github.com:adamwulf/MMMarkdown.git
++	url = https://github.com/adamwulf/MMMarkdown.git
+ [submodule "Submodules/spacecommander"]
+ 	path = Submodules/spacecommander
+-	url = git@github.com:square/spacecommander.git
++	url = https://github.com/square/spacecommander.git
+diff --git a/LooseLeaf.xcworkspace/contents.xcworkspacedata b/LooseLeaf.xcworkspace/contents.xcworkspacedata
+index 5b0da55..ce150a4 100644
+--- a/LooseLeaf.xcworkspace/contents.xcworkspacedata
++++ b/LooseLeaf.xcworkspace/contents.xcworkspacedata
+@@ -9,5 +9,2 @@
+    </FileRef>
+-   <FileRef
+-      location = "group:Submodules/MMStretchGestureRecognizers/ShapeShifter.xcodeproj">
+-   </FileRef>
+    <FileRef
+@@ -24,5 +21,2 @@
+    </FileRef>
+-   <FileRef
+-      location = "group:LittleClipper/LittleClipper.xcodeproj">
+-   </FileRef>
+    <FileRef
+diff --git a/Project/LooseLeaf.xcodeproj/project.pbxproj b/Project/LooseLeaf.xcodeproj/project.pbxproj
+index 4b773bf..952d2d6 100644
+--- a/Project/LooseLeaf.xcodeproj/project.pbxproj
++++ b/Project/LooseLeaf.xcodeproj/project.pbxproj
+@@ -21,3 +21,2 @@
+ 		6610D08D1AA8FAFA0019C2FB /* MMInboxButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 6610D08C1AA8FAFA0019C2FB /* MMInboxButton.m */; };
+-		6610D0951AA9041B0019C2FB /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 6610D0941AA9041B0019C2FB /* NSString+MD5.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+ 		6610D0981AAA70E90019C2FB /* MMContinuousSwipeGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6610D0971AAA70E90019C2FB /* MMContinuousSwipeGestureRecognizer.m */; };
+@@ -35,4 +34,2 @@
+ 		6619D3BC1AACF2ED00484819 /* icons.license in Resources */ = {isa = PBXBuildFile; fileRef = 6619D3BB1AACF2ED00484819 /* icons.license */; };
+-		661C4B241A830F740014DB20 /* MMPinterestShareItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 661C4B231A830F740014DB20 /* MMPinterestShareItem.m */; };
+-		661C4B261A830FB20014DB20 /* Pinterest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661C4B251A830FB20014DB20 /* Pinterest.framework */; };
+ 		661C4B281A83F8D00014DB20 /* pinterest.png in Resources */ = {isa = PBXBuildFile; fileRef = 661C4B271A83F8D00014DB20 /* pinterest.png */; };
+@@ -170,3 +167,2 @@
+ 		666425BA18CBC20000A306C1 /* MMStretchScrapGestureRecognizer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 666425B918CBC20000A306C1 /* MMStretchScrapGestureRecognizer.mm */; };
+-		666425BC18CBC37700A306C1 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666425BB18CBC37700A306C1 /* opencv2.framework */; };
+ 		666425BE18CBC3DD00A306C1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 666425BD18CBC3DD00A306C1 /* AVFoundation.framework */; };
+@@ -434,5 +430,2 @@
+ 		C54AED582108393A007B75FB /* MMButtonBoxView.m in Sources */ = {isa = PBXBuildFile; fileRef = C54AED572108393A007B75FB /* MMButtonBoxView.m */; };
+-		C54D2C3A24C3B37900D25840 /* AppCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C54D2C3724C3B37900D25840 /* AppCenter.framework */; };
+-		C54D2C3B24C3B37900D25840 /* AppCenterAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C54D2C3824C3B37900D25840 /* AppCenterAnalytics.framework */; };
+-		C54D2C3C24C3B37900D25840 /* AppCenterCrashes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C54D2C3924C3B37900D25840 /* AppCenterCrashes.framework */; };
+ 		C54D2C3D24C3B41000D25840 /* AppIds.plist in Resources */ = {isa = PBXBuildFile; fileRef = C53BA3931E1327F500EB0C64 /* AppIds.plist */; };
+@@ -537,3 +530,2 @@
+ 		C5C13E171D91FC5A0047B3EF /* list-view-clone-page.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = C5C13E161D91FC4A0047B3EF /* list-view-clone-page.mp4 */; };
+-		C5C1E7D41C23E3E30081CA6D /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5C1E7D31C23E3E30081CA6D /* FBSDKCoreKit.framework */; };
+ 		C5C298E41D7B9633009AE6BE /* colorlesspoint.vsh in Resources */ = {isa = PBXBuildFile; fileRef = C5C298DE1D7B9633009AE6BE /* colorlesspoint.vsh */; };
+@@ -597,3 +589,2 @@
+ 		C5D749FE20FEF844004F5781 /* test_variant.json in Resources */ = {isa = PBXBuildFile; fileRef = C5D7497120FEF843004F5781 /* test_variant.json */; };
+-		C5D749FF20FEF844004F5781 /* MixpanelWatchProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D7497320FEF843004F5781 /* MixpanelWatchProperties.m */; };
+ 		C5D74A0020FEF844004F5781 /* Mixpanel+AutomaticTracks.m in Sources */ = {isa = PBXBuildFile; fileRef = C5D7497820FEF843004F5781 /* Mixpanel+AutomaticTracks.m */; };
+@@ -736,3 +727,2 @@
+ 		661C4B231A830F740014DB20 /* MMPinterestShareItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMPinterestShareItem.m; sourceTree = "<group>"; };
+-		661C4B251A830FB20014DB20 /* Pinterest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Pinterest.framework; path = ../Frameworks/Pinterest.framework; sourceTree = "<group>"; };
+ 		661C4B271A83F8D00014DB20 /* pinterest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pinterest.png; sourceTree = "<group>"; };
+@@ -976,3 +966,2 @@
+ 		666425B918CBC20000A306C1 /* MMStretchScrapGestureRecognizer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MMStretchScrapGestureRecognizer.mm; path = ../MMStretchScrapGestureRecognizer.mm; sourceTree = "<group>"; };
+-		666425BB18CBC37700A306C1 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
+ 		666425BD18CBC3DD00A306C1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+@@ -1496,5 +1485,2 @@
+ 		C54AED572108393A007B75FB /* MMButtonBoxView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MMButtonBoxView.m; sourceTree = "<group>"; };
+-		C54D2C3724C3B37900D25840 /* AppCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenter.framework; path = "../Frameworks/App Center iOS/AppCenter.framework"; sourceTree = "<group>"; };
+-		C54D2C3824C3B37900D25840 /* AppCenterAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterAnalytics.framework; path = "../Frameworks/App Center iOS/AppCenterAnalytics.framework"; sourceTree = "<group>"; };
+-		C54D2C3924C3B37900D25840 /* AppCenterCrashes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppCenterCrashes.framework; path = "../Frameworks/App Center iOS/AppCenterCrashes.framework"; sourceTree = "<group>"; };
+ 		C55AC19A1D7C0AB100259558 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+@@ -1633,3 +1619,2 @@
+ 		C5C13E161D91FC4A0047B3EF /* list-view-clone-page.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "list-view-clone-page.mp4"; sourceTree = "<group>"; };
+-		C5C1E7D31C23E3E30081CA6D /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../Frameworks/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+ 		C5C298C31D7B90E9009AE6BE /* colorlesspoint.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = colorlesspoint.vsh; path = ../Submodules/JotUI/JotUI/JotUI/colorlesspoint.vsh; sourceTree = "<group>"; };
+@@ -1904,3 +1889,2 @@
+ 				C5C298EC1D7BF172009AE6BE /* TouchShape.framework in Frameworks */,
+-				C5C1E7D41C23E3E30081CA6D /* FBSDKCoreKit.framework in Frameworks */,
+ 				66EDE47819B1039000A5623B /* ZipArchive.framework in Frameworks */,
+@@ -1909,3 +1893,2 @@
+ 				C5A8E1B21DC3252900CD608F /* CloudKit.framework in Frameworks */,
+-				661C4B261A830FB20014DB20 /* Pinterest.framework in Frameworks */,
+ 				66627FB21A0258D10064FAD3 /* libicucore.dylib in Frameworks */,
+@@ -1917,3 +1900,2 @@
+ 				66CA1A8D185E78030013505A /* libc++.dylib in Frameworks */,
+-				C54D2C3A24C3B37900D25840 /* AppCenter.framework in Frameworks */,
+ 				665C592E17BD7692006DECBF /* Accelerate.framework in Frameworks */,
+@@ -1922,3 +1904,2 @@
+ 				6695B6E6175008840069E61F /* CoreBluetooth.framework in Frameworks */,
+-				C54D2C3B24C3B37900D25840 /* AppCenterAnalytics.framework in Frameworks */,
+ 				6695B6E3175008680069E61F /* OpenGLES.framework in Frameworks */,
+@@ -1927,4 +1908,2 @@
+ 				66BD6E7D1593ACD400D4544C /* QuartzCore.framework in Frameworks */,
+-				C54D2C3C24C3B37900D25840 /* AppCenterCrashes.framework in Frameworks */,
+-				666425BC18CBC37700A306C1 /* opencv2.framework in Frameworks */,
+ 				66BD6E65159316CF00D4544C /* CoreImage.framework in Frameworks */,
+@@ -2949,3 +2928,2 @@
+ 				66D4FE6818DCA6950010CCBF /* Crashlytics.framework */,
+-				666425BB18CBC37700A306C1 /* opencv2.framework */,
+ 				66CA1A8B185E77F50013505A /* libc++.dylib */,
+@@ -3282,5 +3260,2 @@
+ 			children = (
+-				C54D2C3724C3B37900D25840 /* AppCenter.framework */,
+-				C54D2C3824C3B37900D25840 /* AppCenterAnalytics.framework */,
+-				C54D2C3924C3B37900D25840 /* AppCenterCrashes.framework */,
+ 				C5A8E1B61DC3441800CD608F /* Social.framework */,
+@@ -3289,3 +3264,2 @@
+ 				C5C298F51D7BF915009AE6BE /* MMMarkdown.framework */,
+-				C5C1E7D31C23E3E30081CA6D /* FBSDKCoreKit.framework */,
+ 				C506A39B1C23DD6100236895 /* SSKeychain.framework */,
+@@ -3295,3 +3269,2 @@
+ 				66244CAD1A65145100A009BC /* Fabric.framework */,
+-				661C4B251A830FB20014DB20 /* Pinterest.framework */,
+ 				66627FB11A0258D10064FAD3 /* libicucore.dylib */,
+@@ -4676,3 +4649,3 @@
+ 			shellPath = /bin/sh;
+-			shellScript = "cd \"$SRCROOT/LooseLeaf\"\n./generateAuthConstants.sh\n";
++			shellScript = ":";
+ 			showEnvVarsInLog = 0;
+@@ -4691,3 +4664,3 @@
+ 			shellPath = /bin/sh;
+-			shellScript = "cd \"$SRCROOT/LooseLeaf\"\n./generateInfoPlist.sh \"${BUILT_PRODUCTS_DIR}\"\n";
++			shellScript = ":";
+ 			showEnvVarsInLog = 0;
+@@ -4793,3 +4766,2 @@
+ 				663326CD1AB09CD9003915E6 /* MMImageInboxItem.m in Sources */,
+-				C5D749FF20FEF844004F5781 /* MixpanelWatchProperties.m in Sources */,
+ 				C5BAF6821D99FC3A00A86496 /* MMClonePaperStackView.m in Sources */,
+@@ -4843,3 +4815,2 @@
+ 				C5D74A0220FEF844004F5781 /* UIApplication+AutomaticTracks.m in Sources */,
+-				6610D0951AA9041B0019C2FB /* NSString+MD5.m in Sources */,
+ 				66BD6E701593A8CC00D4544C /* MMPlusButton.m in Sources */,
+@@ -4989,3 +4960,2 @@
+ 				6648D21D178C9E5400BE3B37 /* UIColor+Shadow.m in Sources */,
+-				661C4B241A830F740014DB20 /* MMPinterestShareItem.m in Sources */,
+ 				66E1010319ECB5DE006E7C15 /* MMRotateViewController.m in Sources */,
+diff --git a/Project/LooseLeaf/LooseLeaf-Info.plist b/Project/LooseLeaf/LooseLeaf-Info.plist
+index db63238..197a3ca 100644
+--- a/Project/LooseLeaf/LooseLeaf-Info.plist
++++ b/Project/LooseLeaf/LooseLeaf-Info.plist
+@@ -67,33 +67,4 @@
+ 	<string>????</string>
+-	<key>CFBundleURLTypes</key>
+-	<array>
+-		<dict>
+-			<key>CFBundleTypeRole</key>
+-			<string>Editor</string>
+-			<key>CFBundleURLSchemes</key>
+-			<array>
+-				<string>fbYOUR_FACEBOOK_APP_ID</string>
+-			</array>
+-		</dict>
+-		<dict>
+-			<key>CFBundleTypeRole</key>
+-			<string>Editor</string>
+-			<key>CFBundleURLIconFile</key>
+-			<string></string>
+-			<key>CFBundleURLName</key>
+-			<string></string>
+-			<key>CFBundleURLSchemes</key>
+-			<array>
+-				<string>pinYOUR_PINTEREST_APP_IDlooseleaf</string>
+-			</array>
+-		</dict>
+-	</array>
+ 	<key>CFBundleVersion</key>
+ 	<string>0.1</string>
+-	<key>FacebookAppID</key>
+-	<string>YOUR_FACEBOOK_APP_ID</string>
+-	<key>FacebookDisplayName</key>
+-	<string>Loose Leaf</string>
+-	<key>ITSAppUsesNonExemptEncryption</key>
+-	<false/>
+ 	<key>LSRequiresIPhoneOS</key>
+@@ -146,3 +117,3 @@
+ 	<array>
+-		<string>armv7</string>
++		<string>arm64</string>
+ 	</array>
+@@ -154,2 +125,19 @@
+ 	<false/>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default Configuration</string>
++					<key>UISceneDelegateClassName</key>
++					<string>MMSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
+ </dict>
+diff --git a/Project/LooseLeaf/LooseLeaf-Prefix.pch b/Project/LooseLeaf/LooseLeaf-Prefix.pch
+index b6c3911..8ea74c5 100644
+--- a/Project/LooseLeaf/LooseLeaf-Prefix.pch
++++ b/Project/LooseLeaf/LooseLeaf-Prefix.pch
+@@ -15,4 +15 @@
+
+-#ifdef __cplusplus
+-    #import <opencv2/opencv.hpp>
+-#endif
+diff --git a/Project/LooseLeaf/MMAppDelegate.m b/Project/LooseLeaf/MMAppDelegate.m
+index f98de9d..98170a1 100644
+--- a/Project/LooseLeaf/MMAppDelegate.m
++++ b/Project/LooseLeaf/MMAppDelegate.m
+@@ -22,8 +22,4 @@
+ #import <JotUI/JotUI.h>
+-#import <FBSDKCoreKit/FBSDKCoreKit.h>
+ #import "MMUnknownObject.h"
+ #import "MMAllStacksManager.h"
+-@import AppCenter;
+-@import AppCenterAnalytics;
+-@import AppCenterCrashes;
+
+@@ -62,14 +58,2 @@ - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(N
+
+-    NSURL* appIdsURL = [[NSBundle mainBundle] URLForResource:@"AppIds" withExtension:@"plist"];
+-    NSDictionary* appIds = [[NSDictionary alloc] initWithContentsOfURL:appIdsURL];
+-
+-    [MSAppCenter start:[appIds objectForKey:@"AppCenter"] withServices:@[
+-        [MSAnalytics class],
+-        [MSCrashes class]
+-    ]];
+-
+-    if ([MSCrashes hasCrashedInLastSession]) {
+-        [self crashlyticsDidCrashDuringPreviousExecution];
+-    }
+-
+     // support old archives
+@@ -79,3 +63,2 @@ - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(N
+
+-    [Mixpanel sharedInstanceWithToken:kMixpanelToken];
+     [[Mixpanel sharedInstance] identify:[MMAppDelegate userID]];
+@@ -96,5 +79,17 @@ - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(N
+
+-    [[FBSDKApplicationDelegate sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+
+
++    NSDate* dateOfCrash = [self dateOfDeathIfAny];
++    [[NSThread mainThread] performBlock:^{
++        if (dateOfCrash && !didRecieveReportFromCrashlytics) {
++            // we shouldn't have a kAppLaunchStatus if we shut down correctly,
++            // log as a possible memory crash or user force-close
++            [self trackDidCrashFromMemoryForDate:dateOfCrash];
++        }
++    } afterDelay:5];
++
++    return YES;
++}
++
++- (void)connectWindowScene:(UIWindowScene*)scene options:(UISceneConnectionOptions*)options {
+     [[MMAllStacksManager sharedInstance] upgradeIfNecessary:^{
+@@ -105,2 +100,3 @@ - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(N
+         presentationWindow = [[MMPresentationWindow alloc] initWithFrame:[[[UIScreen mainScreen] fixedCoordinateSpace] bounds]];
++        presentationWindow.windowScene = scene;
+         [presentationWindow makeKeyAndVisible];
+@@ -112,2 +108,3 @@ - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(N
+         self.window.rootViewController = self.viewController;
++        self.window.windowScene = scene;
+         [self.window makeKeyAndVisible];
+@@ -118,14 +115,8 @@ - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(N
+         [self setupTimer];
+-    }];
+-
+-    NSDate* dateOfCrash = [self dateOfDeathIfAny];
+-    [[NSThread mainThread] performBlock:^{
+-        if (dateOfCrash && !didRecieveReportFromCrashlytics) {
+-            // we shouldn't have a kAppLaunchStatus if we shut down correctly,
+-            // log as a possible memory crash or user force-close
+-            [self trackDidCrashFromMemoryForDate:dateOfCrash];
++        for (UIOpenURLContext* context in options.URLContexts) {
++            [self application:UIApplication.sharedApplication openURL:context.URL
++                sourceApplication:context.options.sourceApplication annotation:context.options.annotation];
+         }
+-    } afterDelay:5];
++    }];
+
+-    return YES;
+ }
+@@ -173,3 +164,2 @@ - (void)applicationWillEnterForeground:(UIApplication*)application {
+ - (void)applicationDidBecomeActive:(UIApplication*)application {
+-    [FBSDKAppEvents activateApp];
+     isActive = YES;
+@@ -208,7 +198,2 @@ - (void)applicationWillTerminate:(UIApplication*)application {
+ - (BOOL)application:(UIApplication*)application openURL:(NSURL*)url sourceApplication:(NSString*)sourceApplication annotation:(id)annotation {
+-    [[FBSDKApplicationDelegate sharedInstance] application:application
+-                                                   openURL:url
+-                                         sourceApplication:sourceApplication
+-                                                annotation:annotation];
+-
+     if (url) {
+@@ -398 +383,29 @@ - (void)crashlyticsDidCrashDuringPreviousExecution {
+ @end
++
++// The Simulator build uses UIKit scenes while preserving the app's existing lifecycle handlers.
++@interface MMSceneDelegate : UIResponder <UIWindowSceneDelegate>
++@end
++
++@implementation MMSceneDelegate
++- (void)scene:(UIScene*)scene willConnectToSession:(UISceneSession*)session options:(UISceneConnectionOptions*)options {
++    [(MMAppDelegate*)UIApplication.sharedApplication.delegate connectWindowScene:(UIWindowScene*)scene options:options];
++}
++- (void)sceneDidBecomeActive:(UIScene*)scene {
++    [(MMAppDelegate*)UIApplication.sharedApplication.delegate applicationDidBecomeActive:UIApplication.sharedApplication];
++}
++- (void)sceneWillResignActive:(UIScene*)scene {
++    [(MMAppDelegate*)UIApplication.sharedApplication.delegate applicationWillResignActive:UIApplication.sharedApplication];
++}
++- (void)sceneWillEnterForeground:(UIScene*)scene {
++    [(MMAppDelegate*)UIApplication.sharedApplication.delegate applicationWillEnterForeground:UIApplication.sharedApplication];
++}
++- (void)sceneDidEnterBackground:(UIScene*)scene {
++    [(MMAppDelegate*)UIApplication.sharedApplication.delegate applicationDidEnterBackground:UIApplication.sharedApplication];
++}
++- (void)scene:(UIScene*)scene openURLContexts:(NSSet<UIOpenURLContext*>*)contexts {
++    for (UIOpenURLContext* context in contexts) {
++        [(MMAppDelegate*)UIApplication.sharedApplication.delegate application:UIApplication.sharedApplication
++            openURL:context.URL sourceApplication:context.options.sourceApplication annotation:context.options.annotation];
++    }
++}
++@end
+diff --git a/Project/LooseLeaf/MMInboxItem.m b/Project/LooseLeaf/MMInboxItem.m
+index a85dbf9..5f0edc6 100644
+--- a/Project/LooseLeaf/MMInboxItem.m
++++ b/Project/LooseLeaf/MMInboxItem.m
+@@ -11,3 +11,3 @@
+ #import "NSFileManager+DirectoryOptimizations.h"
+-#import "NSString+MD5.h"
++#import <CommonCrypto/CommonDigest.h>
+ #import "MMLoadImageCache.h"
+@@ -76,3 +76,9 @@ - (NSString*)cachedAssetsPath {
+                                                                                   range:NSMakeRange(0, [relativeToDocuments length])];
+-        NSString* pdfHash = [relativeToDocuments MD5Hash];
++        NSData* cacheKey = [relativeToDocuments dataUsingEncoding:NSUTF8StringEncoding];
++        unsigned char digest[CC_MD5_DIGEST_LENGTH];
++        CC_MD5(cacheKey.bytes, (CC_LONG)cacheKey.length, digest);
++        NSMutableString* pdfHash = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
++        for (NSUInteger i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
++            [pdfHash appendFormat:@"%02x", digest[i]];
++        }
+
+diff --git a/Project/LooseLeaf/MMShareSidebarContainerView.m b/Project/LooseLeaf/MMShareSidebarContainerView.m
+index 6dc9172..9ab208b 100644
+--- a/Project/LooseLeaf/MMShareSidebarContainerView.m
++++ b/Project/LooseLeaf/MMShareSidebarContainerView.m
+@@ -21,3 +21,2 @@
+ #import "MMCopyShareItem.h"
+-#import "MMPinterestShareItem.h"
+ #import "NSThread+BlockAdditions.h"
+@@ -133,3 +132,2 @@ - (id)initWithFrame:(CGRect)frame forReferenceButtonFrame:(CGRect)buttonFrame an
+         [shareItems addObject:[[MMFacebookShareItem alloc] init]];
+-        [shareItems addObject:[[MMPinterestShareItem alloc] init]];
+         [shareItems addObject:[[MMImgurShareItem alloc] init]];
+diff --git a/Project/LooseLeaf/MMShareStackSidebarContainerView.m b/Project/LooseLeaf/MMShareStackSidebarContainerView.m
+index c3751cb..9fd34f6 100644
+--- a/Project/LooseLeaf/MMShareStackSidebarContainerView.m
++++ b/Project/LooseLeaf/MMShareStackSidebarContainerView.m
+@@ -21,3 +21,2 @@
+ #import "MMCopyShareItem.h"
+-#import "MMPinterestShareItem.h"
+ #import "NSThread+BlockAdditions.h"
+@@ -108,3 +107,2 @@ - (id)initWithFrame:(CGRect)frame forReferenceButtonFrame:(CGRect)buttonFrame an
+         [shareItems addObject:[[MMFacebookShareItem alloc] init]];
+-        [shareItems addObject:[[MMPinterestShareItem alloc] init]];
+         [shareItems addObject:[[MMImgurShareItem alloc] init]];
+diff --git a/Project/LooseLeaf/MMStretchHelper.mm b/Project/LooseLeaf/MMStretchHelper.mm
+index ada9b29..bbd35d9 100644
+--- a/Project/LooseLeaf/MMStretchHelper.mm
++++ b/Project/LooseLeaf/MMStretchHelper.mm
+@@ -12,2 +12,3 @@
+ #import <UIKit/UIKit.h>
++#import <Accelerate/Accelerate.h>
+
+@@ -162,54 +163,35 @@ + (Quadrilateral)generateAverageQuadFor:(Quadrilateral)q {
+
+-#pragma mark - OpenCV Transform
+-
+-// http://stackoverflow.com/questions/9470493/transforming-a-rectangle-image-into-a-quadrilateral-using-a-catransform3d
++#pragma mark - Perspective Transform
+
+ + (CATransform3D)transformQuadrilateral:(Quadrilateral)origin toQuadrilateral:(Quadrilateral)destination {
+-    CvPoint2D32f* cvsrc = [self openCVMatrixWithQuadrilateral:origin];
+-    CvMat* src_mat = cvCreateMat(4, 2, CV_32FC1);
+-    cvSetData(src_mat, cvsrc, sizeof(CvPoint2D32f));
+-
+-    CvPoint2D32f* cvdst = [self openCVMatrixWithQuadrilateral:destination];
+-    CvMat* dst_mat = cvCreateMat(4, 2, CV_32FC1);
+-    cvSetData(dst_mat, cvdst, sizeof(CvPoint2D32f));
+-
+-    CvMat* H = cvCreateMat(3, 3, CV_32FC1);
+-    cvFindHomography(src_mat, dst_mat, H);
+-    cvReleaseMat(&src_mat);
+-    cvReleaseMat(&dst_mat);
+-
+-    CATransform3D transform = [self transform3DWithCMatrix:H->data.fl];
+-    cvReleaseMat(&H);
+-
+-    return transform;
+-}
+-
+-+ (CvPoint2D32f*)openCVMatrixWithQuadrilateral:(Quadrilateral)origin {
+-    CvPoint2D32f* cvsrc = (CvPoint2D32f*)malloc(4 * sizeof(CvPoint2D32f));
+-    cvsrc[0].x = origin.upperLeft.x;
+-    cvsrc[0].y = origin.upperLeft.y;
+-    cvsrc[1].x = origin.upperRight.x;
+-    cvsrc[1].y = origin.upperRight.y;
+-    cvsrc[2].x = origin.lowerRight.x;
+-    cvsrc[2].y = origin.lowerRight.y;
+-    cvsrc[3].x = origin.lowerLeft.x;
+-    cvsrc[3].y = origin.lowerLeft.y;
+-    return cvsrc;
+-}
+-
+-+ (CATransform3D)transform3DWithCMatrix:(float*)matrix {
++    CGPoint source[] = {origin.upperLeft, origin.upperRight, origin.lowerRight, origin.lowerLeft};
++    CGPoint target[] = {destination.upperLeft, destination.upperRight, destination.lowerRight, destination.lowerLeft};
++    double coefficients[64] = {0};
++    double values[8] = {0};
++    for (int i = 0; i < 4; i++) {
++        double x = source[i].x, y = source[i].y;
++        double u = target[i].x, v = target[i].y;
++        double horizontal[] = {x, y, 1, 0, 0, 0, -u * x, -u * y};
++        double vertical[] = {0, 0, 0, x, y, 1, -v * x, -v * y};
++        for (int column = 0; column < 8; column++) {
++            coefficients[column * 8 + i * 2] = horizontal[column];
++            coefficients[column * 8 + i * 2 + 1] = vertical[column];
++        }
++        values[i * 2] = u;
++        values[i * 2 + 1] = v;
++    }
++    __CLPK_integer size = 8, rightHandSides = 1, pivots[8], status = 0;
++    dgesv_(&size, &rightHandSides, coefficients, &size, pivots, values, &size, &status);
++    if (status != 0) {
++        return CATransform3DIdentity;
++    }
+     CATransform3D transform = CATransform3DIdentity;
+-
+-    transform.m11 = matrix[0];
+-    transform.m21 = matrix[1];
+-    transform.m41 = matrix[2];
+-
+-    transform.m12 = matrix[3];
+-    transform.m22 = matrix[4];
+-    transform.m42 = matrix[5];
+-
+-    transform.m14 = matrix[6];
+-    transform.m24 = matrix[7];
+-    transform.m44 = matrix[8];
+-
++    transform.m11 = values[0];
++    transform.m21 = values[1];
++    transform.m41 = values[2];
++    transform.m12 = values[3];
++    transform.m22 = values[4];
++    transform.m42 = values[5];
++    transform.m14 = values[6];
++    transform.m24 = values[7];
+     return transform;
+diff --git a/Project/LooseLeaf/MMTouchVelocityGestureRecognizer.m b/Project/LooseLeaf/MMTouchVelocityGestureRecognizer.m
+index d676404..3fb6427 100644
+--- a/Project/LooseLeaf/MMTouchVelocityGestureRecognizer.m
++++ b/Project/LooseLeaf/MMTouchVelocityGestureRecognizer.m
+@@ -20,3 +20,3 @@
+
+-static float clamp(min, max, value) {
++static float clamp(float min, float max, float value) {
+     return fmaxf(min, fminf(max, value));
