@@ -1,0 +1,96 @@
+diff --git a/CriticalMapsKit/Sources/MapFeature/MapFeatureView.swift b/CriticalMapsKit/Sources/MapFeature/MapFeatureView.swift
+--- a/CriticalMapsKit/Sources/MapFeature/MapFeatureView.swift
++++ b/CriticalMapsKit/Sources/MapFeature/MapFeatureView.swift
+@@ -11,7 +11,7 @@
+   @Shared(.privacyZoneSettings) var privacyZoneSettings: PrivacyZoneSettings
+   @Shared(.userSettings) var userSettings: UserSettings
+ 
+-  @Bindable var store: StoreOf<MapFeature>
++  @SwiftUI.Bindable var store: StoreOf<MapFeature>
+ 
+   public init(store: StoreOf<MapFeature>) {
+     self.store = store
+diff --git a/CriticalMapsKit/Sources/SettingsFeature/AppearanceSettings/AppearanceSettingsView.swift b/CriticalMapsKit/Sources/SettingsFeature/AppearanceSettings/AppearanceSettingsView.swift
+--- a/CriticalMapsKit/Sources/SettingsFeature/AppearanceSettings/AppearanceSettingsView.swift
++++ b/CriticalMapsKit/Sources/SettingsFeature/AppearanceSettings/AppearanceSettingsView.swift
+@@ -6,7 +6,7 @@
+ 
+ /// A view to render appearance settings.
+ public struct AppearanceSettingsView: View {
+-  @Bindable private var store: StoreOf<AppearanceSettingsFeature>
++  @SwiftUI.Bindable private var store: StoreOf<AppearanceSettingsFeature>
+ 
+   public init(store: StoreOf<AppearanceSettingsFeature>) {
+     self.store = store
+diff --git a/CriticalMapsKit/Sources/SettingsFeature/PrivacyZoneFeature/CreateZoneFeature.swift b/CriticalMapsKit/Sources/SettingsFeature/PrivacyZoneFeature/CreateZoneFeature.swift
+--- a/CriticalMapsKit/Sources/SettingsFeature/PrivacyZoneFeature/CreateZoneFeature.swift
++++ b/CriticalMapsKit/Sources/SettingsFeature/PrivacyZoneFeature/CreateZoneFeature.swift
+@@ -103,7 +103,7 @@
+ let zoneRadiusRange: ClosedRange<Double> = zoneRadiusRangeMin.value ... zoneRadiusRangeMax.value
+ 
+ public struct CreatePrivacyZoneView: View {
+-  @Bindable var store: StoreOf<CreateZoneFeature>
++  @SwiftUI.Bindable var store: StoreOf<CreateZoneFeature>
+   
+   public init(store: StoreOf<CreateZoneFeature>) {
+     self.store = store
+diff --git a/CriticalMapsKit/Sources/SettingsFeature/PrivacyZoneFeature/PrivacyZoneFeature.swift b/CriticalMapsKit/Sources/SettingsFeature/PrivacyZoneFeature/PrivacyZoneFeature.swift
+--- a/CriticalMapsKit/Sources/SettingsFeature/PrivacyZoneFeature/PrivacyZoneFeature.swift
++++ b/CriticalMapsKit/Sources/SettingsFeature/PrivacyZoneFeature/PrivacyZoneFeature.swift
+@@ -155,7 +155,7 @@
+ // MARK: - View
+ 
+ public struct PrivacyZoneSettingsView: View {
+-  @Bindable var store: StoreOf<PrivacyZoneFeature>
++  @SwiftUI.Bindable var store: StoreOf<PrivacyZoneFeature>
+   
+   public init(store: StoreOf<PrivacyZoneFeature>) {
+     self.store = store
+diff --git a/CriticalMapsKit/Sources/SettingsFeature/RideEventSettings/RideEventSettingsView.swift b/CriticalMapsKit/Sources/SettingsFeature/RideEventSettings/RideEventSettingsView.swift
+--- a/CriticalMapsKit/Sources/SettingsFeature/RideEventSettings/RideEventSettingsView.swift
++++ b/CriticalMapsKit/Sources/SettingsFeature/RideEventSettings/RideEventSettingsView.swift
+@@ -8,7 +8,7 @@
+ 
+ /// A view to render next ride event settings
+ public struct RideEventSettingsView: View {
+-  @Bindable private var store: StoreOf<RideEventsSettingsFeature>
++  @SwiftUI.Bindable private var store: StoreOf<RideEventsSettingsFeature>
+ 
+   public init(store: StoreOf<RideEventsSettingsFeature>) {
+     self.store = store
+diff --git a/CriticalMapsKit/Sources/SettingsFeature/RideEventSettings/RideEventType.swift b/CriticalMapsKit/Sources/SettingsFeature/RideEventSettings/RideEventType.swift
+--- a/CriticalMapsKit/Sources/SettingsFeature/RideEventSettings/RideEventType.swift
++++ b/CriticalMapsKit/Sources/SettingsFeature/RideEventSettings/RideEventType.swift
+@@ -37,7 +37,7 @@
+ // MARK: - View
+ 
+ public struct RideEventTypeView: View {
+-  @Bindable private var store: StoreOf<RideEventType>
++  @SwiftUI.Bindable private var store: StoreOf<RideEventType>
+ 
+   public init(store: StoreOf<RideEventType>) {
+     self.store = store
+diff --git a/CriticalMapsKit/Sources/SettingsFeature/SettingsView.swift b/CriticalMapsKit/Sources/SettingsFeature/SettingsView.swift
+--- a/CriticalMapsKit/Sources/SettingsFeature/SettingsView.swift
++++ b/CriticalMapsKit/Sources/SettingsFeature/SettingsView.swift
+@@ -13,7 +13,7 @@
+ public struct SettingsView: View {
+   @Environment(\.colorSchemeContrast) var colorSchemeContrast
+   
+-  @Bindable var store: StoreOf<SettingsFeature>
++  @SwiftUI.Bindable var store: StoreOf<SettingsFeature>
+   
+   public init(store: StoreOf<SettingsFeature>) {
+     self.store = store
+diff --git a/CriticalMapsKit/Sources/SocialFeature/SocialFeatureView.swift b/CriticalMapsKit/Sources/SocialFeature/SocialFeatureView.swift
+--- a/CriticalMapsKit/Sources/SocialFeature/SocialFeatureView.swift
++++ b/CriticalMapsKit/Sources/SocialFeature/SocialFeatureView.swift
+@@ -6,7 +6,7 @@
+ import SwiftUI
+ 
+ public struct SocialView: View {
+-  @Bindable private var store: StoreOf<SocialFeature>
++  @SwiftUI.Bindable private var store: StoreOf<SocialFeature>
+ 
+   public init(store: StoreOf<SocialFeature>) {
+     self.store = store

@@ -1,0 +1,10 @@
+id: critical-maps
+name: Critical Maps
+source:
+  license: MIT
+  repository: https://github.com/criticalmaps/criticalmaps-ios
+  version: "4.10.1"
+  revision: f1f8e8cc3dc533aac35d4ceb6b2265e25a7c6940
+build:
+  script: build.sh
+  deploymentTarget: "17.0"

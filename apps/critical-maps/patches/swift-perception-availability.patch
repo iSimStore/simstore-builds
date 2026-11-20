@@ -1,0 +1,33 @@
+diff --git a/Sources/PerceptionCore/SwiftUI/Bindable.swift b/Sources/PerceptionCore/SwiftUI/Bindable.swift
+--- a/Sources/PerceptionCore/SwiftUI/Bindable.swift
++++ b/Sources/PerceptionCore/SwiftUI/Bindable.swift
+@@ -8,25 +8,25 @@
+   @available(
+     iOS,
+     introduced: 13,
+-    obsoleted: 17,
++    deprecated: 17,
+     message: "Use @Bindable without the 'Perception.' prefix."
+   )
+   @available(
+     macOS,
+     introduced: 10.15,
+-    obsoleted: 14,
++    deprecated: 14,
+     message: "Use @Bindable without the 'Perception.' prefix."
+   )
+   @available(
+     tvOS,
+     introduced: 13,
+-    obsoleted: 17,
++    deprecated: 17,
+     message: "Use @Bindable without the 'Perception.' prefix."
+   )
+   @available(
+     watchOS,
+     introduced: 6,
+-    obsoleted: 10,
++    deprecated: 10,
+     message: "Use @Bindable without the 'Perception.' prefix."
+   )
+   @available(visionOS, unavailable)
