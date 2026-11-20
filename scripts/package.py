@@ -35,6 +35,10 @@ def package(manifest_path: Path, app: Path, output: Path, recipe_revision: str) 
         raise ValueError('Package output must be outside the App Bundle')
     info, _, binary_minimum = validate(app)
     minimum = check_manifest(manifest_path, info, binary_minimum)
+    families = info.get('UIDeviceFamily', [1, 2])
+    if not isinstance(families, list) or not families or any(type(family) is not int or family < 1
+                                                          for family in families):
+        raise InvalidBundle('UIDeviceFamily must be a nonempty list of positive integer device families')
     subprocess.run(['codesign', '--verify', '--deep', '--strict', str(app)], check=True)
     version = manifest['source']['version'].removeprefix('v')
     filename = f"{manifest['id']}.app.tar.bz2"
@@ -52,6 +56,8 @@ def package(manifest_path: Path, app: Path, output: Path, recipe_revision: str) 
         'revision': manifest['source']['revision'],
         'recipeRevision': recipe_revision,
     }
+    if 1 not in families:
+        record['supportsIPhone'] = False
     index: Index = {
         'schemaVersion': 1,
         'apps': [{'id': manifest['id'], 'name': manifest['name'], 'bundleID': info['CFBundleIdentifier'],
