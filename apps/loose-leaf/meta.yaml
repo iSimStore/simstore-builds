@@ -1,5 +1,5 @@
 description:
-  en: Write and organize handwritten notebooks, annotate PDFs and photos, and cut and rearrange scraps. Built without Pinterest sharing or third-party analytics. Drawing, cutting, import, export, and sharing need separate Simulator testing.
-  zh-Hans: 编写与整理手写笔记本，批注 PDF 和照片，并剪切、重新排列碎片。此构建不含 Pinterest 分享及第三方统计。绘图、剪切、导入、导出和分享需在 Simulator 中单独实测。
+  en: Write and organize handwritten notebooks, annotate PDFs and photos, and cut and rearrange scraps.
+  zh-Hans: 编写与整理手写笔记本，批注 PDF 和照片，并剪切、重新排列碎片。
 categories:
   - productivity

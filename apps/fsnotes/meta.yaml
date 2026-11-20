@@ -1,6 +1,6 @@
 description:
-  en: Write and organize Markdown and plain-text notes with folders, tags, attachments, encryption, and Git backups. Bundled Avenir Next fonts are omitted; system fonts remain available. iCloud sync requires Apple services; editing, sync, sharing, encryption, Git, and widgets need separate Simulator testing.
-  zh-Hans: 使用文件夹、标签、附件、加密和 Git 备份编写与整理 Markdown 及纯文本笔记。移除随包附带的 Avenir Next 字体，仍可使用系统字体。iCloud 同步依赖 Apple 服务；编辑、同步、分享、加密、Git 和 Widget 需在 Simulator 中单独实测。
+  en: Write and organize Markdown and plain-text notes with folders, tags, attachments, encryption, and Git backups.
+  zh-Hans: 使用文件夹、标签、附件、加密和 Git 备份编写与整理 Markdown 及纯文本笔记。
 categories:
   - productivity
   - cloud

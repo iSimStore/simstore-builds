@@ -1,5 +1,5 @@
 description:
-  en: Send this device's location to your own Traccar server, configure reporting intervals, and review tracking status. Requires server configuration and location permission; background tracking, push commands, and QR scanning need separate testing. Built without the non-open-source Firebase Analytics dependency.
-  zh-Hans: 将此设备的位置发送到自己的 Traccar 服务器，设置上报间隔并查看跟踪状态。需要配置服务器并授予定位权限；后台跟踪、推送指令和二维码扫描需单独实测。构建时移除了非开源的 Firebase Analytics 依赖。
+  en: Send this device's location to your own Traccar server, configure reporting intervals, and review tracking status.
+  zh-Hans: 将此设备的位置发送到自己的 Traccar 服务器，设置上报间隔并查看跟踪状态。
 categories:
   - maps
