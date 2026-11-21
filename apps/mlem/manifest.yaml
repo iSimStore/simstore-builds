@@ -1,0 +1,12 @@
+id: mlem
+name: Mlem
+
+source:
+  license: GPL-3.0-only
+  repository: https://github.com/mlemgroup/mlem
+  version: "2.6.1"
+  revision: db6fac0caa810b12344d9953f50057c652747179
+
+build:
+  script: build.sh
+  deploymentTarget: "26.0"
