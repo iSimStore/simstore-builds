@@ -1,0 +1,12 @@
+id: woocommerce
+name: WooCommerce
+
+source:
+  license: GPL-2.0-only
+  repository: https://github.com/woocommerce/woocommerce-ios
+  version: "26.0.0"
+  revision: e87ef0d7c35f4c1d7852dc45fca4313f0ecf14a6
+
+build:
+  script: build.sh
+  deploymentTarget: "18.0"

@@ -1,0 +1,1196 @@
+diff --git a/Modules/Package.resolved b/Modules/Package.resolved
+index 97c26f7..a63f086 100644
+--- a/Modules/Package.resolved
++++ b/Modules/Package.resolved
+@@ -1,391 +1,309 @@
+ {
+-  "originHash" : "697851aad485df38d9401e4f7e2b179bfc80515ffbaa0ba850bd595c8429130c",
+-  "pins" : [
++  "pins": [
+     {
+-      "identity" : "alamofire",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/Alamofire/Alamofire",
+-      "state" : {
+-        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+-        "version" : "5.10.2"
++      "identity": "alamofire",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/Alamofire/Alamofire",
++      "state": {
++        "revision": "513364f870f6bfc468f9d2ff0a95caccc10044c5",
++        "version": "5.10.2"
+       }
+     },
+     {
+-      "identity" : "automattic-tracks-ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/Automattic/Automattic-Tracks-iOS.git",
+-      "state" : {
+-        "revision" : "cdc9348b2804af0b70a06d125fd4236d5c6f7f39",
+-        "version" : "4.3.1"
++      "identity": "automattic-tracks-ios",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/Automattic/Automattic-Tracks-iOS.git",
++      "state": {
++        "revision": "cdc9348b2804af0b70a06d125fd4236d5c6f7f39",
++        "version": "4.3.1"
+       }
+     },
+     {
+-      "identity" : "automatticabout-swift",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/Automattic/AutomatticAbout-swift.git",
+-      "state" : {
+-        "revision" : "606384a7492faa1139d489080dd961b0b57f9fd9",
+-        "version" : "1.1.5"
++      "identity": "automatticabout-swift",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/Automattic/AutomatticAbout-swift.git",
++      "state": {
++        "revision": "606384a7492faa1139d489080dd961b0b57f9fd9",
++        "version": "1.1.5"
+       }
+     },
+     {
+-      "identity" : "azteceditor-ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/wordpress-mobile/AztecEditor-iOS",
+-      "state" : {
+-        "revision" : "d741e3cfaa74c99ef092e5fddb87d4314b63e3ed"
++      "identity": "azteceditor-ios",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/wordpress-mobile/AztecEditor-iOS",
++      "state": {
++        "revision": "d741e3cfaa74c99ef092e5fddb87d4314b63e3ed"
+       }
+     },
+     {
+-      "identity" : "charts",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/danielgindi/Charts.git",
+-      "state" : {
+-        "revision" : "dd9c72e3d7e751e769971092a6bd72d39198ae63",
+-        "version" : "5.1.0"
++      "identity": "charts",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/danielgindi/Charts.git",
++      "state": {
++        "revision": "dd9c72e3d7e751e769971092a6bd72d39198ae63",
++        "version": "5.1.0"
+       }
+     },
+     {
+-      "identity" : "cocoalumberjack",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/CocoaLumberjack/CocoaLumberjack",
+-      "state" : {
+-        "revision" : "4b8714a7fb84d42393314ce897127b3939885ec3",
+-        "version" : "3.8.5"
++      "identity": "cocoalumberjack",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/CocoaLumberjack/CocoaLumberjack",
++      "state": {
++        "revision": "4b8714a7fb84d42393314ce897127b3939885ec3",
++        "version": "3.8.5"
+       }
+     },
+     {
+-      "identity" : "commonui_sdk_ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/zendesk/commonui_sdk_ios",
+-      "state" : {
+-        "revision" : "cb8b971b84c596145528f3f3e107fd150fd9dff2",
+-        "version" : "9.0.3"
++      "identity": "confettiswiftui",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/simibac/ConfettiSwiftUI.git",
++      "state": {
++        "revision": "f45961f97bbae6fff6e2e64546fea0189425ad92",
++        "version": "1.1.0"
+       }
+     },
+     {
+-      "identity" : "confettiswiftui",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/simibac/ConfettiSwiftUI.git",
+-      "state" : {
+-        "revision" : "f45961f97bbae6fff6e2e64546fea0189425ad92",
+-        "version" : "1.1.0"
++      "identity": "cwlcatchexception",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/mattgallagher/CwlCatchException.git",
++      "state": {
++        "revision": "07b2ba21d361c223e25e3c1e924288742923f08c",
++        "version": "2.2.1"
+       }
+     },
+     {
+-      "identity" : "core_sdk_ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/zendesk/core_sdk_ios",
+-      "state" : {
+-        "revision" : "36091ee0cd0fb888fc98f815f460b66e30132192",
+-        "version" : "5.0.5"
++      "identity": "cwlpreconditiontesting",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/mattgallagher/CwlPreconditionTesting.git",
++      "state": {
++        "revision": "0139c665ebb45e6a9fbdb68aabfd7c39f3fe0071",
++        "version": "2.2.2"
+       }
+     },
+     {
+-      "identity" : "cwlcatchexception",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/mattgallagher/CwlCatchException.git",
+-      "state" : {
+-        "revision" : "07b2ba21d361c223e25e3c1e924288742923f08c",
+-        "version" : "2.2.1"
++      "identity": "difference",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/krzysztofzablocki/Difference.git",
++      "state": {
++        "branch": "master",
++        "revision": "1deadf0ef4215797e4a00567894462c22824a105"
+       }
+     },
+     {
+-      "identity" : "cwlpreconditiontesting",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/mattgallagher/CwlPreconditionTesting.git",
+-      "state" : {
+-        "revision" : "0139c665ebb45e6a9fbdb68aabfd7c39f3fe0071",
+-        "version" : "2.2.2"
++      "identity": "embassy",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/envoy/Embassy",
++      "state": {
++        "revision": "8469f2c1b334a7c1c3566e2cb2f97826c7cca898",
++        "version": "4.1.6"
+       }
+     },
+     {
+-      "identity" : "difference",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/krzysztofzablocki/Difference.git",
+-      "state" : {
+-        "branch" : "master",
+-        "revision" : "1deadf0ef4215797e4a00567894462c22824a105"
++      "identity": "grdb.swift",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/groue/GRDB.swift",
++      "state": {
++        "revision": "8ba1bc9a96afc731a000fd4136dd13a5a46297bd",
++        "version": "7.6.1"
+       }
+     },
+     {
+-      "identity" : "embassy",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/envoy/Embassy",
+-      "state" : {
+-        "revision" : "8469f2c1b334a7c1c3566e2cb2f97826c7cca898",
+-        "version" : "4.1.6"
++      "identity": "gridicons-ios",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/Automattic/Gridicons-iOS",
++      "state": {
++        "revision": "c904cb73e26e86463a78e1335c6f4fd54a9e9223"
+       }
+     },
+     {
+-      "identity" : "grdb.swift",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/groue/GRDB.swift",
+-      "state" : {
+-        "revision" : "8ba1bc9a96afc731a000fd4136dd13a5a46297bd",
+-        "version" : "7.6.1"
++      "identity": "inject",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/krzysztofzablocki/Inject.git",
++      "state": {
++        "branch": "1.1.1",
++        "revision": "c0ed5f5de62475e286a3b7c676cec99fa34533ce"
+       }
+     },
+     {
+-      "identity" : "gridicons-ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/Automattic/Gridicons-iOS",
+-      "state" : {
+-        "revision" : "c904cb73e26e86463a78e1335c6f4fd54a9e9223"
++      "identity": "keychainaccess",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/kishikawakatsumi/KeychainAccess",
++      "state": {
++        "revision": "84e546727d66f1adc5439debad16270d0fdd04e7",
++        "version": "4.2.2"
+       }
+     },
+     {
+-      "identity" : "inject",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/krzysztofzablocki/Inject.git",
+-      "state" : {
+-        "branch" : "1.1.1",
+-        "revision" : "c0ed5f5de62475e286a3b7c676cec99fa34533ce"
++      "identity": "kingfisher",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/onevcat/Kingfisher",
++      "state": {
++        "revision": "2ef543ee21d63734e1c004ad6c870255e8716c50",
++        "version": "7.12.0"
+       }
+     },
+     {
+-      "identity" : "keychainaccess",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/kishikawakatsumi/KeychainAccess",
+-      "state" : {
+-        "revision" : "84e546727d66f1adc5439debad16270d0fdd04e7",
+-        "version" : "4.2.2"
++      "identity": "nimble",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/Quick/Nimble.git",
++      "state": {
++        "revision": "7795df4fff1a9cd231fe4867ae54f4dc5f5734f9",
++        "version": "13.7.1"
+       }
+     },
+     {
+-      "identity" : "kingfisher",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/onevcat/Kingfisher",
+-      "state" : {
+-        "revision" : "2ef543ee21d63734e1c004ad6c870255e8716c50",
+-        "version" : "7.12.0"
++      "identity": "nsobject-safeexpectations",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/wordpress-mobile/NSObject-SafeExpectations",
++      "state": {
++        "revision": "eb84d994ab13a153888a19e5b99f536aafa77434",
++        "version": "0.0.6"
+       }
+     },
+     {
+-      "identity" : "messaging_sdk_ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/zendesk/messaging_sdk_ios",
+-      "state" : {
+-        "revision" : "bb99e77fe0b696bf188e48c605943dad1ba66571",
+-        "version" : "6.0.3"
++      "identity": "ohhttpstubs",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/AliSoftware/OHHTTPStubs",
++      "state": {
++        "revision": "12f19662426d0434d6c330c6974d53e2eb10ecd9",
++        "version": "9.1.0"
+       }
+     },
+     {
+-      "identity" : "messagingapi_sdk_ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/zendesk/messagingapi_sdk_ios",
+-      "state" : {
+-        "revision" : "ae7f3169d07016893c52ec887b26fac4e247db25",
+-        "version" : "6.0.2"
++      "identity": "screenobject",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/Automattic/ScreenObject",
++      "state": {
++        "revision": "5a62548524a0ad65d8e2e5d4f665981c48066253",
++        "version": "0.3.0"
+       }
+     },
+     {
+-      "identity" : "nimble",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/Quick/Nimble.git",
+-      "state" : {
+-        "revision" : "7795df4fff1a9cd231fe4867ae54f4dc5f5734f9",
+-        "version" : "13.7.1"
++      "identity": "scrollviewsectionkit",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/pavolkmet/ScrollViewSectionKit",
++      "state": {
++        "revision": "c0163ebb5583c63a63f367517dee1a3259a25b75",
++        "version": "1.5.0"
+       }
+     },
+     {
+-      "identity" : "nsobject-safeexpectations",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/wordpress-mobile/NSObject-SafeExpectations",
+-      "state" : {
+-        "revision" : "eb84d994ab13a153888a19e5b99f536aafa77434",
+-        "version" : "0.0.6"
++      "identity": "sentry-cocoa",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/getsentry/sentry-cocoa",
++      "state": {
++        "revision": "990135f0881e56ac6b39404de0f5b0cd0dcf2131",
++        "version": "9.6.0"
+       }
+     },
+     {
+-      "identity" : "ohhttpstubs",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/AliSoftware/OHHTTPStubs",
+-      "state" : {
+-        "revision" : "12f19662426d0434d6c330c6974d53e2eb10ecd9",
+-        "version" : "9.1.0"
++      "identity": "svprogresshud",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/SVProgressHUD/SVProgressHUD",
++      "state": {
++        "revision": "c33f7c775ba7feea6047a1fc3257f2e5863b44f7",
++        "version": "2.3.1"
+       }
+     },
+     {
+-      "identity" : "screenobject",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/Automattic/ScreenObject",
+-      "state" : {
+-        "revision" : "5a62548524a0ad65d8e2e5d4f665981c48066253",
+-        "version" : "0.3.0"
++      "identity": "swift-algorithms",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/apple/swift-algorithms.git",
++      "state": {
++        "revision": "87e50f483c54e6efd60e885f7f5aa946cee68023",
++        "version": "1.2.1"
+       }
+     },
+     {
+-      "identity" : "scrollviewsectionkit",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/pavolkmet/ScrollViewSectionKit",
+-      "state" : {
+-        "revision" : "c0163ebb5583c63a63f367517dee1a3259a25b75",
+-        "version" : "1.5.0"
++      "identity": "swift-async-algorithms",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/apple/swift-async-algorithms",
++      "state": {
++        "revision": "042e1c4d9d19748c9c228f8d4ebc97bb1e339b0b",
++        "version": "1.0.4"
+       }
+     },
+     {
+-      "identity" : "sdkconfigurations_sdk_ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/zendesk/sdkconfigurations_sdk_ios",
+-      "state" : {
+-        "revision" : "18de371f71f6a92b34f63013fe2fbe46caf0811e",
+-        "version" : "4.0.1"
++      "identity": "swift-collections",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/apple/swift-collections.git",
++      "state": {
++        "revision": "8c0c0a8b49e080e54e5e328cc552821ff07cd341",
++        "version": "1.2.1"
+       }
+     },
+     {
+-      "identity" : "sentry-cocoa",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/getsentry/sentry-cocoa",
+-      "state" : {
+-        "revision" : "990135f0881e56ac6b39404de0f5b0cd0dcf2131",
+-        "version" : "9.6.0"
++      "identity": "swift-log",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/apple/swift-log",
++      "state": {
++        "revision": "3d8596ed08bd13520157f0355e35caed215ffbfa",
++        "version": "1.6.3"
+       }
+     },
+     {
+-      "identity" : "starxpand-sdk-ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/star-micronics/StarXpand-SDK-iOS",
+-      "state" : {
+-        "revision" : "37ead35af06789f03ffb34cbf08557be519edfd3",
+-        "version" : "2.12.1"
++      "identity": "swift-numerics",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/apple/swift-numerics.git",
++      "state": {
++        "revision": "e0ec0f5f3af6f3e4d5e7a19d2af26b481acb6ba8",
++        "version": "1.0.3"
+       }
+     },
+     {
+-      "identity" : "stripe-terminal-ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/stripe/stripe-terminal-ios",
+-      "state" : {
+-        "revision" : "85edec079da03ba2c23787b701866b9f065e466e",
+-        "version" : "5.1.1"
++      "identity": "swift-sodium",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/jedisct1/swift-sodium",
++      "state": {
++        "revision": "e7e799cd1eaa4d0f6d3eab56832e7f4b377f4a4f",
++        "version": "0.10.0"
+       }
+     },
+     {
+-      "identity" : "support_providers_sdk_ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/zendesk/support_providers_sdk_ios",
+-      "state" : {
+-        "revision" : "23008686dba97417a38973c1c33387acbb203dd8",
+-        "version" : "9.0.0"
++      "identity": "swiftui-shimmer",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/markiv/SwiftUI-Shimmer",
++      "state": {
++        "revision": "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
++        "version": "1.5.1"
+       }
+     },
+     {
+-      "identity" : "support_sdk_ios",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/zendesk/support_sdk_ios",
+-      "state" : {
+-        "revision" : "757a915bd74bbc2995a3d894c65f79198827edca",
+-        "version" : "9.0.0"
++      "identity": "uideviceidentifier",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/squarefrog/UIDeviceIdentifier",
++      "state": {
++        "revision": "4699794b08bb79a4d77785edaba6ea739e298e4b",
++        "version": "2.3.0"
+       }
+     },
+     {
+-      "identity" : "svprogresshud",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/SVProgressHUD/SVProgressHUD",
+-      "state" : {
+-        "revision" : "c33f7c775ba7feea6047a1fc3257f2e5863b44f7",
+-        "version" : "2.3.1"
++      "identity": "viewcontrollerpresentationspy",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/jonreid/ViewControllerPresentationSpy",
++      "state": {
++        "revision": "e58d38ab5a32f7c0baf63cbcc5f7cdf02bb12a99",
++        "version": "7.0.1"
+       }
+     },
+     {
+-      "identity" : "swift-algorithms",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/apple/swift-algorithms.git",
+-      "state" : {
+-        "revision" : "87e50f483c54e6efd60e885f7f5aa946cee68023",
+-        "version" : "1.2.1"
++      "identity": "wormholy",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/pmusolino/Wormholy",
++      "state": {
++        "revision": "54fdf4d01ccffc8276faf9be32d7d375a0321cab",
++        "version": "2.1.1"
+       }
+     },
+     {
+-      "identity" : "swift-async-algorithms",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/apple/swift-async-algorithms",
+-      "state" : {
+-        "revision" : "042e1c4d9d19748c9c228f8d4ebc97bb1e339b0b",
+-        "version" : "1.0.4"
+-      }
+-    },
+-    {
+-      "identity" : "swift-collections",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/apple/swift-collections.git",
+-      "state" : {
+-        "revision" : "8c0c0a8b49e080e54e5e328cc552821ff07cd341",
+-        "version" : "1.2.1"
+-      }
+-    },
+-    {
+-      "identity" : "swift-log",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/apple/swift-log",
+-      "state" : {
+-        "revision" : "3d8596ed08bd13520157f0355e35caed215ffbfa",
+-        "version" : "1.6.3"
+-      }
+-    },
+-    {
+-      "identity" : "swift-numerics",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/apple/swift-numerics.git",
+-      "state" : {
+-        "revision" : "e0ec0f5f3af6f3e4d5e7a19d2af26b481acb6ba8",
+-        "version" : "1.0.3"
+-      }
+-    },
+-    {
+-      "identity" : "swift-sodium",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/jedisct1/swift-sodium",
+-      "state" : {
+-        "revision" : "e7e799cd1eaa4d0f6d3eab56832e7f4b377f4a4f",
+-        "version" : "0.10.0"
+-      }
+-    },
+-    {
+-      "identity" : "swiftui-shimmer",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/markiv/SwiftUI-Shimmer",
+-      "state" : {
+-        "revision" : "0226e21f9bf355d40e07e5f5e1c33679d50e167f",
+-        "version" : "1.5.1"
+-      }
+-    },
+-    {
+-      "identity" : "uideviceidentifier",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/squarefrog/UIDeviceIdentifier",
+-      "state" : {
+-        "revision" : "4699794b08bb79a4d77785edaba6ea739e298e4b",
+-        "version" : "2.3.0"
+-      }
+-    },
+-    {
+-      "identity" : "viewcontrollerpresentationspy",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/jonreid/ViewControllerPresentationSpy",
+-      "state" : {
+-        "revision" : "e58d38ab5a32f7c0baf63cbcc5f7cdf02bb12a99",
+-        "version" : "7.0.1"
+-      }
+-    },
+-    {
+-      "identity" : "wormholy",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/pmusolino/Wormholy",
+-      "state" : {
+-        "revision" : "54fdf4d01ccffc8276faf9be32d7d375a0321cab",
+-        "version" : "2.1.1"
+-      }
+-    },
+-    {
+-      "identity" : "wpxmlrpc",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/wordpress-mobile/wpxmlrpc",
+-      "state" : {
+-        "revision" : "bfc413d336bdeaab89e62dc483380baa99b2257e",
+-        "version" : "0.10.0"
++      "identity": "wpxmlrpc",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/wordpress-mobile/wpxmlrpc",
++      "state": {
++        "revision": "bfc413d336bdeaab89e62dc483380baa99b2257e",
++        "version": "0.10.0"
+       }
+     }
+   ],
+-  "version" : 3
++  "version": 3
+ }
+diff --git a/Modules/Package.swift b/Modules/Package.swift
+index a79cfbf..f32e845 100644
+--- a/Modules/Package.swift
++++ b/Modules/Package.swift
+@@ -128,13 +128,10 @@ let package = Package(
+         .package(url: "https://github.com/Quick/Nimble.git", from: "13.0.0"),
+         .package(url: "https://github.com/simibac/ConfettiSwiftUI.git", from: "1.0.0"),
+         .package(url: "https://github.com/squarefrog/UIDeviceIdentifier", from: "2.3.0"),
+-        .package(url: "https://github.com/star-micronics/StarXpand-SDK-iOS", from: "2.10.0"),
+-        .package(url: "https://github.com/stripe/stripe-terminal-ios", from: "5.1.1"),
+         .package(url: "https://github.com/SVProgressHUD/SVProgressHUD", from: "2.2.5"),
+         .package(url: "https://github.com/wordpress-mobile/AztecEditor-iOS", revision: "d741e3cfaa74c99ef092e5fddb87d4314b63e3ed"),
+         .package(url: "https://github.com/wordpress-mobile/NSObject-SafeExpectations", from: "0.0.6"),
+         .package(url: "https://github.com/wordpress-mobile/wpxmlrpc", from: "0.10.0"),
+-        .package(url: "https://github.com/zendesk/support_sdk_ios", from: "9.0.0"),
+     ],
+     targets: XcodeSupport.targets + [
+         .target(
+@@ -170,8 +167,6 @@ let package = Package(
+             dependencies: [
+                 "Codegen",
+                 .product(name: "CocoaLumberjackSwift", package: "CocoaLumberjack"),
+-                .product(name: "StripeTerminal", package: "stripe-terminal-ios"),
+-                .product(name: "StarIO10", package: "StarXpand-SDK-iOS")
+             ],
+             resources: [.process("Resources")],
+             swiftSettings: swift5
+@@ -282,7 +277,6 @@ let package = Package(
+                 .product(name: "Aztec", package: "AztecEditor-iOS"),
+                 .product(name: "CocoaLumberjackSwift", package: "CocoaLumberjack"),
+                 .product(name: "KeychainAccess", package: "KeychainAccess"),
+-                .product(name: "StripeTerminal", package: "stripe-terminal-ios"),
+                 .product(name: "WordPressEditor", package: "AztecEditor-iOS"),
+             ],
+             swiftSettings: swift5
+@@ -549,10 +543,8 @@ enum XcodeSupport {
+                     .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
+                     .product(name: "ScrollViewSectionKit", package: "ScrollViewSectionKit"),
+                     .product(name: "Shimmer", package: "SwiftUI-Shimmer"),
+-                    .product(name: "StripeTerminal", package: "stripe-terminal-ios"),
+                     .product(name: "WordPressEditor", package: "AztecEditor-iOS"),
+                     .product(name: "Wormholy", package: "Wormholy"),
+-                    .product(name: "ZendeskSupportSDK", package: "support_sdk_ios"),
+                 ]
+             ),
+             .xcodeTarget(
+diff --git a/Modules/Sources/Experiments/DefaultFeatureFlagService.swift b/Modules/Sources/Experiments/DefaultFeatureFlagService.swift
+index 48b3279..b56a6c9 100644
+--- a/Modules/Sources/Experiments/DefaultFeatureFlagService.swift
++++ b/Modules/Sources/Experiments/DefaultFeatureFlagService.swift
+@@ -4,6 +4,9 @@ public struct DefaultFeatureFlagService: FeatureFlagService {
+     public init() {}
+ 
+     public func isFeatureFlagEnabled(_ featureFlag: FeatureFlag) -> Bool {
++        if featureFlag == .tapToPayOnIPhone || featureFlag == .starReceiptPrinterSupport {
++            return false
++        }
+         let buildConfig = BuildConfiguration.current
+ 
+         switch featureFlag {
+diff --git a/Modules/Sources/Hardware/CardReader/CardReaderInputOptions.swift b/Modules/Sources/Hardware/CardReader/CardReaderInputOptions.swift
+index 6eb8acd..2b616a2 100644
+--- a/Modules/Sources/Hardware/CardReader/CardReaderInputOptions.swift
++++ b/Modules/Sources/Hardware/CardReader/CardReaderInputOptions.swift
+@@ -14,7 +14,7 @@ public struct CardReaderInput: OptionSet, Sendable {
+ }
+ 
+ 
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension CardReaderInput {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/Cancelable+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/Cancelable+Stripe.swift
+index baa6d2d..56e7688 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/Cancelable+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/Cancelable+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ final class StripeCancelable: FallibleCancelable {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardBrand+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardBrand+Stripe.swift
+index 8987ace..3d8697b 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardBrand+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardBrand+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension CardBrand {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardPresentDetails+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardPresentDetails+Stripe.swift
+index dfd9073..b2d0c04 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardPresentDetails+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardPresentDetails+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension CardPresentTransactionDetails {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReader+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReader+Stripe.swift
+index f93b4fa..0d40b7a 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReader+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReader+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension CardReader {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderDiscoveryMethod+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderDiscoveryMethod+Stripe.swift
+index a646ab6..fddfb2b 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderDiscoveryMethod+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderDiscoveryMethod+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ public extension CardReaderDiscoveryMethod {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderEvent+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderEvent+Stripe.swift
+index de3acd4..356a7c5 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderEvent+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderEvent+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension CardReaderEvent {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderType+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderType+Stripe.swift
+index 0ff4ca6..6d97dd1 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderType+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/CardReaderType+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension CardReaderType {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/Charge+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/Charge+Stripe.swift
+index 7b9c502..aaa150c 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/Charge+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/Charge+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension Charge {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/ChargeStatus+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/ChargeStatus+Stripe.swift
+index 050d5d3..62c4538 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/ChargeStatus+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/ChargeStatus+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension ChargeStatus {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/DefaultConnectionTokenProvider.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/DefaultConnectionTokenProvider.swift
+index f824732..cac0e7c 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/DefaultConnectionTokenProvider.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/DefaultConnectionTokenProvider.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ /// Implementation of the ConnectionTokenProvider protocol that
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntent+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntent+Stripe.swift
+index 478d89c..1bdb118 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntent+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntent+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension PaymentIntent {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntentParameters+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntentParameters+Stripe.swift
+index 985d4f3..ed91229 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntentParameters+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntentParameters+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension Hardware.PaymentIntentParameters {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntentStatus+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntentStatus+Stripe.swift
+index c859b83..cd2695a 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntentStatus+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentIntentStatus+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension PaymentIntentStatus {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentMethod+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentMethod+Stripe.swift
+index 9fe8a74..8050862 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentMethod+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/PaymentMethod+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension PaymentMethod {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/ReaderDisplayMessage+Localization.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/ReaderDisplayMessage+Localization.swift
+index b681ca5..cd0902d 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/ReaderDisplayMessage+Localization.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/ReaderDisplayMessage+Localization.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension ReaderDisplayMessage {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/ReceiptDetails+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/ReceiptDetails+Stripe.swift
+index bd4703e..ad12bea 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/ReceiptDetails+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/ReceiptDetails+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension ReceiptDetails {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/RefundParameters+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/RefundParameters+Stripe.swift
+index f4c83a2..93e51fd 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/RefundParameters+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/RefundParameters+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension Hardware.RefundParameters {
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/StripeCardReaderDiscoveryCache.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/StripeCardReaderDiscoveryCache.swift
+index 91866b2..ef0dbec 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/StripeCardReaderDiscoveryCache.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/StripeCardReaderDiscoveryCache.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ /// In memory, volatile cache
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/StripeCardReaderService.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/StripeCardReaderService.swift
+index 46abdc7..1c3e3e1 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/StripeCardReaderService.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/StripeCardReaderService.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import Combine
+ import StripeTerminal
+ import CoreBluetooth
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/UnderlyingError+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/UnderlyingError+Stripe.swift
+index 7b13a3a..9062362 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/UnderlyingError+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/UnderlyingError+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ /// Maps Stripe SDK specific errors to domain errors:
+ /// the mapping is done according to the error codes documented here:
+diff --git a/Modules/Sources/Hardware/CardReader/StripeCardReader/UpdateTimeEstimate+Stripe.swift b/Modules/Sources/Hardware/CardReader/StripeCardReader/UpdateTimeEstimate+Stripe.swift
+index 0cc39bf..52444ce 100644
+--- a/Modules/Sources/Hardware/CardReader/StripeCardReader/UpdateTimeEstimate+Stripe.swift
++++ b/Modules/Sources/Hardware/CardReader/StripeCardReader/UpdateTimeEstimate+Stripe.swift
+@@ -1,4 +1,4 @@
+-#if !targetEnvironment(macCatalyst)
++#if canImport(StripeTerminal)
+ import StripeTerminal
+ 
+ extension Hardware.UpdateTimeEstimate {
+diff --git a/Modules/Sources/Hardware/CardReader/UnderlyingError.swift b/Modules/Sources/Hardware/CardReader/UnderlyingError.swift
+index d7840ee..1e712f3 100644
+--- a/Modules/Sources/Hardware/CardReader/UnderlyingError.swift
++++ b/Modules/Sources/Hardware/CardReader/UnderlyingError.swift
+@@ -402,7 +402,7 @@ extension UnderlyingError {
+                 return
+             }
+         default:
+-            #if !targetEnvironment(macCatalyst)
++            #if canImport(StripeTerminal)
+             if let underlyingStripeError = UnderlyingError(withStripeError: error) {
+                 self = underlyingStripeError
+                 return
+diff --git a/Modules/Sources/Hardware/Printer/StarPrinterService.swift b/Modules/Sources/Hardware/Printer/StarPrinterService.swift
+index ec42647..8db0a83 100644
+--- a/Modules/Sources/Hardware/Printer/StarPrinterService.swift
++++ b/Modules/Sources/Hardware/Printer/StarPrinterService.swift
+@@ -1,3 +1,4 @@
++#if canImport(StarIO10)
+ import Foundation
+ // StarIO10 predates Swift concurrency, so none of its types are `Sendable`. Every SDK object is owned by the
+ // `StarPrinterCoordinator` actor below, which is what makes handing them to the SDK's async calls safe.
+@@ -358,3 +359,39 @@ private final class StarConnectionDelegate: NSObject, PrinterDelegate {
+         DDLogInfo("🖨️ Printer cover is closed")
+     }
+ }
++
++#else
++import Foundation
++
++public final class StarPrinterService: PrinterDiscoveryService {
++    public init() {
++    }
++
++    public func connectionStatusUpdates() -> AsyncStream<PrinterConnectionStatus> {
++        AsyncStream { continuation in
++            continuation.yield(.disconnected)
++            continuation.finish()
++        }
++    }
++
++    public func discover() -> AsyncThrowingStream<PrinterDevice, Error> {
++        AsyncThrowingStream { continuation in
++            continuation.finish(throwing: PrinterError.discoveryFailure)
++        }
++    }
++
++    public func stopDiscovery() async {
++    }
++
++    public func connect(to device: PrinterDevice) async throws {
++        throw PrinterError.printerNotFound
++    }
++
++    public func disconnect() async {
++    }
++
++    public func printReceipt(text: String) async throws {
++        throw PrinterError.printerNotConnected
++    }
++}
++#endif
+diff --git a/Scripts/build-phases/generate-credentials.sh b/Scripts/build-phases/generate-credentials.sh
+index 24f5bf4..b3b854b 100755
+--- a/Scripts/build-phases/generate-credentials.sh
++++ b/Scripts/build-phases/generate-credentials.sh
+@@ -1,65 +1,8 @@
+-#!/usr/bin/env bash
+-
++#!/bin/bash
+ set -euo pipefail
+-
+-if [[ $ACTION == 'indexbuild' ]]; then
+-  echo "ℹ️: Skipping code generation in 'indexbuild' build. See https://github.com/mac-cain13/R.swift/issues/719#issuecomment-937733804 for more info."
+-  exit 0
+-fi
+-
+-SCRIPT_PATH=${SOURCE_ROOT}/Credentials/replace_secrets.rb
+-CREDS_INPUT_PATH=${SOURCE_ROOT}/Credentials/ApiCredentials.tpl
+-CREDS_TEMPLATE_PATH=${SOURCE_ROOT}/Credentials/Templates/ApiCredentials-Template.swift
+-# Assumes the default a8c-secrets workspace; the directory name must match `.a8c-secrets/repo-id`.
+-SECRETS_PATH="${HOME}/.a8c-secrets/woocommerce-ios@github.com@woocommerce/woo_app_credentials.json"
+-
+-## Collect output paths from the per-target build phase's `outputPaths`.
+-## Xcode exposes them as SCRIPT_OUTPUT_FILE_N (with SCRIPT_OUTPUT_FILE_COUNT).
+-##
+-if [[ -z "${SCRIPT_OUTPUT_FILE_COUNT:-}" || "${SCRIPT_OUTPUT_FILE_COUNT}" -lt 1 ]]; then
+-    echo "error: generate-credentials.sh expects at least one output file declared via the build phase's outputPaths." >&2
+-    exit 1
+-fi
+-
+-OUTPUT_PATHS=()
+ for (( i=0; i<SCRIPT_OUTPUT_FILE_COUNT; i++ )); do
+-    var="SCRIPT_OUTPUT_FILE_${i}"
+-    OUTPUT_PATHS+=("${!var}")
+-    mkdir -p "$(dirname "${!var}")"
++    variable="SCRIPT_OUTPUT_FILE_${i}"
++    output="${!variable}"
++    mkdir -p "$(dirname "$output")"
++    cp "$SOURCE_ROOT/Credentials/Templates/ApiCredentials-Template.swift" "$output"
+ done
+-
+-## Validate Secrets!
+-##
+-if [ ! -f "$SECRETS_PATH" ]; then
+-
+-    echo "warning: Could not find secrets at $SECRETS_PATH. This is likely due to the secrets folder being missing. Falling back to templated secrets. If you are an internal contributor, install a8c-secrets from https://github.com/Automattic/a8c-secrets, follow its set up instructions, then run \`a8c-secrets decrypt\`"
+-
+-    echo ">> Using Templated Secrets"
+-
+-    for OUTPUT_PATH in "${OUTPUT_PATHS[@]}"; do
+-        if [ ! -f "${OUTPUT_PATH}" ]; then
+-            echo ">> Creating Credentials File from Template: ${CREDS_TEMPLATE_PATH} -> ${OUTPUT_PATH}"
+-            cp "${CREDS_TEMPLATE_PATH}" "${OUTPUT_PATH}"
+-        fi
+-    done
+-
+-else
+-
+-    echo ">> Loading Secrets ${SECRETS_PATH}"
+-
+-    if which rbenv; then
+-      # Fix an issue where, depending on the shell you are using on your machine and your rbenv setup,
+-      #   running `ruby` in a bash script from Xcode script build phase might not use the right ruby
+-      #   (and thus not find the appropriate gems installed by bundle & Gemfile.lock and crash).
+-      # So if rbenv is installed, make sure the shims for `ruby` are too in the context of this bash script,
+-      #   so that it uses the right ruby version defined in `.ruby-version` instead of risking to use the system one.
+-      eval "$(rbenv init -)"
+-      rbenv rehash
+-    fi
+-
+-    for OUTPUT_PATH in "${OUTPUT_PATHS[@]}"; do
+-        echo ">> Generating Credentials ${OUTPUT_PATH}"
+-        ruby "${SCRIPT_PATH}" -i "${CREDS_INPUT_PATH}" -s "${SECRETS_PATH}" > "${OUTPUT_PATH}"
+-    done
+-
+-fi
+diff --git a/WooCommerce/Classes/ServiceLocator/ServiceLocator.swift b/WooCommerce/Classes/ServiceLocator/ServiceLocator.swift
+index 12b00b7..3b3a664 100644
+--- a/WooCommerce/Classes/ServiceLocator/ServiceLocator.swift
++++ b/WooCommerce/Classes/ServiceLocator/ServiceLocator.swift
+@@ -110,7 +110,7 @@ final class ServiceLocator {
+ 
+     /// Support for external Card Readers
+     ///
+-    #if !targetEnvironment(macCatalyst)
++    #if canImport(StripeTerminal)
+     private static var _cardReader: CardReaderService = StripeCardReaderService()
+     #else
+     private static var _cardReader: CardReaderService = NoOpCardReaderService()
+diff --git a/WooCommerce/Classes/Tools/Zendesk/ZendeskManager.swift b/WooCommerce/Classes/Tools/Zendesk/ZendeskManager.swift
+index 85709f7..4f30b6a 100644
+--- a/WooCommerce/Classes/Tools/Zendesk/ZendeskManager.swift
++++ b/WooCommerce/Classes/Tools/Zendesk/ZendeskManager.swift
+@@ -1,5 +1,5 @@
+ import Foundation
+-#if !targetEnvironment(macCatalyst)
++#if canImport(SupportSDK)
+ import SupportSDK
+ import ZendeskCoreSDK
+ import CommonUISDK // Zendesk UI SDK
+@@ -103,7 +103,7 @@ struct NoZendeskManager: ZendeskManagerProtocol {
+ struct ZendeskProvider {
+     /// Shared Instance
+     ///
+-    #if !targetEnvironment(macCatalyst)
++    #if canImport(SupportSDK)
+     static let shared: ZendeskManagerProtocol = ZendeskManager()
+     #else
+     static let shared: ZendeskManagerProtocol = NoZendeskManager()
+@@ -114,7 +114,7 @@ struct ZendeskProvider {
+ /// This class provides the functionality to communicate with Zendesk for Help Center and support ticket interaction,
+ /// as well as displaying views for the Help Center, new tickets, and ticket list.
+ ///
+-#if !targetEnvironment(macCatalyst)
++#if canImport(SupportSDK)
+ final class ZendeskManager: NSObject, ZendeskManagerProtocol {
+     /// Indicates if Zendesk is Enabled (or not)
+     ///
+diff --git a/WooCommerce/Credentials/Templates/ApiCredentials-Template.swift b/WooCommerce/Credentials/Templates/ApiCredentials-Template.swift
+index 21d8401..f077be5 100644
+--- a/WooCommerce/Credentials/Templates/ApiCredentials-Template.swift
++++ b/WooCommerce/Credentials/Templates/ApiCredentials-Template.swift
+@@ -4,45 +4,45 @@ struct ApiCredentials {
+ 
+     /// WordPress.com AppID
+     ///
+-    static let dotcomAppId: String =  "<#Wordpress.com App ID#>"
++    static let dotcomAppId: String =  ""
+ 
+     /// WordPress.com Secret
+     ///
+-    static let dotcomSecret: String = "<#Wordpress.com App Secret#>"
++    static let dotcomSecret: String = ""
+ 
+     /// Google SDK's ClientID
+     ///
+-    static let googleClientId: String = "<#Google Client ID#>"
++    static let googleClientId: String = ""
+ 
+     /// Google SDK's ServerID
+     ///
+-    static let googleServerId: String = "<#Google Server ID#>"
++    static let googleServerId: String = ""
+ 
+     /// Tracks Prefix
+     ///
+-    static let tracksPrefix: String = "<#Tracks Prefix#>"
++    static let tracksPrefix: String = ""
+ 
+     /// Sentry DSN
+     ///
+-    static let sentryDSN: String = "<#Sentry DSN#>"
++    static let sentryDSN: String = ""
+ 
+     /// Sentry DSN for non-production builds
+     ///
+-    static let sentryDSNInternal: String = "<#Sentry DSN Internal#>"
++    static let sentryDSNInternal: String = ""
+ 
+     /// Zendesk App ID
+     ///
+-    static let zendeskAppId: String = "<#Zendesk App ID#>"
++    static let zendeskAppId: String = ""
+ 
+     /// Zendesk URL
+     ///
+-    static let zendeskUrl: String = "<#Zendesk URL#>"
++    static let zendeskUrl: String = ""
+ 
+     /// Zendesk Client ID
+     ///
+-    static let zendeskClientId: String = "<#Zendesk Client ID#>"
++    static let zendeskClientId: String = ""
+ 
+     /// Encrypted Logging Public Key
+     ///
+-    static let loggingEncryptionKey = "<#Encrypted Log Key#>"
++    static let loggingEncryptionKey = ""
+ }
+diff --git a/WooCommerce/WooCommerce.xcodeproj/project.pbxproj b/WooCommerce/WooCommerce.xcodeproj/project.pbxproj
+index bf119d1..f94bd3b 100644
+--- a/WooCommerce/WooCommerce.xcodeproj/project.pbxproj
++++ b/WooCommerce/WooCommerce.xcodeproj/project.pbxproj
+@@ -851,22 +851,18 @@
+ 			isa = PBXNativeTarget;
+ 			buildConfigurationList = B56DB3E62049BFAA00D4AA8E /* Build configuration list for PBXNativeTarget "WooCommerce" */;
+ 			buildPhases = (
+-				57CCFFD4249D2A5700825FCF /* SwiftLint */,
+-				3F50FE4528CAEE9F00C89201 /* Enforce AppLocalizedString usages */,
+ 				CD6E8C9AF2614F85B5C626E5 /* Generate Credentials */,
+ 				B56DB3C22049BFAA00D4AA8E /* Sources */,
+ 				B56DB3C32049BFAA00D4AA8E /* Frameworks */,
+ 				B56DB3C42049BFAA00D4AA8E /* Resources */,
+ 				B5650B1020A4CD7F009702D0 /* Embed Frameworks */,
+ 				3F1FA85028B60126009E246C /* Embed Foundation Extensions */,
+-				26F81B232BE433A4009EC58E /* Embed Watch Content */,
+ 			);
+ 			buildRules = (
+ 			);
+ 			dependencies = (
+ 				3F1FA84E28B60126009E246C /* PBXTargetDependency */,
+ 				260837142AA66E4B0004A12B /* PBXTargetDependency */,
+-				26F81B212BE433A3009EC58E /* PBXTargetDependency */,
+ 				3F0904132D26A40800D8ACCE /* PBXTargetDependency */,
+ 				DE158D242F31BC8200161712 /* PBXTargetDependency */,
+ 			);
+@@ -1174,45 +1170,6 @@
+ /* End PBXResourcesBuildPhase section */
+ 
+ /* Begin PBXShellScriptBuildPhase section */
+-		3F50FE4528CAEE9F00C89201 /* Enforce AppLocalizedString usages */ = {
+-			isa = PBXShellScriptBuildPhase;
+-			alwaysOutOfDate = 1;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			inputFileListPaths = (
+-			);
+-			inputPaths = (
+-			);
+-			name = "Enforce AppLocalizedString usages";
+-			outputFileListPaths = (
+-			);
+-			outputPaths = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/sh;
+-			shellScript = "\"$SRCROOT/../Scripts/build-phases/LintAppLocalizedStringsUsage.sh\"\n";
+-			showEnvVarsInLog = 0;
+-		};
+-		57CCFFD4249D2A5700825FCF /* SwiftLint */ = {
+-			isa = PBXShellScriptBuildPhase;
+-			alwaysOutOfDate = 1;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			inputFileListPaths = (
+-			);
+-			inputPaths = (
+-			);
+-			name = SwiftLint;
+-			outputFileListPaths = (
+-			);
+-			outputPaths = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/bash;
+-			shellScript = "$SRCROOT/../Scripts/build-phases/swiftlint.sh\n";
+-		};
+ 		5F732A9C2F824605B5314303 /* Generate Credentials */ = {
+ 			isa = PBXShellScriptBuildPhase;
+ 			buildActionMask = 2147483647;
