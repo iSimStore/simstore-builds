@@ -1,9 +1,11 @@
 Modernize the stable iOS release for arm64 Simulator and remove the obsolete TestFlight SDK.
 Use the checked-in localized storyboards instead of regenerating source files during the build.
+Adopt a single-window UIScene lifecycle and a launch screen for current UIKit requirements.
+Apple migration guidance: https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle
 Related upstream issue: https://bugs.documentfoundation.org/show_bug.cgi?id=141314
 
 diff --git a/ios/iosremote/iosremote.xcodeproj/project.pbxproj b/ios/iosremote/iosremote.xcodeproj/project.pbxproj
-index cd86f77..dfaf494 100644
+index cd86f77..e773972 100644
 --- a/ios/iosremote/iosremote.xcodeproj/project.pbxproj
 +++ b/ios/iosremote/iosremote.xcodeproj/project.pbxproj
 @@ -7,10 +7,6 @@
@@ -109,7 +111,14 @@ index cd86f77..dfaf494 100644
  /* Begin PBXSourcesBuildPhase section */
  		57C6E3EB175E06E800E8BC5F /* Sources */ = {
  			isa = PBXSourcesBuildPhase;
-@@ -1326,13 +1283,11 @@
+@@ -1319,20 +1276,17 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+ 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+ 				GCC_PREFIX_HEADER = "iosremote/iosremote-Prefix.pch";
+ 				INFOPLIST_FILE = "iosremote/iosremote-Info.plist";
  				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
  				LIBRARY_SEARCH_PATHS = (
  					"$(inherited)",
@@ -123,7 +132,15 @@ index cd86f77..dfaf494 100644
  				WRAPPER_EXTENSION = app;
  			};
  			name = Debug;
-@@ -1350,14 +1305,12 @@
+@@ -1341,7 +1295,6 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+ 				CODE_SIGN_IDENTITY = "iPhone Distribution";
+ 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+ 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+@@ -1350,14 +1303,12 @@
  				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
  				LIBRARY_SEARCH_PATHS = (
  					"$(inherited)",
@@ -139,7 +156,7 @@ index cd86f77..dfaf494 100644
  			};
  			name = Release;
 diff --git a/ios/iosremote/iosremote/Classes/AppDelegate.m b/ios/iosremote/iosremote/Classes/AppDelegate.m
-index 2bbdf59..06e2d38 100644
+index 2bbdf59..b8d4aeb 100644
 --- a/ios/iosremote/iosremote/Classes/AppDelegate.m
 +++ b/ios/iosremote/iosremote/Classes/AppDelegate.m
 @@ -28,8 +28,6 @@ - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrienta
@@ -151,11 +168,35 @@ index 2bbdf59..06e2d38 100644
      NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"UserDefaults"
                                                               ofType:@"plist"];
      NSDictionary *appDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+@@ -105,3 +103,23 @@ - (void)applicationWillTerminate:(UIApplication *)application
+ }
+ 
+ @end
++
++@interface ImpressSceneDelegate : UIResponder <UIWindowSceneDelegate>
++@property (strong, nonatomic) UIWindow *window;
++@end
++
++@implementation ImpressSceneDelegate
++
++- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions
++{
++    self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
++    AppDelegate *applicationDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
++    applicationDelegate.window = self.window;
++    NSString *storyboardName = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad
++                                  ? @"iPad_autosize" : @"iPhone_autoSize";
++    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
++    self.window.rootViewController = [storyboard instantiateInitialViewController];
++    [self.window makeKeyAndVisible];
++}
++
++@end
 diff --git a/ios/iosremote/iosremote/iosremote-Info.plist b/ios/iosremote/iosremote/iosremote-Info.plist
-index f1de027..c17dc8a 100644
+index f1de027..3e8ea9d 100644
 --- a/ios/iosremote/iosremote/iosremote-Info.plist
 +++ b/ios/iosremote/iosremote/iosremote-Info.plist
-@@ -30,6 +30,12 @@
+@@ -30,18 +30,35 @@
  	<string>????</string>
  	<key>CFBundleVersion</key>
  	<string>1.0.1</string>
@@ -167,9 +208,29 @@ index f1de027..c17dc8a 100644
 +	</array>
  	<key>LSRequiresIPhoneOS</key>
  	<true/>
- 	<key>UIMainStoryboardFile</key>
-@@ -38,10 +44,6 @@
- 	<string>iPad_autosize</string>
+-	<key>UIMainStoryboardFile</key>
+-	<string>iPhone_autoSize</string>
+-	<key>UIMainStoryboardFile~ipad</key>
+-	<string>iPad_autosize</string>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default Configuration</string>
++					<key>UISceneDelegateClassName</key>
++					<string>ImpressSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
++	<key>UILaunchScreen</key>
++	<dict/>
  	<key>UIPrerenderedIcon</key>
  	<true/>
 -	<key>UIRequiredDeviceCapabilities</key>
