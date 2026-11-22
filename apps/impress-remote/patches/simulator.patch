@@ -1,0 +1,458 @@
+Modernize the stable iOS release for arm64 Simulator and remove the obsolete TestFlight SDK.
+Use the checked-in localized storyboards instead of regenerating source files during the build.
+Adopt a single-window UIScene lifecycle and a launch screen for current UIKit requirements.
+Apple migration guidance: https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle
+Related upstream issue: https://bugs.documentfoundation.org/show_bug.cgi?id=141314
+
+Replace legacy UIAlertView dialogs with scene-compatible UIAlertController actions.
+Related dependency issue: https://github.com/futuretap/InAppSettingsKit/issues/340
+
+diff --git a/ios/iosremote/InAppSettingsKit/Controllers/IASKAppSettingsViewController.m b/ios/iosremote/InAppSettingsKit/Controllers/IASKAppSettingsViewController.m
+index 52afa88..3c0e583 100755
+--- a/ios/iosremote/InAppSettingsKit/Controllers/IASKAppSettingsViewController.m
++++ b/ios/iosremote/InAppSettingsKit/Controllers/IASKAppSettingsViewController.m
+@@ -692,13 +692,11 @@ - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath
+             mailViewController.mailComposeDelegate = vc;
+             [vc presentModalViewController:mailViewController animated:YES];
+         } else {
+-            UIAlertView *alert = [[UIAlertView alloc]
+-                                  initWithTitle:NSLocalizedString(@"Mail not configured", @"InAppSettingsKit")
+-                                  message:NSLocalizedString(@"This device is not configured for sending Email. Please configure the Mail settings in the Settings app.", @"InAppSettingsKit")
+-                                  delegate: nil
+-                                  cancelButtonTitle:NSLocalizedString(@"OK", @"InAppSettingsKit")
+-                                  otherButtonTitles:nil];
+-            [alert show];
++            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Mail not configured", @"InAppSettingsKit")
++                                                                          message:NSLocalizedString(@"This device is not configured for sending Email. Please configure the Mail settings in the Settings app.", @"InAppSettingsKit")
++                                                                   preferredStyle:UIAlertControllerStyleAlert];
++            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"InAppSettingsKit") style:UIAlertActionStyleCancel handler:nil]];
++            [self presentViewController:alert animated:YES completion:nil];
+         }
+ 
+ 	} else if ([[specifier type] isEqualToString:kIASKCustomViewSpecifier] && [self.delegate respondsToSelector:@selector(settingsViewController:tableView:didSelectCustomViewSpecifier:)]) {
+diff --git a/ios/iosremote/iosremote.xcodeproj/project.pbxproj b/ios/iosremote/iosremote.xcodeproj/project.pbxproj
+index cd86f77..e773972 100644
+--- a/ios/iosremote/iosremote.xcodeproj/project.pbxproj
++++ b/ios/iosremote/iosremote.xcodeproj/project.pbxproj
+@@ -7,10 +7,6 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+-		5711026C1794127E007D343B /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 571102681794127E007D343B /* libTestFlight.a */; };
+-		5711026D1794127E007D343B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 571102691794127E007D343B /* README.md */; };
+-		5711026E1794127E007D343B /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 5711026A1794127E007D343B /* release_notes.md */; };
+-		571102701794128E007D343B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5711026F1794128E007D343B /* libz.dylib */; };
+ 		571BFAD1178AADA200EF1BDB /* more_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 571BFAD0178AADA200EF1BDB /* more_icon.png */; };
+ 		571D4807178B2F080063D93B /* timer_clear_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 571D4805178B2F080063D93B /* timer_clear_btn.png */; };
+ 		571D4808178B2F080063D93B /* timer_start_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 571D4806178B2F080063D93B /* timer_start_btn.png */; };
+@@ -150,11 +146,6 @@
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXFileReference section */
+-		571102681794127E007D343B /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+-		571102691794127E007D343B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+-		5711026A1794127E007D343B /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+-		5711026B1794127E007D343B /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+-		5711026F1794128E007D343B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+ 		571BFAD0178AADA200EF1BDB /* more_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more_icon.png; sourceTree = "<group>"; };
+ 		571D4805178B2F080063D93B /* timer_clear_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_clear_btn.png; sourceTree = "<group>"; };
+ 		571D4806178B2F080063D93B /* timer_start_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_start_btn.png; sourceTree = "<group>"; };
+@@ -454,31 +445,17 @@
+ 				8CBF9E0117DDC1A80044D949 /* MessageUI.framework in Frameworks */,
+ 				8C19F41F17B02A8A005BDB61 /* QuartzCore.framework in Frameworks */,
+ 				8C19F41D17B00899005BDB61 /* SystemConfiguration.framework in Frameworks */,
+-				571102701794128E007D343B /* libz.dylib in Frameworks */,
+ 				57DC7007178D84490050FC58 /* CoreMotion.framework in Frameworks */,
+ 				BE9EBD071765BF0800283FD2 /* CoreImage.framework in Frameworks */,
+ 				57C6E3F3175E06E800E8BC5F /* UIKit.framework in Frameworks */,
+ 				57C6E3F5175E06E800E8BC5F /* Foundation.framework in Frameworks */,
+ 				57C6E3F7175E06E800E8BC5F /* CoreGraphics.framework in Frameworks */,
+-				5711026C1794127E007D343B /* libTestFlight.a in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
+-		571102671794127E007D343B /* TestFlightSDK1.2.6 */ = {
+-			isa = PBXGroup;
+-			children = (
+-				5711026F1794128E007D343B /* libz.dylib */,
+-				571102681794127E007D343B /* libTestFlight.a */,
+-				571102691794127E007D343B /* README.md */,
+-				5711026A1794127E007D343B /* release_notes.md */,
+-				5711026B1794127E007D343B /* TestFlight.h */,
+-			);
+-			path = TestFlightSDK1.2.6;
+-			sourceTree = "<group>";
+-		};
+ 		57701736178AC83E00B99793 /* SWRevealViewController */ = {
+ 			isa = PBXGroup;
+ 			children = (
+@@ -682,7 +659,6 @@
+ 				57DC7006178D84490050FC58 /* CoreMotion.framework */,
+ 				8CBF9E1017E1247D0044D949 /* WEPopoverView */,
+ 				8CBF9DC117DDBFA70044D949 /* InAppSettingsKit */,
+-				571102671794127E007D343B /* TestFlightSDK1.2.6 */,
+ 				57701736178AC83E00B99793 /* SWRevealViewController */,
+ 			);
+ 			name = Library;
+@@ -897,7 +873,6 @@
+ 				57C6E3EB175E06E800E8BC5F /* Sources */,
+ 				57C6E3EC175E06E800E8BC5F /* Frameworks */,
+ 				57C6E3ED175E06E800E8BC5F /* Resources */,
+-				8C06B32917B7F1C0002F5CF8 /* ShellScript */,
+ 			);
+ 			buildRules = (
+ 			);
+@@ -981,8 +956,6 @@
+ 				571D4808178B2F080063D93B /* timer_start_btn.png in Resources */,
+ 				57CC48C6178B42A400075DE4 /* timer_pause_btn.png in Resources */,
+ 				57DF0A85178FFFAB008B2D3D /* iPhone_autosize.storyboard in Resources */,
+-				5711026D1794127E007D343B /* README.md in Resources */,
+-				5711026E1794127E007D343B /* release_notes.md in Resources */,
+ 				8C06B31E17B7ED1E002F5CF8 /* iPad_autosize.storyboard in Resources */,
+ 				8C0DC83A17A4177C0099E5AE /* nextButton_pressed.png in Resources */,
+ 				8C0DC83B17A4177C0099E5AE /* nextButton_pressed@2x.png in Resources */,
+@@ -1043,22 +1016,6 @@
+ 		};
+ /* End PBXResourcesBuildPhase section */
+ 
+-/* Begin PBXShellScriptBuildPhase section */
+-		8C06B32917B7F1C0002F5CF8 /* ShellScript */ = {
+-			isa = PBXShellScriptBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			inputPaths = (
+-			);
+-			outputPaths = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/sh;
+-			shellScript = "python ${PROJECT_DIR}/localize.py --mainIdiom=en --mainStoryboard=${PROJECT_DIR}/iosremote/en.lproj/iPhone_autoSize.storyboard fr zh-Hans\n\npython ${PROJECT_DIR}/localize.py --mainIdiom=en --mainStoryboard=${PROJECT_DIR}/en.lproj/iPad_autosize.storyboard fr zh-Hans";
+-		};
+-/* End PBXShellScriptBuildPhase section */
+-
+ /* Begin PBXSourcesBuildPhase section */
+ 		57C6E3EB175E06E800E8BC5F /* Sources */ = {
+ 			isa = PBXSourcesBuildPhase;
+@@ -1319,20 +1276,17 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+ 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+ 				GCC_PREFIX_HEADER = "iosremote/iosremote-Prefix.pch";
+ 				INFOPLIST_FILE = "iosremote/iosremote-Info.plist";
+ 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+ 				LIBRARY_SEARCH_PATHS = (
+ 					"$(inherited)",
+-					"\"$(SRCROOT)/TestFlightSDK1.2.6\"",
+ 				);
+ 				ONLY_ACTIVE_ARCH = NO;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				SDKROOT = iphoneos;
+ 				TARGETED_DEVICE_FAMILY = "1,2";
+-				VALID_ARCHS = "armv7 armv7s";
+ 				WRAPPER_EXTENSION = app;
+ 			};
+ 			name = Debug;
+@@ -1341,7 +1295,6 @@
+ 			isa = XCBuildConfiguration;
+ 			buildSettings = {
+ 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+ 				CODE_SIGN_IDENTITY = "iPhone Distribution";
+ 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+ 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+@@ -1350,14 +1303,12 @@
+ 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+ 				LIBRARY_SEARCH_PATHS = (
+ 					"$(inherited)",
+-					"\"$(SRCROOT)/TestFlightSDK1.2.6\"",
+ 				);
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				PROVISIONING_PROFILE = "AC7C4315-5B31-4056-8955-9B861DCF5F75";
+ 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AC7C4315-5B31-4056-8955-9B861DCF5F75";
+ 				SDKROOT = iphoneos;
+ 				TARGETED_DEVICE_FAMILY = "1,2";
+-				VALID_ARCHS = "armv7 armv7s";
+ 				WRAPPER_EXTENSION = app;
+ 			};
+ 			name = Release;
+diff --git a/ios/iosremote/iosremote/Classes/AppDelegate.m b/ios/iosremote/iosremote/Classes/AppDelegate.m
+index 2bbdf59..b8d4aeb 100644
+--- a/ios/iosremote/iosremote/Classes/AppDelegate.m
++++ b/ios/iosremote/iosremote/Classes/AppDelegate.m
+@@ -28,8 +28,6 @@ - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrienta
+ 
+ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+ {
+-    [TestFlight takeOff:@"cb645cf2-a557-481e-993a-6ad3aaeb06d0"];
+-    
+     NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"UserDefaults"
+                                                              ofType:@"plist"];
+     NSDictionary *appDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+@@ -105,3 +103,23 @@ - (void)applicationWillTerminate:(UIApplication *)application
+ }
+ 
+ @end
++
++@interface ImpressSceneDelegate : UIResponder <UIWindowSceneDelegate>
++@property (strong, nonatomic) UIWindow *window;
++@end
++
++@implementation ImpressSceneDelegate
++
++- (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions
++{
++    self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene *)scene];
++    AppDelegate *applicationDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
++    applicationDelegate.window = self.window;
++    NSString *storyboardName = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad
++                                  ? @"iPad_autosize" : @"iPhone_autoSize";
++    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
++    self.window.rootViewController = [storyboard instantiateInitialViewController];
++    [self.window makeKeyAndVisible];
++}
++
++@end
+diff --git a/ios/iosremote/iosremote/Classes/NewServerViewController.m b/ios/iosremote/iosremote/Classes/NewServerViewController.m
+index 236e269..230cbd2 100644
+--- a/ios/iosremote/iosremote/Classes/NewServerViewController.m
++++ b/ios/iosremote/iosremote/Classes/NewServerViewController.m
+@@ -40,12 +40,11 @@ - (IBAction)save:(id)sender {
+         [self.comManager addServersWithName:serverName AtAddress:serverAddr];
+         [self.navigationController popViewControllerAnimated:YES];
+     } else {
+-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid IP Address", @"Invalid IP Address Alert title")
+-                                                          message:NSLocalizedString(@"Invalid IP Address Msg", @"Invalid IP Address Alert message")
+-                                                         delegate:nil
+-                                                cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button on Alert view")
+-                                                otherButtonTitles:nil];
+-        [message show];
++        UIAlertController *message = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Invalid IP Address", @"Invalid IP Address Alert title")
++                                                                        message:NSLocalizedString(@"Invalid IP Address Msg", @"Invalid IP Address Alert message")
++                                                                 preferredStyle:UIAlertControllerStyleAlert];
++        [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK Button on Alert view") style:UIAlertActionStyleCancel handler:nil]];
++        [self presentViewController:message animated:YES completion:nil];
+     }
+ }
+ 
+diff --git a/ios/iosremote/iosremote/Classes/ServerListViewController.m b/ios/iosremote/iosremote/Classes/ServerListViewController.m
+index 15bdf86..4417d5a 100644
+--- a/ios/iosremote/iosremote/Classes/ServerListViewController.m
++++ b/ios/iosremote/iosremote/Classes/ServerListViewController.m
+@@ -109,13 +109,12 @@ -(void) netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDic
+     [self.comManager.autoDiscoveryServers removeAllObjects];
+     [self startSearching];
+     
+-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to reach your computer", nil)
+-                                                      message:NSLocalizedString(@"Please consider restart LibreOffice Impress on your computer.", nil)
+-                                                     delegate:self
+-                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
+-                                            otherButtonTitles:nil];
++    UIAlertController *message = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Failed to reach your computer", nil)
++                                                                    message:NSLocalizedString(@"Please consider restart LibreOffice Impress on your computer.", nil)
++                                                             preferredStyle:UIAlertControllerStyleAlert];
++    [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
+     [self disableSpinner];
+-    [message show];
++    [self presentViewController:message animated:YES completion:nil];
+ }
+ 
+ #pragma mark - bonjour service discovery
+@@ -277,24 +276,24 @@ - (void) viewDidAppear:(BOOL)animated
+     
+     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HOWTO_GUIDE_SEEN"])
+     {
+-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"How-To guide" message:NSLocalizedString(@"Take a tour of iOS Impress Remote?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, thanks", nil) otherButtonTitles:NSLocalizedString(@"Yes", nil), nil];
+-        
+-        [av show];
++        UIAlertController *guide = [UIAlertController alertControllerWithTitle:@"How-To guide"
++                                                                      message:NSLocalizedString(@"Take a tour of iOS Impress Remote?", nil)
++                                                               preferredStyle:UIAlertControllerStyleAlert];
++        [guide addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"No, thanks", nil) style:UIAlertActionStyleCancel handler:nil]];
++        __weak ServerListViewController *weakSelf = self;
++        [guide addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
++            ServerListViewController *controller = weakSelf;
++            [controller dismissViewControllerAnimated:YES completion:^{
++                [controller performSegueWithIdentifier:@"howtoSegue" sender:controller];
++            }];
++        }]];
++        [self presentViewController:guide animated:YES completion:nil];
+         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HOWTO_GUIDE_SEEN"];
+     }
+     
+     [super viewDidAppear:animated];
+ }
+ 
+-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+-    if (buttonIndex == 0){
+-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+-    }else if (buttonIndex == 1){
+-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+-        [self performSegueWithIdentifier:@"howtoSegue" sender:self];
+-    }
+-}
+-
+ - (void) viewWillDisappear:(BOOL)animated
+ {
+     [self disableSpinner];
+diff --git a/ios/iosremote/iosremote/Communication/CommunicationManager.m b/ios/iosremote/iosremote/Communication/CommunicationManager.m
+index b9a62a5..4aaa58c 100644
+--- a/ios/iosremote/iosremote/Communication/CommunicationManager.m
++++ b/ios/iosremote/iosremote/Communication/CommunicationManager.m
+@@ -22,7 +22,8 @@
+ 
+ #define ExistingServersKey @"CommunicationManager.ExistingServers"
+ 
+-@interface CommunicationManager() <UIAlertViewDelegate>
++@interface CommunicationManager()
++- (void)presentAlert:(UIAlertController *)alert;
+ @end
+ 
+ // Singlton Pattern
+@@ -59,6 +60,15 @@ + (id)fetchSSIDInfo {
+     return info;
+ }
+ 
++- (void)presentAlert:(UIAlertController *)alert
++{
++    UIViewController *presenter = [UIApplication sharedApplication].delegate.window.rootViewController;
++    while (presenter.presentedViewController) {
++        presenter = presenter.presentedViewController;
++    }
++    [presenter presentViewController:alert animated:YES completion:nil];
++}
++
+ - (void) connectionStatusHandler:(NSNotification *)note
+ {
+     if([[note name] isEqualToString:@"connection.status.connected"]){
+@@ -76,12 +86,22 @@ - (void) connectionStatusHandler:(NSNotification *)note
+             self.state = DISCONNECTED;
+             if ([self.delegate isKindOfClass:[ServerListViewController class]]){
+                 dispatch_async(dispatch_get_main_queue(), ^{
+-                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to reach server", @"Connection failure title")
+-                                                                      message:NSLocalizedString(@"Failed to reach server Msg", @"Connection failure message")
+-                                                                     delegate:self
+-                                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
+-                                                            otherButtonTitles:NSLocalizedString(@"Help", nil), nil];
+-                    [message show];
++                    UIAlertController *message = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Failed to reach server", @"Connection failure title")
++                                                                                    message:NSLocalizedString(@"Failed to reach server Msg", @"Connection failure message")
++                                                                             preferredStyle:UIAlertControllerStyleAlert];
++                    [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
++                    __weak UIAlertController *weakMessage = message;
++                    [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Help", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
++                        UIAlertController *instructions = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Pairing Instructions", @"Pairing instructions Alert Title")
++                                                                                              message:NSLocalizedString(@"Pairing Instructions Msg", nil)
++                                                                                       preferredStyle:UIAlertControllerStyleAlert];
++                        [instructions addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
++                        UIViewController *presenter = weakMessage.presentingViewController;
++                        [presenter dismissViewControllerAnimated:YES completion:^{
++                            [self presentAlert:instructions];
++                        }];
++                    }]];
++                    [self presentAlert:message];
+                 });
+                 [[self.delegate navigationController] popToRootViewControllerAnimated:YES];
+                 [(ServerListViewController *)self.delegate startSearching];
+@@ -90,32 +110,17 @@ - (void) connectionStatusHandler:(NSNotification *)note
+                 BasePresentationViewController *bpvc = [[(MainSplitViewController *)[self.delegate presentingViewController] viewControllers] objectAtIndex:1];
+                 [bpvc didReceiveDisconnection];
+                 dispatch_async(dispatch_get_main_queue(), ^{
+-                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Lost", @"Connection Lost Alert title")
+-                                                                      message:NSLocalizedString(@"Connection Lost Msg", @"Connection Lost Alert Msg")
+-                                                                     delegate:nil
+-                                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
+-                                                            otherButtonTitles:nil];
+-                    [message show];
++                    UIAlertController *message = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Connection Lost", @"Connection Lost Alert title")
++                                                                                    message:NSLocalizedString(@"Connection Lost Msg", @"Connection Lost Alert Msg")
++                                                                             preferredStyle:UIAlertControllerStyleAlert];
++                    [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
++                    [self presentAlert:message];
+                 });
+             }
+         }
+     }
+ }
+ 
+-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+-    if (buttonIndex == 0){
+-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+-    }else if (buttonIndex == 1){
+-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Pairing Instructions", @"Pairing instructions Alert Title")
+-                                                          message:NSLocalizedString(@"Pairing Instructions Msg", nil)
+-                                                         delegate:nil
+-                                                cancelButtonTitle:NSLocalizedString(@"OK", nil)
+-                                                otherButtonTitles:nil];
+-        [message show];
+-    }
+-}
+-
+ - (id) init
+ {
+     self = [super init];
+diff --git a/ios/iosremote/iosremote/iosremote-Info.plist b/ios/iosremote/iosremote/iosremote-Info.plist
+index f1de027..3e8ea9d 100644
+--- a/ios/iosremote/iosremote/iosremote-Info.plist
++++ b/ios/iosremote/iosremote/iosremote-Info.plist
+@@ -30,18 +30,35 @@
+ 	<string>????</string>
+ 	<key>CFBundleVersion</key>
+ 	<string>1.0.1</string>
++	<key>NSLocalNetworkUsageDescription</key>
++	<string>Find and connect to LibreOffice Impress on your local network to control presentations.</string>
++	<key>NSBonjourServices</key>
++	<array>
++		<string>_impressremote._tcp</string>
++	</array>
+ 	<key>LSRequiresIPhoneOS</key>
+ 	<true/>
+-	<key>UIMainStoryboardFile</key>
+-	<string>iPhone_autoSize</string>
+-	<key>UIMainStoryboardFile~ipad</key>
+-	<string>iPad_autosize</string>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default Configuration</string>
++					<key>UISceneDelegateClassName</key>
++					<string>ImpressSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
++	<key>UILaunchScreen</key>
++	<dict/>
+ 	<key>UIPrerenderedIcon</key>
+ 	<true/>
+-	<key>UIRequiredDeviceCapabilities</key>
+-	<array>
+-		<string>armv7</string>
+-	</array>
+ 	<key>UIStatusBarTintParameters</key>
+ 	<dict>
+ 		<key>UINavigationBar</key>
+diff --git a/ios/iosremote/iosremote/iosremote-Prefix.pch b/ios/iosremote/iosremote/iosremote-Prefix.pch
+index 7c89557..0393293 100644
+--- a/ios/iosremote/iosremote/iosremote-Prefix.pch
++++ b/ios/iosremote/iosremote/iosremote-Prefix.pch
+@@ -11,6 +11,5 @@
+ #ifdef __OBJC__
+     #import <UIKit/UIKit.h>
+     #import <Foundation/Foundation.h>
+-    #import "TestFlight.h"
+     #import "ControlVariables.h"
+ #endif
