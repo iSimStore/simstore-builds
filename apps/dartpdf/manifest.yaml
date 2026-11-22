@@ -1,0 +1,12 @@
+id: dartpdf
+name: DartPDF
+
+source:
+  license: Apache-2.0
+  repository: https://github.com/ben-milanko/dart-pdf
+  version: "16.1.1"
+  revision: 36a14db31bf2483378e5fde3591a46899146cd21
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"

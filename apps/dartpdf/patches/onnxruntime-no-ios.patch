@@ -1,0 +1,20 @@
+Omit the iOS SDK after the user-approved native OCR removal.
+The package remains available for the pure-Dart OCR types used by other app code.
+Upstream issue: https://github.com/gtbluesky/onnxruntime_flutter/issues/49
+
+--- a/pubspec.yaml
++++ b/pubspec.yaml
+@@ -1,3 +1,4 @@
++# Modified for this Simulator recipe: omit the unused native iOS OCR SDK.
+ name: onnxruntime
+ description: Flutter plugin for OnnxRuntime provides an easy, flexible, and fast Dart API to integrate Onnx models in flutter apps across mobile and desktop platforms.
+ version: 1.4.1
+@@ -24,8 +25,6 @@
+     platforms:
+       android:
+         ffiPlugin: true
+-      ios:
+-        ffiPlugin: true
+       macos:
+         ffiPlugin: true
+       windows:
