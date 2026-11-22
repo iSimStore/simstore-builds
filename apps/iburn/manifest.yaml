@@ -1,0 +1,10 @@
+id: iburn
+name: iBurn
+source:
+  license: MPL-2.0
+  repository: https://github.com/iBurnApp/iBurn-iOS
+  version: "2026.2.0"
+  revision: 85f57630422e88bd3e35da5ee355ceab4b90a958
+build:
+  script: build.sh
+  deploymentTarget: "16.6"

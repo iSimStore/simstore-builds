@@ -1,0 +1,1177 @@
+# iBurn 2026.2: standalone arm64 Simulator build and approved Firebase removal.
+# Adapt UIScene window ownership and cold/warm URL forwarding from upstream:
+# https://github.com/iBurnApp/iBurn-iOS/pull/254
+# Xcode 27 clean-build/setup context:
+# https://github.com/iBurnApp/iBurn-iOS/pull/256
+
+diff --git a/.gitmodules b/.gitmodules
+index 32bbd9c..85d1e4a 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -1,16 +1,16 @@
+ [submodule "Submodules/iBurn-Data"]
+ 	path = Submodules/iBurn-Data
+-	url = git@github.com:iBurnApp/iBurn-Data-Private.git
+-#	url = git@github.com:iBurnApp/iBurn-Data.git
++	url = https://github.com/iBurnApp/iBurn-Data.git
++#	url = https://github.com/iBurnApp/iBurn-Data.git
+ [submodule "Submodules/DOFavoriteButton"]
+ 	path = Submodules/DOFavoriteButton
+-	url = git@github.com:chrisballinger/DOFavoriteButton.git
++	url = https://github.com/chrisballinger/DOFavoriteButton.git
+ [submodule "Submodules/ASDayPicker"]
+ 	path = Submodules/ASDayPicker
+-	url = git@github.com:chrisballinger/ASDayPicker.git
++	url = https://github.com/chrisballinger/ASDayPicker.git
+ [submodule "Submodules/PermissionScope"]
+ 	path = Submodules/PermissionScope
+-	url = git@github.com:Burning-Man-Earth/PermissionScope.git
++	url = https://github.com/Burning-Man-Earth/PermissionScope.git
+ [submodule "Submodules/YapDatabase"]
+ 	path = Submodules/YapDatabase
+-	url = git@github.com:iBurnApp/YapDatabase.git
++	url = https://github.com/iBurnApp/YapDatabase.git
+diff --git a/PlayaGeocoder/PlayaGeocoder.xcodeproj/project.pbxproj b/PlayaGeocoder/PlayaGeocoder.xcodeproj/project.pbxproj
+index 55b295d..2e631b0 100644
+--- a/PlayaGeocoder/PlayaGeocoder.xcodeproj/project.pbxproj
++++ b/PlayaGeocoder/PlayaGeocoder.xcodeproj/project.pbxproj
+@@ -785,7 +785,7 @@
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+ 				INFOPLIST_FILE = PlayaGeocoder/Info.plist;
+ 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
++				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+@@ -867,7 +867,7 @@
+ 				GCC_WARN_UNUSED_VARIABLE = YES;
+ 				INFOPLIST_FILE = PlayaGeocoder/Info.plist;
+ 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
++				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+diff --git a/Podfile b/Podfile
+index 2f40f14..28a1750 100644
+--- a/Podfile
++++ b/Podfile
+@@ -17,7 +17,6 @@ target 'iBurn' do
+ 	pod 'FormatterKit/TimeIntervalFormatter', '~> 1.8'
+ 	pod 'PureLayout', '~> 3.0'
+ 	pod 'BButton', '~> 4.0'
+-	pod 'LicensePlist', '~> 3.24'
+ 	pod 'TTTAttributedLabel', '~> 2.0'
+ 	pod 'Appirater', '~> 2.0'
+ 	pod 'CupertinoYankee', '~> 1.0'
+diff --git a/Podfile.lock b/Podfile.lock
+index 2e0ff8b..e6ba277 100644
+--- a/Podfile.lock
++++ b/Podfile.lock
+@@ -15,7 +15,6 @@ PODS:
+     - FormatterKit/Resources
+   - JTSImageViewController (1.5.1)
+   - KVOController (1.2.0)
+-  - LicensePlist (3.27.1)
+   - Mantle (2.2.0):
+     - Mantle/extobjc (= 2.2.0)
+   - Mantle/extobjc (2.2.0)
+@@ -143,7 +142,6 @@ DEPENDENCIES:
+   - FormatterKit/TimeIntervalFormatter (~> 1.8)
+   - JTSImageViewController
+   - KVOController (~> 1.0)
+-  - LicensePlist (~> 3.24)
+   - Mantle (~> 2.0)
+   - Onboard (~> 2.1)
+   - PermissionScope (from `Submodules/PermissionScope/PermissionScope.podspec`)
+@@ -162,7 +160,6 @@ SPEC REPOS:
+     - FormatterKit
+     - JTSImageViewController
+     - KVOController
+-    - LicensePlist
+     - Mantle
+     - Onboard
+     - PureLayout
+@@ -190,7 +187,6 @@ SPEC CHECKSUMS:
+   FormatterKit: 184db51bf120b633693a73624a4cede89ec51a41
+   JTSImageViewController: 1f8ce1cc93dab0d0af8e53badeea7528560cfec9
+   KVOController: d72ace34afea42468329623b3379ab3cd1d286b6
+-  LicensePlist: 5a4ff2e9e038a1203cc058b6335d2eebd3313491
+   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
+   Onboard: 4d6e943e20bdd6bc229df967a347dd7514bc2a6f
+   PermissionScope: a30c16e015779ba27c97c124e7539e27b5829de2
+@@ -199,6 +195,6 @@ SPEC CHECKSUMS:
+   TUSafariActivity: afc55a00965377939107ce4fdc7f951f62454546
+   YapDatabase: 7ddf620d530052380f0b4bc866fcfb39f005e9e8
+ 
+-PODFILE CHECKSUM: e2741882d23777f9a5e5e8bd7b0a83c13fde34ec
++PODFILE CHECKSUM: b6e704a0f64bafb6f20308146d62462428664a4d
+ 
+ COCOAPODS: 1.16.2
+diff --git a/iBurn.xcodeproj/project.pbxproj b/iBurn.xcodeproj/project.pbxproj
+index bde8c1d..659d93e 100644
+--- a/iBurn.xcodeproj/project.pbxproj
++++ b/iBurn.xcodeproj/project.pbxproj
+@@ -10,7 +10,6 @@
+ 		04720AD2C99286B359A608F3 /* fence.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 426F86ABDF799A13905EEFEC /* fence.geojson */; };
+ 		0F5280F97FF05B6472BE5119 /* PlayaAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 7B4FC0E27D6177950F583A6C /* PlayaAPI */; };
+ 		2C3F1471343CC8D21B1AC0F4 /* streets.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 765683D57014A2585A750818 /* streets.geojson */; };
+-		5C39982F89FB9433FB0DEBD3 /* iBurn.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = D5A03B131F60EB0BA63B6154 /* iBurn.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+ 		63CE2A581987140F00F65B01 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CE2A571987140F00F65B01 /* Foundation.framework */; };
+ 		63CE2A5A1987140F00F65B01 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CE2A591987140F00F65B01 /* CoreGraphics.framework */; };
+ 		63CE2A5C1987140F00F65B01 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63CE2A5B1987140F00F65B01 /* UIKit.framework */; };
+@@ -26,8 +25,6 @@
+ 		D902564B2E1F41060058AEF8 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = D902564A2E1F41060058AEF8 /* GRDB */; };
+ 		D902566B2E1F3FE00058AEF9 /* PlayaColors in Frameworks */ = {isa = PBXBuildFile; productRef = D902566A2E1F3FE00058AEF9 /* PlayaColors */; };
+ 		D91879A42BC1058E0099EFAA /* MapLibre in Frameworks */ = {isa = PBXBuildFile; productRef = D91879A32BC1058E0099EFAA /* MapLibre */; };
+-		D93440332E3E756F00199902 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = D93440322E3E756F00199902 /* FirebaseCore */; };
+-		D966561628A9970B002FA471 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = D966561528A9970B002FA471 /* FirebaseCrashlytics */; };
+ 		D966562928A9B86F002FA471 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = D966562828A9B86E002FA471 /* Zip */; };
+ 		D966563928A9B86F002FA472 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = D966563828A9B86E002FA472 /* Zip */; };
+ 		D9915F592A76C35E0015C87D /* Siren in Frameworks */ = {isa = PBXBuildFile; productRef = D9915F582A76C35E0015C87D /* Siren */; };
+@@ -42,19 +39,11 @@
+ 		D9D12F5E1B5AF4F70048229A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D12F5D1B5AF4F70048229A /* SystemConfiguration.framework */; };
+ 		D9D12F601B5AF4FF0048229A /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D12F5F1B5AF4FF0048229A /* AudioToolbox.framework */; };
+ 		D9D12F621B5AF5070048229A /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9D12F611B5AF5070048229A /* Social.framework */; };
+-		D9E86E3A2E4B2052009B4834 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = D9E86E392E4B2052009B4834 /* FirebaseAnalyticsCore */; };
+ 		D9EB0A012EAB000100000001 /* YearSettings.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9EB0A002EAB000000000002 /* YearSettings.plist */; };
+ 		F7E3E8D3B6D02857B42F3284 /* PlayaDB in Frameworks */ = {isa = PBXBuildFile; productRef = 5E05B7773440522D30BDA948 /* PlayaDB */; };
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXContainerItemProxy section */
+-		AD442F95109675366724F4A9 /* PBXContainerItemProxy */ = {
+-			isa = PBXContainerItemProxy;
+-			containerPortal = 63CE2A4C1987140F00F65B01 /* Project object */;
+-			proxyType = 1;
+-			remoteGlobalIDString = 3C4B2720384847AC347443FF;
+-			remoteInfo = iBurnWatch;
+-		};
+ 		D980A9101B3F5A6400BE3682 /* PBXContainerItemProxy */ = {
+ 			isa = PBXContainerItemProxy;
+ 			containerPortal = 63CE2A4C1987140F00F65B01 /* Project object */;
+@@ -100,17 +89,6 @@
+ /* End PBXContainerItemProxy section */
+ 
+ /* Begin PBXCopyFilesBuildPhase section */
+-		00F14D6A9BA2DC60398A7732 /* Embed Watch Content */ = {
+-			isa = PBXCopyFilesBuildPhase;
+-			buildActionMask = 2147483647;
+-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+-			dstSubfolderSpec = 16;
+-			files = (
+-				5C39982F89FB9433FB0DEBD3 /* iBurn.app in Embed Watch Content */,
+-			);
+-			name = "Embed Watch Content";
+-			runOnlyForDeploymentPostprocessing = 0;
+-		};
+ 		D960F2601F74E65A00144290 /* Embed Frameworks */ = {
+ 			isa = PBXCopyFilesBuildPhase;
+ 			buildActionMask = 2147483647;
+@@ -197,6 +175,8 @@
+ /* Begin PBXFileSystemSynchronizedRootGroup section */
+ 		73700CCA398E66852345DABB /* iBurnWatch */ = {
+ 			isa = PBXFileSystemSynchronizedRootGroup;
++			exceptions = (
++			);
+ 			path = iBurnWatch;
+ 			sourceTree = "<group>";
+ 		};
+@@ -227,10 +207,8 @@
+ 				D91879A42BC1058E0099EFAA /* MapLibre in Frameworks */,
+ 				D9D12F621B5AF5070048229A /* Social.framework in Frameworks */,
+ 				D9D12F601B5AF4FF0048229A /* AudioToolbox.framework in Frameworks */,
+-				D93440332E3E756F00199902 /* FirebaseCore in Frameworks */,
+ 				D90256412E1F3FE00058AEF8 /* PlayaDB in Frameworks */,
+ 				D9915F592A76C35E0015C87D /* Siren in Frameworks */,
+-				D9E86E3A2E4B2052009B4834 /* FirebaseAnalyticsCore in Frameworks */,
+ 				D99D57F12E1CE93B00D5A3DE /* PlayaAPI in Frameworks */,
+ 				D99D57EC2E1CE8CF00D5A3DE /* iBurn2026Map in Frameworks */,
+ 				D9D12F5E1B5AF4F70048229A /* SystemConfiguration.framework in Frameworks */,
+@@ -241,7 +219,6 @@
+ 				D902566B2E1F3FE00058AEF9 /* PlayaColors in Frameworks */,
+ 				63CE2A5C1987140F00F65B01 /* UIKit.framework in Frameworks */,
+ 				63CE2A581987140F00F65B01 /* Foundation.framework in Frameworks */,
+-				D966561628A9970B002FA471 /* FirebaseCrashlytics in Frameworks */,
+ 				D99D57EA2E1CE8CF00D5A3DE /* iBurn2026APIData in Frameworks */,
+ 				D99D57EE2E1CE8CF00D5A3DE /* iBurn2026MediaFiles in Frameworks */,
+ 				D9CB2A68211897FB00A0F2AE /* PlayaGeocoder.framework in Frameworks */,
+@@ -427,25 +404,20 @@
+ 				D7B18F91C1AE7095AA93FD85 /* [CP] Check Pods Manifest.lock */,
+ 				63CE2A501987140F00F65B01 /* Sources */,
+ 				63CE2A511987140F00F65B01 /* Frameworks */,
+-				D9915F632A76D2D40015C87D /* LicensePlist */,
+ 				63CE2A521987140F00F65B01 /* Resources */,
+ 				D960F2601F74E65A00144290 /* Embed Frameworks */,
+ 				53B58DC0D493DF731BDDB99A /* [CP] Copy Pods Resources */,
+-				00F14D6A9BA2DC60398A7732 /* Embed Watch Content */,
+-				D907AD6821215F20004A255A /* Crashlytics */,
+ 			);
+ 			buildRules = (
+ 			);
+ 			dependencies = (
+ 				D9CB2A572117E7EE00A0F2AE /* PBXTargetDependency */,
+-				AAF3E09B3FD0401CF5726CF0 /* PBXTargetDependency */,
+ 			);
+ 			fileSystemSynchronizedGroups = (
+ 				D9029F322EA45CB500ED87D5 /* iBurn */,
+ 			);
+ 			name = iBurn;
+ 			packageProductDependencies = (
+-				D966561528A9970B002FA471 /* FirebaseCrashlytics */,
+ 				D966562828A9B86E002FA471 /* Zip */,
+ 				D9915F582A76C35E0015C87D /* Siren */,
+ 				D91879A32BC1058E0099EFAA /* MapLibre */,
+@@ -456,8 +428,6 @@
+ 				D90256402E1F3FE00058AEF8 /* PlayaDB */,
+ 				D902566A2E1F3FE00058AEF9 /* PlayaColors */,
+ 				D902564A2E1F41060058AEF8 /* GRDB */,
+-				D93440322E3E756F00199902 /* FirebaseCore */,
+-				D9E86E392E4B2052009B4834 /* FirebaseAnalyticsCore */,
+ 			);
+ 			productName = iBurn;
+ 			productReference = 63CE2A541987140F00F65B01 /* iBurn.app */;
+@@ -528,15 +498,14 @@
+ 			mainGroup = 63CE2A4B1987140F00F65B01;
+ 			packageReferences = (
+ 				D9592D502858560B00C90542 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */,
+-				D966561228A9970B002FA471 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+ 				D966562728A9B86E002FA471 /* XCRemoteSwiftPackageReference "Zip" */,
+ 				D9915F572A76C35E0015C87D /* XCRemoteSwiftPackageReference "Siren" */,
+-				D99D57E82E1CE8CF00D5A3DE /* XCLocalSwiftPackageReference "Submodules/iBurn-Data" */,
+-				D99D57EF2E1CE93B00D5A3DE /* XCLocalSwiftPackageReference "Packages/PlayaAPI" */,
+-				D902563F2E1F3FE00058AEF8 /* XCLocalSwiftPackageReference "Packages/PlayaDB" */,
+-				D90256692E1F3FE00058AEF9 /* XCLocalSwiftPackageReference "Packages/PlayaColors" */,
++				D99D57E82E1CE8CF00D5A3DE /* XCLocalSwiftPackageReference "iBurn-Data" */,
++				D99D57EF2E1CE93B00D5A3DE /* XCLocalSwiftPackageReference "PlayaAPI" */,
++				D902563F2E1F3FE00058AEF8 /* XCLocalSwiftPackageReference "PlayaDB" */,
++				D90256692E1F3FE00058AEF9 /* XCLocalSwiftPackageReference "PlayaColors" */,
+ 				D90256492E1F41060058AEF8 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+-				7DF963F5F752CA90881D93D0 /* XCLocalSwiftPackageReference "Packages/PlayaGeo" */,
++				7DF963F5F752CA90881D93D0 /* XCLocalSwiftPackageReference "PlayaGeo" */,
+ 			);
+ 			preferredProjectObjectVersion = 77;
+ 			productRefGroup = 63CE2A551987140F00F65B01 /* Products */;
+@@ -648,14 +617,10 @@
+ 			inputFileListPaths = (
+ 				"${PODS_ROOT}/Target Support Files/Pods-iBurn/Pods-iBurn-resources-${CONFIGURATION}-input-files.xcfilelist",
+ 			);
+-			inputPaths = (
+-			);
+ 			name = "[CP] Copy Pods Resources";
+ 			outputFileListPaths = (
+ 				"${PODS_ROOT}/Target Support Files/Pods-iBurn/Pods-iBurn-resources-${CONFIGURATION}-output-files.xcfilelist",
+ 			);
+-			outputPaths = (
+-			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+ 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iBurn/Pods-iBurn-resources.sh\"\n";
+@@ -683,47 +648,6 @@
+ 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+ 			showEnvVarsInLog = 0;
+ 		};
+-		D907AD6821215F20004A255A /* Crashlytics */ = {
+-			isa = PBXShellScriptBuildPhase;
+-			alwaysOutOfDate = 1;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			inputFileListPaths = (
+-			);
+-			inputPaths = (
+-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+-				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+-			);
+-			name = Crashlytics;
+-			outputFileListPaths = (
+-			);
+-			outputPaths = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/sh;
+-			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n\n";
+-		};
+-		D9915F632A76D2D40015C87D /* LicensePlist */ = {
+-			isa = PBXShellScriptBuildPhase;
+-			alwaysOutOfDate = 1;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			inputFileListPaths = (
+-			);
+-			inputPaths = (
+-			);
+-			name = LicensePlist;
+-			outputFileListPaths = (
+-			);
+-			outputPaths = (
+-				"$(SRCROOT)/iBurn/Settings.bundle/com.mono0926.LicensePlist.plist",
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/sh;
+-			shellScript = "${PODS_ROOT}/LicensePlist/license-plist --output-path $PRODUCT_NAME/Settings.bundle --add-version-numbers --suppress-opening-directory || true\n\n";
+-		};
+ 		F0F8D9D639BE0D2FDC435A0E /* [CP] Copy Pods Resources */ = {
+ 			isa = PBXShellScriptBuildPhase;
+ 			buildActionMask = 2147483647;
+@@ -732,14 +656,10 @@
+ 			inputFileListPaths = (
+ 				"${PODS_ROOT}/Target Support Files/Pods-iBurn-iBurnTests/Pods-iBurn-iBurnTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+ 			);
+-			inputPaths = (
+-			);
+ 			name = "[CP] Copy Pods Resources";
+ 			outputFileListPaths = (
+ 				"${PODS_ROOT}/Target Support Files/Pods-iBurn-iBurnTests/Pods-iBurn-iBurnTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+ 			);
+-			outputPaths = (
+-			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 			shellPath = /bin/sh;
+ 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-iBurn-iBurnTests/Pods-iBurn-iBurnTests-resources.sh\"\n";
+@@ -772,12 +692,6 @@
+ /* End PBXSourcesBuildPhase section */
+ 
+ /* Begin PBXTargetDependency section */
+-		AAF3E09B3FD0401CF5726CF0 /* PBXTargetDependency */ = {
+-			isa = PBXTargetDependency;
+-			name = iBurnWatch;
+-			target = 3C4B2720384847AC347443FF /* iBurnWatch */;
+-			targetProxy = AD442F95109675366724F4A9 /* PBXContainerItemProxy */;
+-		};
+ 		D980A9111B3F5A6400BE3682 /* PBXTargetDependency */ = {
+ 			isa = PBXTargetDependency;
+ 			target = 63CE2A531987140F00F65B01 /* iBurn */;
+@@ -1126,23 +1040,23 @@
+ /* End XCConfigurationList section */
+ 
+ /* Begin XCLocalSwiftPackageReference section */
+-		7DF963F5F752CA90881D93D0 /* XCLocalSwiftPackageReference "Packages/PlayaGeo" */ = {
++		7DF963F5F752CA90881D93D0 /* XCLocalSwiftPackageReference "PlayaGeo" */ = {
+ 			isa = XCLocalSwiftPackageReference;
+ 			relativePath = Packages/PlayaGeo;
+ 		};
+-		D902563F2E1F3FE00058AEF8 /* XCLocalSwiftPackageReference "Packages/PlayaDB" */ = {
++		D902563F2E1F3FE00058AEF8 /* XCLocalSwiftPackageReference "PlayaDB" */ = {
+ 			isa = XCLocalSwiftPackageReference;
+ 			relativePath = Packages/PlayaDB;
+ 		};
+-		D90256692E1F3FE00058AEF9 /* XCLocalSwiftPackageReference "Packages/PlayaColors" */ = {
++		D90256692E1F3FE00058AEF9 /* XCLocalSwiftPackageReference "PlayaColors" */ = {
+ 			isa = XCLocalSwiftPackageReference;
+ 			relativePath = Packages/PlayaColors;
+ 		};
+-		D99D57E82E1CE8CF00D5A3DE /* XCLocalSwiftPackageReference "Submodules/iBurn-Data" */ = {
++		D99D57E82E1CE8CF00D5A3DE /* XCLocalSwiftPackageReference "iBurn-Data" */ = {
+ 			isa = XCLocalSwiftPackageReference;
+ 			relativePath = "Submodules/iBurn-Data";
+ 		};
+-		D99D57EF2E1CE93B00D5A3DE /* XCLocalSwiftPackageReference "Packages/PlayaAPI" */ = {
++		D99D57EF2E1CE93B00D5A3DE /* XCLocalSwiftPackageReference "PlayaAPI" */ = {
+ 			isa = XCLocalSwiftPackageReference;
+ 			relativePath = Packages/PlayaAPI;
+ 		};
+@@ -1165,14 +1079,6 @@
+ 				version = "6.18.0-patch0";
+ 			};
+ 		};
+-		D966561228A9970B002FA471 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+-			isa = XCRemoteSwiftPackageReference;
+-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+-			requirement = {
+-				kind = upToNextMajorVersion;
+-				minimumVersion = 12.0.0;
+-			};
+-		};
+ 		D966562728A9B86E002FA471 /* XCRemoteSwiftPackageReference "Zip" */ = {
+ 			isa = XCRemoteSwiftPackageReference;
+ 			repositoryURL = "https://github.com/marmelroy/Zip.git";
+@@ -1226,16 +1132,6 @@
+ 			package = D9592D502858560B00C90542 /* XCRemoteSwiftPackageReference "maplibre-gl-native-distribution" */;
+ 			productName = MapLibre;
+ 		};
+-		D93440322E3E756F00199902 /* FirebaseCore */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = D966561228A9970B002FA471 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+-			productName = FirebaseCore;
+-		};
+-		D966561528A9970B002FA471 /* FirebaseCrashlytics */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = D966561228A9970B002FA471 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+-			productName = FirebaseCrashlytics;
+-		};
+ 		D966562828A9B86E002FA471 /* Zip */ = {
+ 			isa = XCSwiftPackageProductDependency;
+ 			package = D966562728A9B86E002FA471 /* XCRemoteSwiftPackageReference "Zip" */;
+@@ -1267,11 +1163,6 @@
+ 			isa = XCSwiftPackageProductDependency;
+ 			productName = PlayaAPI;
+ 		};
+-		D9E86E392E4B2052009B4834 /* FirebaseAnalyticsCore */ = {
+-			isa = XCSwiftPackageProductDependency;
+-			package = D966561228A9970B002FA471 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+-			productName = FirebaseAnalyticsCore;
+-		};
+ /* End XCSwiftPackageProductDependency section */
+ 	};
+ 	rootObject = 63CE2A4C1987140F00F65B01 /* Project object */;
+diff --git a/iBurn.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved b/iBurn.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+index 2dd5a13..e155ff6 100644
+--- a/iBurn.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
++++ b/iBurn.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+@@ -1,168 +1,42 @@
+ {
+-  "originHash" : "85d5d0a7275d3b2936980ab5be2eeddb9db284e1186a7e4f811f307013d791c6",
+-  "pins" : [
++  "originHash": "85d5d0a7275d3b2936980ab5be2eeddb9db284e1186a7e4f811f307013d791c6",
++  "pins": [
+     {
+-      "identity" : "abseil-cpp-binary",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/abseil-cpp-binary.git",
+-      "state" : {
+-        "revision" : "bbe8b69694d7873315fd3a4ad41efe043e1c07c5",
+-        "version" : "1.2024072200.0"
++      "identity": "grdb.swift",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/groue/GRDB.swift.git",
++      "state": {
++        "revision": "b83108d10f42680d78f23fe4d4d80fc88dab3212",
++        "version": "7.11.1"
+       }
+     },
+     {
+-      "identity" : "app-check",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/app-check.git",
+-      "state" : {
+-        "revision" : "61b85103a1aeed8218f17c794687781505fbbef5",
+-        "version" : "11.2.0"
++      "identity": "maplibre-gl-native-distribution",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/maplibre/maplibre-gl-native-distribution",
++      "state": {
++        "revision": "f843f76a4bb79c83f4f817a090c62f255bb52fea",
++        "version": "6.18.0-patch0"
+       }
+     },
+     {
+-      "identity" : "firebase-ios-sdk",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/firebase/firebase-ios-sdk",
+-      "state" : {
+-        "revision" : "b9bf3adac18e6e3059167194aeb632f15a5ba4b2",
+-        "version" : "12.1.0"
++      "identity": "siren",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/ArtSabintsev/Siren.git",
++      "state": {
++        "revision": "6139af3394bc3635c6c8d5255339796feaa7d1a0",
++        "version": "6.1.3"
+       }
+     },
+     {
+-      "identity" : "google-ads-on-device-conversion-ios-sdk",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk",
+-      "state" : {
+-        "revision" : "e15f979c3eaf477d24e5bfec9d87f1d76fbac297",
+-        "version" : "2.2.0"
+-      }
+-    },
+-    {
+-      "identity" : "googleappmeasurement",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/GoogleAppMeasurement.git",
+-      "state" : {
+-        "revision" : "883305109ead4599e4ca59591754ee72e81e6b5e",
+-        "version" : "12.1.0"
+-      }
+-    },
+-    {
+-      "identity" : "googledatatransport",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/GoogleDataTransport.git",
+-      "state" : {
+-        "revision" : "617af071af9aa1d6a091d59a202910ac482128f9",
+-        "version" : "10.1.0"
+-      }
+-    },
+-    {
+-      "identity" : "googleutilities",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/GoogleUtilities.git",
+-      "state" : {
+-        "revision" : "60da361632d0de02786f709bdc0c4df340f7613e",
+-        "version" : "8.1.0"
+-      }
+-    },
+-    {
+-      "identity" : "grdb.swift",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/groue/GRDB.swift.git",
+-      "state" : {
+-        "revision" : "b83108d10f42680d78f23fe4d4d80fc88dab3212",
+-        "version" : "7.11.1"
+-      }
+-    },
+-    {
+-      "identity" : "grpc-binary",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/grpc-binary.git",
+-      "state" : {
+-        "revision" : "cc0001a0cf963aa40501d9c2b181e7fc9fd8ec71",
+-        "version" : "1.69.0"
+-      }
+-    },
+-    {
+-      "identity" : "gtm-session-fetcher",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/gtm-session-fetcher.git",
+-      "state" : {
+-        "revision" : "fb7f2740b1570d2f7599c6bb9531bf4fad6974b7",
+-        "version" : "5.0.0"
+-      }
+-    },
+-    {
+-      "identity" : "interop-ios-for-google-sdks",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
+-      "state" : {
+-        "revision" : "040d087ac2267d2ddd4cca36c757d1c6a05fdbfe",
+-        "version" : "101.0.0"
+-      }
+-    },
+-    {
+-      "identity" : "leveldb",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/firebase/leveldb.git",
+-      "state" : {
+-        "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
+-        "version" : "1.22.5"
+-      }
+-    },
+-    {
+-      "identity" : "maplibre-gl-native-distribution",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/maplibre/maplibre-gl-native-distribution",
+-      "state" : {
+-        "revision" : "f843f76a4bb79c83f4f817a090c62f255bb52fea",
+-        "version" : "6.18.0-patch0"
+-      }
+-    },
+-    {
+-      "identity" : "nanopb",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/firebase/nanopb.git",
+-      "state" : {
+-        "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
+-        "version" : "2.30910.0"
+-      }
+-    },
+-    {
+-      "identity" : "promises",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/promises.git",
+-      "state" : {
+-        "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
+-        "version" : "2.4.0"
+-      }
+-    },
+-    {
+-      "identity" : "siren",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/ArtSabintsev/Siren.git",
+-      "state" : {
+-        "revision" : "6139af3394bc3635c6c8d5255339796feaa7d1a0",
+-        "version" : "6.1.3"
+-      }
+-    },
+-    {
+-      "identity" : "swift-protobuf",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/apple/swift-protobuf.git",
+-      "state" : {
+-        "revision" : "102a647b573f60f73afdce5613a51d71349fe507",
+-        "version" : "1.30.0"
+-      }
+-    },
+-    {
+-      "identity" : "zip",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/marmelroy/Zip.git",
+-      "state" : {
+-        "revision" : "67fa55813b9e7b3b9acee9c0ae501def28746d76",
+-        "version" : "2.1.2"
++      "identity": "zip",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/marmelroy/Zip.git",
++      "state": {
++        "revision": "67fa55813b9e7b3b9acee9c0ae501def28746d76",
++        "version": "2.1.2"
+       }
+     }
+   ],
+-  "version" : 3
++  "version": 3
+ }
+diff --git a/iBurn.xcworkspace/xcshareddata/swiftpm/Package.resolved b/iBurn.xcworkspace/xcshareddata/swiftpm/Package.resolved
+index 2dd5a13..e155ff6 100644
+--- a/iBurn.xcworkspace/xcshareddata/swiftpm/Package.resolved
++++ b/iBurn.xcworkspace/xcshareddata/swiftpm/Package.resolved
+@@ -1,168 +1,42 @@
+ {
+-  "originHash" : "85d5d0a7275d3b2936980ab5be2eeddb9db284e1186a7e4f811f307013d791c6",
+-  "pins" : [
++  "originHash": "85d5d0a7275d3b2936980ab5be2eeddb9db284e1186a7e4f811f307013d791c6",
++  "pins": [
+     {
+-      "identity" : "abseil-cpp-binary",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/abseil-cpp-binary.git",
+-      "state" : {
+-        "revision" : "bbe8b69694d7873315fd3a4ad41efe043e1c07c5",
+-        "version" : "1.2024072200.0"
++      "identity": "grdb.swift",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/groue/GRDB.swift.git",
++      "state": {
++        "revision": "b83108d10f42680d78f23fe4d4d80fc88dab3212",
++        "version": "7.11.1"
+       }
+     },
+     {
+-      "identity" : "app-check",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/app-check.git",
+-      "state" : {
+-        "revision" : "61b85103a1aeed8218f17c794687781505fbbef5",
+-        "version" : "11.2.0"
++      "identity": "maplibre-gl-native-distribution",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/maplibre/maplibre-gl-native-distribution",
++      "state": {
++        "revision": "f843f76a4bb79c83f4f817a090c62f255bb52fea",
++        "version": "6.18.0-patch0"
+       }
+     },
+     {
+-      "identity" : "firebase-ios-sdk",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/firebase/firebase-ios-sdk",
+-      "state" : {
+-        "revision" : "b9bf3adac18e6e3059167194aeb632f15a5ba4b2",
+-        "version" : "12.1.0"
++      "identity": "siren",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/ArtSabintsev/Siren.git",
++      "state": {
++        "revision": "6139af3394bc3635c6c8d5255339796feaa7d1a0",
++        "version": "6.1.3"
+       }
+     },
+     {
+-      "identity" : "google-ads-on-device-conversion-ios-sdk",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/googleads/google-ads-on-device-conversion-ios-sdk",
+-      "state" : {
+-        "revision" : "e15f979c3eaf477d24e5bfec9d87f1d76fbac297",
+-        "version" : "2.2.0"
+-      }
+-    },
+-    {
+-      "identity" : "googleappmeasurement",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/GoogleAppMeasurement.git",
+-      "state" : {
+-        "revision" : "883305109ead4599e4ca59591754ee72e81e6b5e",
+-        "version" : "12.1.0"
+-      }
+-    },
+-    {
+-      "identity" : "googledatatransport",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/GoogleDataTransport.git",
+-      "state" : {
+-        "revision" : "617af071af9aa1d6a091d59a202910ac482128f9",
+-        "version" : "10.1.0"
+-      }
+-    },
+-    {
+-      "identity" : "googleutilities",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/GoogleUtilities.git",
+-      "state" : {
+-        "revision" : "60da361632d0de02786f709bdc0c4df340f7613e",
+-        "version" : "8.1.0"
+-      }
+-    },
+-    {
+-      "identity" : "grdb.swift",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/groue/GRDB.swift.git",
+-      "state" : {
+-        "revision" : "b83108d10f42680d78f23fe4d4d80fc88dab3212",
+-        "version" : "7.11.1"
+-      }
+-    },
+-    {
+-      "identity" : "grpc-binary",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/grpc-binary.git",
+-      "state" : {
+-        "revision" : "cc0001a0cf963aa40501d9c2b181e7fc9fd8ec71",
+-        "version" : "1.69.0"
+-      }
+-    },
+-    {
+-      "identity" : "gtm-session-fetcher",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/gtm-session-fetcher.git",
+-      "state" : {
+-        "revision" : "fb7f2740b1570d2f7599c6bb9531bf4fad6974b7",
+-        "version" : "5.0.0"
+-      }
+-    },
+-    {
+-      "identity" : "interop-ios-for-google-sdks",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/interop-ios-for-google-sdks.git",
+-      "state" : {
+-        "revision" : "040d087ac2267d2ddd4cca36c757d1c6a05fdbfe",
+-        "version" : "101.0.0"
+-      }
+-    },
+-    {
+-      "identity" : "leveldb",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/firebase/leveldb.git",
+-      "state" : {
+-        "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
+-        "version" : "1.22.5"
+-      }
+-    },
+-    {
+-      "identity" : "maplibre-gl-native-distribution",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/maplibre/maplibre-gl-native-distribution",
+-      "state" : {
+-        "revision" : "f843f76a4bb79c83f4f817a090c62f255bb52fea",
+-        "version" : "6.18.0-patch0"
+-      }
+-    },
+-    {
+-      "identity" : "nanopb",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/firebase/nanopb.git",
+-      "state" : {
+-        "revision" : "b7e1104502eca3a213b46303391ca4d3bc8ddec1",
+-        "version" : "2.30910.0"
+-      }
+-    },
+-    {
+-      "identity" : "promises",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/google/promises.git",
+-      "state" : {
+-        "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
+-        "version" : "2.4.0"
+-      }
+-    },
+-    {
+-      "identity" : "siren",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/ArtSabintsev/Siren.git",
+-      "state" : {
+-        "revision" : "6139af3394bc3635c6c8d5255339796feaa7d1a0",
+-        "version" : "6.1.3"
+-      }
+-    },
+-    {
+-      "identity" : "swift-protobuf",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/apple/swift-protobuf.git",
+-      "state" : {
+-        "revision" : "102a647b573f60f73afdce5613a51d71349fe507",
+-        "version" : "1.30.0"
+-      }
+-    },
+-    {
+-      "identity" : "zip",
+-      "kind" : "remoteSourceControl",
+-      "location" : "https://github.com/marmelroy/Zip.git",
+-      "state" : {
+-        "revision" : "67fa55813b9e7b3b9acee9c0ae501def28746d76",
+-        "version" : "2.1.2"
++      "identity": "zip",
++      "kind": "remoteSourceControl",
++      "location": "https://github.com/marmelroy/Zip.git",
++      "state": {
++        "revision": "67fa55813b9e7b3b9acee9c0ae501def28746d76",
++        "version": "2.1.2"
+       }
+     }
+   ],
+-  "version" : 3
++  "version": 3
+ }
+diff --git a/iBurn/AppDelegate.swift b/iBurn/AppDelegate.swift
+index 2a1d5aa..ef1627a 100644
+--- a/iBurn/AppDelegate.swift
++++ b/iBurn/AppDelegate.swift
+@@ -17,7 +17,7 @@ final class AppDelegate: BRCAppDelegate {
+         Siren.shared.wail()
+         
+         // Preload common emojis for better map performance
+-        DispatchQueue.global(qos: .background).async {
++        DispatchQueue.main.async {
+             EmojiImageRenderer.shared.preloadCommonEmojis()
+         }
+         
+diff --git a/iBurn/BRCAppDelegate.h b/iBurn/BRCAppDelegate.h
+index c19058f..b6b23c7 100644
+--- a/iBurn/BRCAppDelegate.h
++++ b/iBurn/BRCAppDelegate.h
+@@ -15,27 +15,31 @@
+ @class TabController;
+ 
+ NS_ASSUME_NONNULL_BEGIN
+-@interface BRCAppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate>
++@interface BRCAppDelegate
++    : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate>
+ 
+-@property (strong, nonatomic) UIWindow *window;
+-@property (nonatomic, strong) TabController *tabBarController;
++@property(strong, nonatomic) UIWindow *window;
++@property(nonatomic, strong) TabController *tabBarController;
+ 
+-@property (nonatomic, strong) CLLocationManager *locationManager;
+-@property (nonatomic, strong, readonly) BRCDataImporter *dataImporter;
++@property(nonatomic, strong) CLLocationManager *locationManager;
++@property(nonatomic, strong, readonly) BRCDataImporter *dataImporter;
+ 
+-@property (nonatomic, strong) MainMapViewController *mapViewController;
++@property(nonatomic, strong) MainMapViewController *mapViewController;
+ 
+ /** Don't use this unless you really have to... */
+-@property (nonatomic, class, readonly) BRCAppDelegate *shared;
++@property(nonatomic, class, readonly) BRCAppDelegate *shared;
+ 
+ #pragma mark Permissions
+ 
+ /** Asks for remotification permission */
+-+ (void) registerForRemoteNotifications;
+++ (void)registerForRemoteNotifications;
+ /** Asks for location and starts updating */
+-- (void) requestLocationPermission;
++- (void)requestLocationPermission;
+ 
+-- (void) preloadExistingData;
++- (void)preloadExistingData;
++
++- (void)setupWindowForScene:(UIWindowScene *)scene;
++- (void)handleIncomingURL:(NSURL *)url;
+ 
+ @end
+ NS_ASSUME_NONNULL_END
+diff --git a/iBurn/BRCAppDelegate.m b/iBurn/BRCAppDelegate.m
+index 0aa187b..b96ba08 100644
+--- a/iBurn/BRCAppDelegate.m
++++ b/iBurn/BRCAppDelegate.m
+@@ -31,7 +31,6 @@
+ #import "NSDate+iBurn.h"
+ @import AVFoundation;
+ @import CocoaLumberjack;
+-@import FirebaseCore;
+ #import "iBurn-Swift.h"
+ @import UserNotifications;
+ @import BackgroundTasks;
+@@ -42,6 +41,7 @@
+ 
+ @interface BRCAppDelegate() <UINavigationControllerDelegate, UNUserNotificationCenterDelegate>
+ @property (nonatomic, strong) CLCircularRegion *burningManRegion;
++@property (nonatomic, strong, nullable) NSURL *pendingLaunchURL;
+ 
+ @end
+ 
+@@ -50,7 +50,10 @@ @implementation BRCAppDelegate
+ 
+ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+ {
+-    [FIRApp configure];
++    // Simulator build: optional remote statistics and crash reporting removed.
++    if (kBRCUpdatesURLString.length == 0) {
++        [NSUserDefaults.standardUserDefaults registerDefaults:@{@"downloadsDisabled": @YES}];
++    }
+     [Appearance setGlobalAppearance];
+     
+     // Set up notification center delegate
+@@ -117,18 +120,6 @@ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
+         [self handleNotification:launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]];
+     }
+     
+-    // Handle launch from URL
+-    NSURL *launchURL = launchOptions[UIApplicationLaunchOptionsURLKey];
+-    if (launchURL) {
+-        // Delay to ensure UI is ready
+-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+-            BOOL handled = [[BRCDeepLinkRouter shared] handleURL:launchURL];
+-            if (!handled) {
+-                DDLogWarn(@"Failed to handle launch URL: %@", launchURL);
+-            }
+-        });
+-    }
+-    
+     self.locationManager = [CLLocationManager brc_locationManager];
+     self.locationManager.delegate = self;
+     
+@@ -146,29 +137,8 @@ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(
+     [Appirater setOpenInAppStore:NO];
+     [Appirater appLaunched:YES];
+     
+-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+-    self.window.backgroundColor = UIColor.systemBackgroundColor;
+-
+-    // Show onboarding.. or not
+-    BOOL hasViewedOnboarding = [[NSUserDefaults standardUserDefaults] hasViewedOnboarding];
+-    if (!hasViewedOnboarding) {
+-        OnboardingViewController *onboardingVC = [[BRCOnboardingViewController alloc] initWithCompletion:^{
+-            [UIView transitionWithView:self.window
+-                              duration:1.0
+-                               options:UIViewAnimationOptionTransitionCrossDissolve
+-                            animations:^{
+-                                [self handleOnboardingCompletion];
+-                            }
+-                            completion:nil];
+-        }];
+-        self.window.rootViewController = onboardingVC;
+-    } else {
+-        [self setupNormalRootViewController];
+-    }
+-    
+     [LocationStorage setup:nil];
+     
+-    [self.window makeKeyAndVisible];
+     return YES;
+ }
+ 
+@@ -247,6 +217,39 @@ - (void)applicationWillTerminate:(UIApplication *)application
+     DDLogInfo(@"applicationWillTerminate");
+ }
+ 
++// Adapted for Simulator from https://github.com/iBurnApp/iBurn-iOS/pull/254.
++- (void)setupWindowForScene:(UIWindowScene *)scene {
++    self.window = [[UIWindow alloc] initWithWindowScene:scene];
++    self.window.backgroundColor = UIColor.systemBackgroundColor;
++
++    // Show onboarding.. or not
++    BOOL hasViewedOnboarding = [[NSUserDefaults standardUserDefaults] hasViewedOnboarding];
++    if (!hasViewedOnboarding) {
++        OnboardingViewController *onboardingVC = [[BRCOnboardingViewController alloc] initWithCompletion:^{
++            [UIView transitionWithView:self.window
++                              duration:1.0
++                               options:UIViewAnimationOptionTransitionCrossDissolve
++                            animations:^{
++                                [self handleOnboardingCompletion];
++                            }
++                            completion:nil];
++        }];
++        self.window.rootViewController = onboardingVC;
++    } else {
++        [self setupNormalRootViewController];
++    }
++
++    [self.window makeKeyAndVisible];
++}
++
++- (void)handleIncomingURL:(NSURL *)url {
++    if (self.tabBarController) {
++        [[BRCDeepLinkRouter shared] handleURL:url];
++    } else {
++        self.pendingLaunchURL = url;
++    }
++}
++
+ - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler {
+     if ([identifier isEqualToString:kBRCBackgroundFetchIdentifier]) {
+         [self.dataImporter addBackgroundURLSessionCompletionHandler:completionHandler];
+@@ -401,6 +404,13 @@ - (void)setupNormalRootViewController {
+     
+     // Configure deep link router
+     [[BRCDeepLinkRouter shared] configureWithTabController:self.tabBarController];
++    if (self.pendingLaunchURL) {
++        NSURL *url = self.pendingLaunchURL;
++        self.pendingLaunchURL = nil;
++        dispatch_async(dispatch_get_main_queue(), ^{
++            [[BRCDeepLinkRouter shared] handleURL:url];
++        });
++    }
+     
+     // do it again just in case
+     [[self class] registerForRemoteNotifications];
+diff --git a/iBurn/BRCDataImporter.m b/iBurn/BRCDataImporter.m
+index 4dfd1ec..a46d80e 100644
+--- a/iBurn/BRCDataImporter.m
++++ b/iBurn/BRCDataImporter.m
+@@ -20,7 +20,6 @@
+ #import "iBurn-Swift.h"
+ @import CoreLocation;
+ @import PlayaGeocoder;
+-@import FirebaseCrashlytics;
+ 
+ static NSString * const kBRCLocalTilesName = @"Cache.db";
+ 
+@@ -496,7 +495,7 @@ - (void) loadDataFromLocalURL:(NSURL*)localURL updateInfo:(BRCUpdateInfo*)update
+             if (!success) {
+                 NSLog(@"Error loading JSON for %@: %@", NSStringFromClass(dataClass), error);
+                 if (error) {
+-                    [FIRCrashlytics.crashlytics recordError:error];
++                    NSLog(@"Data import failed: %@", error);
+                 }
+                 updateInfo.fetchStatus = BRCUpdateFetchStatusFailed;
+                 [self.readWriteConnection readWriteWithBlock:^(YapDatabaseReadWriteTransaction * __nonnull transaction) {
+diff --git a/iBurn/DataUpdatesView.swift b/iBurn/DataUpdatesView.swift
+index bdc9644..be000fe 100644
+--- a/iBurn/DataUpdatesView.swift
++++ b/iBurn/DataUpdatesView.swift
+@@ -222,7 +222,7 @@ private final class DataUpdatesViewModel: ObservableObject {
+     }
+ 
+     func didTapCheckForUpdates() {
+-        guard let updateURL = URL(string: kBRCUpdatesURLString) else {
++        guard let updateURL = URL(string: kBRCUpdatesURLString), updateURL.scheme != nil else {
+             return
+         }
+         // allow forcing update check
+diff --git a/iBurn/TabController.swift b/iBurn/TabController.swift
+index ab18278..3035318 100644
+--- a/iBurn/TabController.swift
++++ b/iBurn/TabController.swift
+@@ -165,14 +165,11 @@ import UIKit
+ 
+             tabs = newTabs
+         } else {
+-            // Clear any tabs left over from a previous `.searchTab` run before falling
+-            // back to the plain view-controller arrangement. The cache goes with them:
+-            // the roots are about to be owned by `viewControllers` instead, so the next
+-            // `.searchTab` build has to wrap them in fresh tabs.
++            // Keep each root's original UITab across layout switches; UIKit retains
++            // that ownership even while viewControllers is used. Backported from
++            // https://github.com/iBurnApp/iBurn-iOS/pull/254 on 2026-11-22.
+             if #available(iOS 18.0, *) {
+                 tabs = []
+-                tabCache.removeAll()
+-                searchTabCache = nil
+             }
+             self.viewControllers = arranged
+         }
+diff --git a/iBurn/iBurn-Info.plist b/iBurn/iBurn-Info.plist
+index 0a63b4f..180a9a7 100644
+--- a/iBurn/iBurn-Info.plist
++++ b/iBurn/iBurn-Info.plist
+@@ -104,5 +104,22 @@
+ 	<array>
+ 		<string>kBRCBackgroundFetchIdentifier</string>
+ 	</array>
++	<key>UIApplicationSceneManifest</key>
++	<dict>
++		<key>UIApplicationSupportsMultipleScenes</key>
++		<false/>
++		<key>UISceneConfigurations</key>
++		<dict>
++			<key>UIWindowSceneSessionRoleApplication</key>
++			<array>
++				<dict>
++					<key>UISceneConfigurationName</key>
++					<string>Default Configuration</string>
++					<key>UISceneDelegateClassName</key>
++					<string>BRCSceneDelegate</string>
++				</dict>
++			</array>
++		</dict>
++	</dict>
+ </dict>
+ </plist>
+diff --git a/iBurn/BRCSceneDelegate.h b/iBurn/BRCSceneDelegate.h
+new file mode 100644
+index 0000000..f126e9f
+--- /dev/null
++++ b/iBurn/BRCSceneDelegate.h
+@@ -0,0 +1,7 @@
++// Simulator lifecycle adaptation, 2026-11-22.
++// Based on https://github.com/iBurnApp/iBurn-iOS/pull/254.
++#import <UIKit/UIKit.h>
++
++@interface BRCSceneDelegate : UIResponder <UIWindowSceneDelegate>
++@property(nonatomic, strong) UIWindow *window;
++@end
+diff --git a/iBurn/BRCSceneDelegate.m b/iBurn/BRCSceneDelegate.m
+new file mode 100644
+index 0000000..b885e05
+--- /dev/null
++++ b/iBurn/BRCSceneDelegate.m
+@@ -0,0 +1,39 @@
++// Simulator lifecycle adaptation, 2026-11-22.
++// Based on https://github.com/iBurnApp/iBurn-iOS/pull/254.
++#import "BRCSceneDelegate.h"
++#import "BRCAppDelegate.h"
++
++@implementation BRCSceneDelegate
++- (void)scene:(UIScene *)scene
++    willConnectToSession:(UISceneSession *)session
++                 options:(UISceneConnectionOptions *)connectionOptions {
++  if (![scene isKindOfClass:UIWindowScene.class]) {
++    return;
++  }
++  BRCAppDelegate *delegate = BRCAppDelegate.shared;
++  [delegate setupWindowForScene:(UIWindowScene *)scene];
++  self.window = delegate.window;
++  for (UIOpenURLContext *context in connectionOptions.URLContexts) {
++    [delegate handleIncomingURL:context.URL];
++  }
++  for (NSUserActivity *activity in connectionOptions.userActivities) {
++    [self scene:scene continueUserActivity:activity];
++  }
++}
++
++- (void)scene:(UIScene *)scene
++    openURLContexts:(NSSet<UIOpenURLContext *> *)URLContexts {
++  for (UIOpenURLContext *context in URLContexts) {
++    [BRCAppDelegate.shared handleIncomingURL:context.URL];
++  }
++}
++
++- (void)scene:(UIScene *)scene
++    continueUserActivity:(NSUserActivity *)userActivity {
++  if ([userActivity.activityType
++          isEqualToString:NSUserActivityTypeBrowsingWeb] &&
++      userActivity.webpageURL) {
++    [BRCAppDelegate.shared handleIncomingURL:userActivity.webpageURL];
++  }
++}
++@end
+diff --git a/iBurn/BRCSecrets.m b/iBurn/BRCSecrets.m
+new file mode 100644
+index 0000000..291cf18
+--- /dev/null
++++ b/iBurn/BRCSecrets.m
+@@ -0,0 +1,9 @@
++// Public standalone Simulator configuration, 2026-11-22.
++#import <Foundation/Foundation.h>
++
++NSString *const kBRCHockeyBetaIdentifier = @"";
++NSString *const kBRCHockeyLiveIdentifier = @"";
++NSString *const kBRCEmbargoPasscodeSHA256Hash = @"";
++NSString *const kBRCUpdatesURLString = @"";
++NSString *const kBRCMapBoxStyleURL = @"";
++NSString *const kBRCMapBoxAccessToken = @"";
+diff --git a/iBurn/InfoPlistSecrets.h b/iBurn/InfoPlistSecrets.h
+new file mode 100644
+index 0000000..04da208
+--- /dev/null
++++ b/iBurn/InfoPlistSecrets.h
+@@ -0,0 +1,3 @@
++// Public standalone Simulator configuration, 2026-11-22.
++#define MAPBOX_ACCESS_TOKEN unused
++#define CRASHLYTICS_API_TOKEN unused
