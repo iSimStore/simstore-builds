@@ -4,6 +4,32 @@ Adopt a single-window UIScene lifecycle and a launch screen for current UIKit re
 Apple migration guidance: https://developer.apple.com/documentation/uikit/transitioning-to-the-uikit-scene-based-life-cycle
 Related upstream issue: https://bugs.documentfoundation.org/show_bug.cgi?id=141314
 
+Replace legacy UIAlertView dialogs with scene-compatible UIAlertController actions.
+Related dependency issue: https://github.com/futuretap/InAppSettingsKit/issues/340
+
+diff --git a/ios/iosremote/InAppSettingsKit/Controllers/IASKAppSettingsViewController.m b/ios/iosremote/InAppSettingsKit/Controllers/IASKAppSettingsViewController.m
+index 52afa88..3c0e583 100755
+--- a/ios/iosremote/InAppSettingsKit/Controllers/IASKAppSettingsViewController.m
++++ b/ios/iosremote/InAppSettingsKit/Controllers/IASKAppSettingsViewController.m
+@@ -692,13 +692,11 @@ - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath
+             mailViewController.mailComposeDelegate = vc;
+             [vc presentModalViewController:mailViewController animated:YES];
+         } else {
+-            UIAlertView *alert = [[UIAlertView alloc]
+-                                  initWithTitle:NSLocalizedString(@"Mail not configured", @"InAppSettingsKit")
+-                                  message:NSLocalizedString(@"This device is not configured for sending Email. Please configure the Mail settings in the Settings app.", @"InAppSettingsKit")
+-                                  delegate: nil
+-                                  cancelButtonTitle:NSLocalizedString(@"OK", @"InAppSettingsKit")
+-                                  otherButtonTitles:nil];
+-            [alert show];
++            UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Mail not configured", @"InAppSettingsKit")
++                                                                          message:NSLocalizedString(@"This device is not configured for sending Email. Please configure the Mail settings in the Settings app.", @"InAppSettingsKit")
++                                                                   preferredStyle:UIAlertControllerStyleAlert];
++            [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"InAppSettingsKit") style:UIAlertActionStyleCancel handler:nil]];
++            [self presentViewController:alert animated:YES completion:nil];
+         }
+ 
+ 	} else if ([[specifier type] isEqualToString:kIASKCustomViewSpecifier] && [self.delegate respondsToSelector:@selector(settingsViewController:tableView:didSelectCustomViewSpecifier:)]) {
 diff --git a/ios/iosremote/iosremote.xcodeproj/project.pbxproj b/ios/iosremote/iosremote.xcodeproj/project.pbxproj
 index cd86f77..e773972 100644
 --- a/ios/iosremote/iosremote.xcodeproj/project.pbxproj
@@ -192,6 +218,185 @@ index 2bbdf59..b8d4aeb 100644
 +}
 +
 +@end
+diff --git a/ios/iosremote/iosremote/Classes/NewServerViewController.m b/ios/iosremote/iosremote/Classes/NewServerViewController.m
+index 236e269..230cbd2 100644
+--- a/ios/iosremote/iosremote/Classes/NewServerViewController.m
++++ b/ios/iosremote/iosremote/Classes/NewServerViewController.m
+@@ -40,12 +40,11 @@ - (IBAction)save:(id)sender {
+         [self.comManager addServersWithName:serverName AtAddress:serverAddr];
+         [self.navigationController popViewControllerAnimated:YES];
+     } else {
+-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Invalid IP Address", @"Invalid IP Address Alert title")
+-                                                          message:NSLocalizedString(@"Invalid IP Address Msg", @"Invalid IP Address Alert message")
+-                                                         delegate:nil
+-                                                cancelButtonTitle:NSLocalizedString(@"OK", @"OK Button on Alert view")
+-                                                otherButtonTitles:nil];
+-        [message show];
++        UIAlertController *message = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Invalid IP Address", @"Invalid IP Address Alert title")
++                                                                        message:NSLocalizedString(@"Invalid IP Address Msg", @"Invalid IP Address Alert message")
++                                                                 preferredStyle:UIAlertControllerStyleAlert];
++        [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", @"OK Button on Alert view") style:UIAlertActionStyleCancel handler:nil]];
++        [self presentViewController:message animated:YES completion:nil];
+     }
+ }
+ 
+diff --git a/ios/iosremote/iosremote/Classes/ServerListViewController.m b/ios/iosremote/iosremote/Classes/ServerListViewController.m
+index 15bdf86..4417d5a 100644
+--- a/ios/iosremote/iosremote/Classes/ServerListViewController.m
++++ b/ios/iosremote/iosremote/Classes/ServerListViewController.m
+@@ -109,13 +109,12 @@ -(void) netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDic
+     [self.comManager.autoDiscoveryServers removeAllObjects];
+     [self startSearching];
+     
+-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to reach your computer", nil)
+-                                                      message:NSLocalizedString(@"Please consider restart LibreOffice Impress on your computer.", nil)
+-                                                     delegate:self
+-                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
+-                                            otherButtonTitles:nil];
++    UIAlertController *message = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Failed to reach your computer", nil)
++                                                                    message:NSLocalizedString(@"Please consider restart LibreOffice Impress on your computer.", nil)
++                                                             preferredStyle:UIAlertControllerStyleAlert];
++    [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
+     [self disableSpinner];
+-    [message show];
++    [self presentViewController:message animated:YES completion:nil];
+ }
+ 
+ #pragma mark - bonjour service discovery
+@@ -277,24 +276,24 @@ - (void) viewDidAppear:(BOOL)animated
+     
+     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"HOWTO_GUIDE_SEEN"])
+     {
+-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"How-To guide" message:NSLocalizedString(@"Take a tour of iOS Impress Remote?", nil) delegate:self cancelButtonTitle:NSLocalizedString(@"No, thanks", nil) otherButtonTitles:NSLocalizedString(@"Yes", nil), nil];
+-        
+-        [av show];
++        UIAlertController *guide = [UIAlertController alertControllerWithTitle:@"How-To guide"
++                                                                      message:NSLocalizedString(@"Take a tour of iOS Impress Remote?", nil)
++                                                               preferredStyle:UIAlertControllerStyleAlert];
++        [guide addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"No, thanks", nil) style:UIAlertActionStyleCancel handler:nil]];
++        __weak ServerListViewController *weakSelf = self;
++        [guide addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Yes", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
++            ServerListViewController *controller = weakSelf;
++            [controller dismissViewControllerAnimated:YES completion:^{
++                [controller performSegueWithIdentifier:@"howtoSegue" sender:controller];
++            }];
++        }]];
++        [self presentViewController:guide animated:YES completion:nil];
+         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"HOWTO_GUIDE_SEEN"];
+     }
+     
+     [super viewDidAppear:animated];
+ }
+ 
+-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+-    if (buttonIndex == 0){
+-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+-    }else if (buttonIndex == 1){
+-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+-        [self performSegueWithIdentifier:@"howtoSegue" sender:self];
+-    }
+-}
+-
+ - (void) viewWillDisappear:(BOOL)animated
+ {
+     [self disableSpinner];
+diff --git a/ios/iosremote/iosremote/Communication/CommunicationManager.m b/ios/iosremote/iosremote/Communication/CommunicationManager.m
+index b9a62a5..4aaa58c 100644
+--- a/ios/iosremote/iosremote/Communication/CommunicationManager.m
++++ b/ios/iosremote/iosremote/Communication/CommunicationManager.m
+@@ -22,7 +22,8 @@
+ 
+ #define ExistingServersKey @"CommunicationManager.ExistingServers"
+ 
+-@interface CommunicationManager() <UIAlertViewDelegate>
++@interface CommunicationManager()
++- (void)presentAlert:(UIAlertController *)alert;
+ @end
+ 
+ // Singlton Pattern
+@@ -59,6 +60,15 @@ + (id)fetchSSIDInfo {
+     return info;
+ }
+ 
++- (void)presentAlert:(UIAlertController *)alert
++{
++    UIViewController *presenter = [UIApplication sharedApplication].delegate.window.rootViewController;
++    while (presenter.presentedViewController) {
++        presenter = presenter.presentedViewController;
++    }
++    [presenter presentViewController:alert animated:YES completion:nil];
++}
++
+ - (void) connectionStatusHandler:(NSNotification *)note
+ {
+     if([[note name] isEqualToString:@"connection.status.connected"]){
+@@ -76,12 +86,22 @@ - (void) connectionStatusHandler:(NSNotification *)note
+             self.state = DISCONNECTED;
+             if ([self.delegate isKindOfClass:[ServerListViewController class]]){
+                 dispatch_async(dispatch_get_main_queue(), ^{
+-                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Failed to reach server", @"Connection failure title")
+-                                                                      message:NSLocalizedString(@"Failed to reach server Msg", @"Connection failure message")
+-                                                                     delegate:self
+-                                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
+-                                                            otherButtonTitles:NSLocalizedString(@"Help", nil), nil];
+-                    [message show];
++                    UIAlertController *message = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Failed to reach server", @"Connection failure title")
++                                                                                    message:NSLocalizedString(@"Failed to reach server Msg", @"Connection failure message")
++                                                                             preferredStyle:UIAlertControllerStyleAlert];
++                    [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
++                    __weak UIAlertController *weakMessage = message;
++                    [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"Help", nil) style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
++                        UIAlertController *instructions = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Pairing Instructions", @"Pairing instructions Alert Title")
++                                                                                              message:NSLocalizedString(@"Pairing Instructions Msg", nil)
++                                                                                       preferredStyle:UIAlertControllerStyleAlert];
++                        [instructions addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
++                        UIViewController *presenter = weakMessage.presentingViewController;
++                        [presenter dismissViewControllerAnimated:YES completion:^{
++                            [self presentAlert:instructions];
++                        }];
++                    }]];
++                    [self presentAlert:message];
+                 });
+                 [[self.delegate navigationController] popToRootViewControllerAnimated:YES];
+                 [(ServerListViewController *)self.delegate startSearching];
+@@ -90,32 +110,17 @@ - (void) connectionStatusHandler:(NSNotification *)note
+                 BasePresentationViewController *bpvc = [[(MainSplitViewController *)[self.delegate presentingViewController] viewControllers] objectAtIndex:1];
+                 [bpvc didReceiveDisconnection];
+                 dispatch_async(dispatch_get_main_queue(), ^{
+-                    UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Connection Lost", @"Connection Lost Alert title")
+-                                                                      message:NSLocalizedString(@"Connection Lost Msg", @"Connection Lost Alert Msg")
+-                                                                     delegate:nil
+-                                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
+-                                                            otherButtonTitles:nil];
+-                    [message show];
++                    UIAlertController *message = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Connection Lost", @"Connection Lost Alert title")
++                                                                                    message:NSLocalizedString(@"Connection Lost Msg", @"Connection Lost Alert Msg")
++                                                                             preferredStyle:UIAlertControllerStyleAlert];
++                    [message addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleCancel handler:nil]];
++                    [self presentAlert:message];
+                 });
+             }
+         }
+     }
+ }
+ 
+-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+-    if (buttonIndex == 0){
+-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+-    }else if (buttonIndex == 1){
+-        [alertView dismissWithClickedButtonIndex:0 animated:YES];
+-        UIAlertView *message = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Pairing Instructions", @"Pairing instructions Alert Title")
+-                                                          message:NSLocalizedString(@"Pairing Instructions Msg", nil)
+-                                                         delegate:nil
+-                                                cancelButtonTitle:NSLocalizedString(@"OK", nil)
+-                                                otherButtonTitles:nil];
+-        [message show];
+-    }
+-}
+-
+ - (id) init
+ {
+     self = [super init];
 diff --git a/ios/iosremote/iosremote/iosremote-Info.plist b/ios/iosremote/iosremote/iosremote-Info.plist
 index f1de027..3e8ea9d 100644
 --- a/ios/iosremote/iosremote/iosremote-Info.plist
