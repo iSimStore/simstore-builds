@@ -1,0 +1,192 @@
+Modernize the stable iOS release for arm64 Simulator and remove the obsolete TestFlight SDK.
+Use the checked-in localized storyboards instead of regenerating source files during the build.
+Related upstream issue: https://bugs.documentfoundation.org/show_bug.cgi?id=141314
+
+diff --git a/ios/iosremote/iosremote.xcodeproj/project.pbxproj b/ios/iosremote/iosremote.xcodeproj/project.pbxproj
+index cd86f77..dfaf494 100644
+--- a/ios/iosremote/iosremote.xcodeproj/project.pbxproj
++++ b/ios/iosremote/iosremote.xcodeproj/project.pbxproj
+@@ -7,10 +7,6 @@
+ 	objects = {
+ 
+ /* Begin PBXBuildFile section */
+-		5711026C1794127E007D343B /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 571102681794127E007D343B /* libTestFlight.a */; };
+-		5711026D1794127E007D343B /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 571102691794127E007D343B /* README.md */; };
+-		5711026E1794127E007D343B /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 5711026A1794127E007D343B /* release_notes.md */; };
+-		571102701794128E007D343B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5711026F1794128E007D343B /* libz.dylib */; };
+ 		571BFAD1178AADA200EF1BDB /* more_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 571BFAD0178AADA200EF1BDB /* more_icon.png */; };
+ 		571D4807178B2F080063D93B /* timer_clear_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 571D4805178B2F080063D93B /* timer_clear_btn.png */; };
+ 		571D4808178B2F080063D93B /* timer_start_btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 571D4806178B2F080063D93B /* timer_start_btn.png */; };
+@@ -150,11 +146,6 @@
+ /* End PBXBuildFile section */
+ 
+ /* Begin PBXFileReference section */
+-		571102681794127E007D343B /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+-		571102691794127E007D343B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+-		5711026A1794127E007D343B /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+-		5711026B1794127E007D343B /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+-		5711026F1794128E007D343B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+ 		571BFAD0178AADA200EF1BDB /* more_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more_icon.png; sourceTree = "<group>"; };
+ 		571D4805178B2F080063D93B /* timer_clear_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_clear_btn.png; sourceTree = "<group>"; };
+ 		571D4806178B2F080063D93B /* timer_start_btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timer_start_btn.png; sourceTree = "<group>"; };
+@@ -454,31 +445,17 @@
+ 				8CBF9E0117DDC1A80044D949 /* MessageUI.framework in Frameworks */,
+ 				8C19F41F17B02A8A005BDB61 /* QuartzCore.framework in Frameworks */,
+ 				8C19F41D17B00899005BDB61 /* SystemConfiguration.framework in Frameworks */,
+-				571102701794128E007D343B /* libz.dylib in Frameworks */,
+ 				57DC7007178D84490050FC58 /* CoreMotion.framework in Frameworks */,
+ 				BE9EBD071765BF0800283FD2 /* CoreImage.framework in Frameworks */,
+ 				57C6E3F3175E06E800E8BC5F /* UIKit.framework in Frameworks */,
+ 				57C6E3F5175E06E800E8BC5F /* Foundation.framework in Frameworks */,
+ 				57C6E3F7175E06E800E8BC5F /* CoreGraphics.framework in Frameworks */,
+-				5711026C1794127E007D343B /* libTestFlight.a in Frameworks */,
+ 			);
+ 			runOnlyForDeploymentPostprocessing = 0;
+ 		};
+ /* End PBXFrameworksBuildPhase section */
+ 
+ /* Begin PBXGroup section */
+-		571102671794127E007D343B /* TestFlightSDK1.2.6 */ = {
+-			isa = PBXGroup;
+-			children = (
+-				5711026F1794128E007D343B /* libz.dylib */,
+-				571102681794127E007D343B /* libTestFlight.a */,
+-				571102691794127E007D343B /* README.md */,
+-				5711026A1794127E007D343B /* release_notes.md */,
+-				5711026B1794127E007D343B /* TestFlight.h */,
+-			);
+-			path = TestFlightSDK1.2.6;
+-			sourceTree = "<group>";
+-		};
+ 		57701736178AC83E00B99793 /* SWRevealViewController */ = {
+ 			isa = PBXGroup;
+ 			children = (
+@@ -682,7 +659,6 @@
+ 				57DC7006178D84490050FC58 /* CoreMotion.framework */,
+ 				8CBF9E1017E1247D0044D949 /* WEPopoverView */,
+ 				8CBF9DC117DDBFA70044D949 /* InAppSettingsKit */,
+-				571102671794127E007D343B /* TestFlightSDK1.2.6 */,
+ 				57701736178AC83E00B99793 /* SWRevealViewController */,
+ 			);
+ 			name = Library;
+@@ -897,7 +873,6 @@
+ 				57C6E3EB175E06E800E8BC5F /* Sources */,
+ 				57C6E3EC175E06E800E8BC5F /* Frameworks */,
+ 				57C6E3ED175E06E800E8BC5F /* Resources */,
+-				8C06B32917B7F1C0002F5CF8 /* ShellScript */,
+ 			);
+ 			buildRules = (
+ 			);
+@@ -981,8 +956,6 @@
+ 				571D4808178B2F080063D93B /* timer_start_btn.png in Resources */,
+ 				57CC48C6178B42A400075DE4 /* timer_pause_btn.png in Resources */,
+ 				57DF0A85178FFFAB008B2D3D /* iPhone_autosize.storyboard in Resources */,
+-				5711026D1794127E007D343B /* README.md in Resources */,
+-				5711026E1794127E007D343B /* release_notes.md in Resources */,
+ 				8C06B31E17B7ED1E002F5CF8 /* iPad_autosize.storyboard in Resources */,
+ 				8C0DC83A17A4177C0099E5AE /* nextButton_pressed.png in Resources */,
+ 				8C0DC83B17A4177C0099E5AE /* nextButton_pressed@2x.png in Resources */,
+@@ -1043,22 +1016,6 @@
+ 		};
+ /* End PBXResourcesBuildPhase section */
+ 
+-/* Begin PBXShellScriptBuildPhase section */
+-		8C06B32917B7F1C0002F5CF8 /* ShellScript */ = {
+-			isa = PBXShellScriptBuildPhase;
+-			buildActionMask = 2147483647;
+-			files = (
+-			);
+-			inputPaths = (
+-			);
+-			outputPaths = (
+-			);
+-			runOnlyForDeploymentPostprocessing = 0;
+-			shellPath = /bin/sh;
+-			shellScript = "python ${PROJECT_DIR}/localize.py --mainIdiom=en --mainStoryboard=${PROJECT_DIR}/iosremote/en.lproj/iPhone_autoSize.storyboard fr zh-Hans\n\npython ${PROJECT_DIR}/localize.py --mainIdiom=en --mainStoryboard=${PROJECT_DIR}/en.lproj/iPad_autosize.storyboard fr zh-Hans";
+-		};
+-/* End PBXShellScriptBuildPhase section */
+-
+ /* Begin PBXSourcesBuildPhase section */
+ 		57C6E3EB175E06E800E8BC5F /* Sources */ = {
+ 			isa = PBXSourcesBuildPhase;
+@@ -1326,13 +1283,11 @@
+ 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+ 				LIBRARY_SEARCH_PATHS = (
+ 					"$(inherited)",
+-					"\"$(SRCROOT)/TestFlightSDK1.2.6\"",
+ 				);
+ 				ONLY_ACTIVE_ARCH = NO;
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				SDKROOT = iphoneos;
+ 				TARGETED_DEVICE_FAMILY = "1,2";
+-				VALID_ARCHS = "armv7 armv7s";
+ 				WRAPPER_EXTENSION = app;
+ 			};
+ 			name = Debug;
+@@ -1350,14 +1305,12 @@
+ 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+ 				LIBRARY_SEARCH_PATHS = (
+ 					"$(inherited)",
+-					"\"$(SRCROOT)/TestFlightSDK1.2.6\"",
+ 				);
+ 				PRODUCT_NAME = "$(TARGET_NAME)";
+ 				PROVISIONING_PROFILE = "AC7C4315-5B31-4056-8955-9B861DCF5F75";
+ 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "AC7C4315-5B31-4056-8955-9B861DCF5F75";
+ 				SDKROOT = iphoneos;
+ 				TARGETED_DEVICE_FAMILY = "1,2";
+-				VALID_ARCHS = "armv7 armv7s";
+ 				WRAPPER_EXTENSION = app;
+ 			};
+ 			name = Release;
+diff --git a/ios/iosremote/iosremote/Classes/AppDelegate.m b/ios/iosremote/iosremote/Classes/AppDelegate.m
+index 2bbdf59..06e2d38 100644
+--- a/ios/iosremote/iosremote/Classes/AppDelegate.m
++++ b/ios/iosremote/iosremote/Classes/AppDelegate.m
+@@ -28,8 +28,6 @@ - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrienta
+ 
+ - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+ {
+-    [TestFlight takeOff:@"cb645cf2-a557-481e-993a-6ad3aaeb06d0"];
+-    
+     NSString *defaultsPath = [[NSBundle mainBundle] pathForResource:@"UserDefaults"
+                                                              ofType:@"plist"];
+     NSDictionary *appDefaults = [NSDictionary dictionaryWithContentsOfFile:defaultsPath];
+diff --git a/ios/iosremote/iosremote/iosremote-Info.plist b/ios/iosremote/iosremote/iosremote-Info.plist
+index f1de027..c17dc8a 100644
+--- a/ios/iosremote/iosremote/iosremote-Info.plist
++++ b/ios/iosremote/iosremote/iosremote-Info.plist
+@@ -30,6 +30,12 @@
+ 	<string>????</string>
+ 	<key>CFBundleVersion</key>
+ 	<string>1.0.1</string>
++	<key>NSLocalNetworkUsageDescription</key>
++	<string>Find and connect to LibreOffice Impress on your local network to control presentations.</string>
++	<key>NSBonjourServices</key>
++	<array>
++		<string>_impressremote._tcp</string>
++	</array>
+ 	<key>LSRequiresIPhoneOS</key>
+ 	<true/>
+ 	<key>UIMainStoryboardFile</key>
+@@ -38,10 +44,6 @@
+ 	<string>iPad_autosize</string>
+ 	<key>UIPrerenderedIcon</key>
+ 	<true/>
+-	<key>UIRequiredDeviceCapabilities</key>
+-	<array>
+-		<string>armv7</string>
+-	</array>
+ 	<key>UIStatusBarTintParameters</key>
+ 	<dict>
+ 		<key>UINavigationBar</key>
+diff --git a/ios/iosremote/iosremote/iosremote-Prefix.pch b/ios/iosremote/iosremote/iosremote-Prefix.pch
+index 7c89557..0393293 100644
+--- a/ios/iosremote/iosremote/iosremote-Prefix.pch
++++ b/ios/iosremote/iosremote/iosremote-Prefix.pch
+@@ -11,6 +11,5 @@
+ #ifdef __OBJC__
+     #import <UIKit/UIKit.h>
+     #import <Foundation/Foundation.h>
+-    #import "TestFlight.h"
+     #import "ControlVariables.h"
+ #endif

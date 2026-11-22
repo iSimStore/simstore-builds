@@ -1,0 +1,12 @@
+id: impress-remote
+name: LibreOffice Remote for Impress
+
+source:
+  license: MPL-2.0
+  repository: https://github.com/LibreOffice/impress_remote
+  version: "1.0.1"
+  revision: 57fdf1f5c2d08c11b4d8de3bf3be310b4d27f0e9
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"
