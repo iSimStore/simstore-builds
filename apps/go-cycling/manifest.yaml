@@ -1,0 +1,12 @@
+id: go-cycling
+name: Go Cycling
+
+source:
+  license: MIT
+  repository: https://github.com/AnthonyH93/GoCycling
+  version: "1.7.0"
+  revision: 12f0cfdf37d03b90672a1a1f20b24459962c5e94
+
+build:
+  script: build.sh
+  deploymentTarget: "15.0"
