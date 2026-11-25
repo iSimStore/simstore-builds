@@ -1,0 +1,26 @@
+XCODE_VERSION=27.1
+BUNDLER_VERSION=4.0.23
+BUN_VERSION=1.3.5
+BUN_SHA256=db17588a4aea8804856825d4bead3f05e1f37276ca606f37e369b4f72f35d3fb
+NODE_VERSION=22.23.2
+NODE_SHA256=5eff7a9011895aae3f29d06f167b84a62b028a591370c7cafb59103559fd26e1
+SOURCE_SHA256=1520750bf4db96946827bf8d63447cd6998a46882b5d7e2e94163f66f7cc0d36
+AOM_SOURCE_SHA256=4729da6532eb504cee89b3ad93cd45750693a73a48c9c45c0b44f025e379a91c
+
+# Native components without their corresponding license files in the installed dependency.
+NATIVE_NOTICES=(
+  'AppleLLM-LICENSE.txt https://raw.githubusercontent.com/callstackincubator/ai/f3e484f27ac7539b18a2ca9282aed20cd771fe36/LICENSE be198315cc40338e359e2866bf88d708c981684af80e7ea3f92cebad82f4e930'
+  'ReactNativeHealthkit-LICENSE.txt https://raw.githubusercontent.com/kingstinct/react-native-healthkit/44e4de5e3cb68cce6ac42a7ece0e721764a420c4/LICENSE afa179d044e2d59d4c27105f539fd02ed095005cbd7d486a8bb188fe2fa5c0fd'
+  'SDWebImageAVIFCoder-LICENSE.txt https://raw.githubusercontent.com/SDWebImage/SDWebImageAVIFCoder/0.12.0/LICENSE dfe13f75d4b56d438534a6d6330b0ef34d6625e91779726338cbf4dc1e95ca19'
+  'SDWebImageSVGCoder-LICENSE.txt https://raw.githubusercontent.com/SDWebImage/SDWebImageSVGCoder/1.8.0/LICENSE fab473226c0908e2bdca31fe01dccf2347c638a0c6d206d470a69cd3aa2c40cb'
+  'SDWebImageWebPCoder-LICENSE.txt https://raw.githubusercontent.com/SDWebImage/SDWebImageWebPCoder/0.15.0/LICENSE 2b4e998db6eb1c4f7fe3533dca578b0951274d24bef5f647f42000df43f5af91'
+  'libavif-LICENSE.txt https://raw.githubusercontent.com/AOMediaCodec/libavif/v1.0.0/LICENSE 10952217a6d404de8bf8a997fbea9b88f682df1fe98cb9b9f467ade641525639'
+  'libwebp-LICENSE.txt https://raw.githubusercontent.com/webmproject/libwebp/v1.1.0/COPYING 5aec868f669e384a22372a4e8a1a6cd7d44c64cd451f960ca69cc170d1e13acf'
+  'libwebp-PATENTS.txt https://raw.githubusercontent.com/webmproject/libwebp/v1.1.0/PATENTS cc3273e0694ea5896145e0677699b53471b03ea43021ddc50e7923fbb9f5023c'
+  'boost-LICENSE.txt https://raw.githubusercontent.com/boostorg/boost/boost-1.84.0/LICENSE_1_0.txt c9bff75738922193e67fa726fa225535870d2aa1059f91452c411736284ad566'
+  'DoubleConversion-LICENSE.txt https://raw.githubusercontent.com/google/double-conversion/v1.1.6/LICENSE 4af93c12062c58058378de2397dc1c92bbff9ddfb1d583a01c84127557ce97ca'
+  'fast_float-LICENSE.txt https://raw.githubusercontent.com/fastfloat/fast_float/v8.0.0/LICENSE-MIT e562f3f974ced7e69dd1db77b820b36bcf8f30377f1aa105723fba449c53c4e6'
+  'fmt-LICENSE.txt https://raw.githubusercontent.com/fmtlib/fmt/12.1.0/LICENSE 07580f2a3b35709ce703d523f447b242f6dfec7582a8c0df102c7fa2849375f8'
+  'folly-LICENSE.txt https://raw.githubusercontent.com/facebook/folly/v2024.11.18.00/LICENSE 2206c00af7013581ae0d7c8c8a0089f02fab621913daac019b32336bd4d1e1db'
+  'glog-LICENSE.txt https://raw.githubusercontent.com/google/glog/v0.3.5/COPYING 0fc497129c5c69ff6f22da6933c7e4aaef082fde8437fd57680c2780100772a4'
+)
